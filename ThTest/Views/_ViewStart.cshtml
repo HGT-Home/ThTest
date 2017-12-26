@@ -1,0 +1,11 @@
+﻿@{
+    if (this.User.IsInRole("Administrators"))
+    {
+        this.Layout = "_AdminLayout";
+
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}

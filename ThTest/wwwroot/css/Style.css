@@ -1,0 +1,18 @@
+﻿body {
+  background: #ffffff; }
+
+.badge-notify {
+  font-size: x-small;
+  background: #4CD964;
+  position: relative;
+  top: -16px;
+  left: -16px;
+  z-index: 9; }
+
+.input-validation-error {
+  border-color: red;
+  background-color: #fee; }
+  .input-validation-error ::after {
+    content: "Hi there."; }
+
+/*# sourceMappingURL=data:application/json;base64,ewoJInZlcnNpb24iOiAzLAoJImZpbGUiOiAiLi4vQ29udGVudHMvU3R5bGVzL1N0eWxlLmNzcyIsCgkic291cmNlcyI6IFsKCQkiLi4vQ29udGVudHMvU3R5bGVzL1N0eWxlLnNjc3MiCgldLAoJIm1hcHBpbmdzIjogIkFBSUEsQUFBQSxJQUFJLENBQUE7RUFDQSxVQUFVLEVBTFUsT0FBTyxHQU05Qjs7QUFFRCxBQUFBLGFBQWEsQ0FBQztFQUNWLFNBQVMsRUFBRSxPQUFRO0VBQ25CLFVBQVUsRUFUVSxPQUFPO0VBVTNCLFFBQVEsRUFBRSxRQUFTO0VBQ25CLEdBQUcsRUFBRSxLQUFNO0VBQ1gsSUFBSSxFQUFFLEtBQU07RUFDWixPQUFPLEVBQUUsQ0FBRSxHQUNkOztBQUVELEFBQUEsdUJBQXVCLENBQUM7RUFDcEIsWUFBWSxFQUFFLEdBQUk7RUFDbEIsZ0JBQWdCLEVBQUUsSUFBSyxHQUkxQjtFQU5ELEFBR0ksdUJBSG1CLENBR25CLE9BQU8sQ0FBQztJQUNKLE9BQU8sRUFBRSxXQUFZLEdBQ3hCIiwKCSJuYW1lcyI6IFtdCn0= */

@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model OrderViewModel
+
+@{
+    ViewBag.Title = Localizer["Title"];
+}
+<div class="container-fluid">
+    @*<h2>@Localizer["Check out now"]</h2>*@
+    <p><small>Please enter your details, and we'll ship your goods right away!</small></p>
+
+    <form asp-action="Checkout" asp-controller="Order" method="post">
+        @Html.AntiForgeryToken()
+        <h3>@this.Localizer["Ship to"]</h3>
+        <div class="form-group">
+            <label>@this.Localizer["Name"]</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
+                <input asp-for="Name" type="text" class="form-control" placeholder="@this.Localizer["Name"]"/>
+            </div>
+        </div>
+        <h3>@this.Localizer["Address"]</h3>
+        <div class="form-group">
+            <label>@this.Localizer["Address"]</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                <input asp-for="ShipAddress" class="form-control" placeholder="@this.Localizer["Address"]" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>@this.Localizer["Country"]</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-map"></i></span>
+                <select id="ddCountry" class="form-control" asp-for="@this.Model.CountryId" asp-items="@(new SelectList(this.Model.Countries, nameof(Country.Id), nameof(Country.Name)))">
+                    <option>@this.Localizer["Please select a country."]</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>@this.Localizer["City"]</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-map"></i></span>
+                <select id="ddCity" class="form-control" asp-for="CityId"  asp-items="@(new SelectList(this.Model.Cities, nameof(City.Id), nameof(City.Name)))">
+                    <option>@this.Localizer["Please select a city."]</option>
+                </select>
+            </div>
+        </div>
+        <h3>@this.Localizer["Option"]</h3>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" asp-for="GiftWrap" />@this.Localizer["Gift wrap these item(s)."]
+            </label>
+        </div>
+        <hr />
+        <div class="form-group pull-right">
+            <button type="submit" class="btn btn-sm btn-outline-primary">@this.Localizer["Complete Order"]</button>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#ddCountry').change(function () {
+            var val = $(this).val();
+            var optCities = "<option value='0'>@this.Localizer["Please select a city."]</option>";
+            $.getJSON("@Url.Action("GetCityByCountryId", "City")", { countryId: val }, function (data) {
+                $.each(data, function (index, item) {
+                    optCities += "<option value='" + item.id + "'>" + item.name + "</option>";
+
+                });
+
+                $('#ddCity').html(optCities);
+            });
+        });
+    });
+</script>

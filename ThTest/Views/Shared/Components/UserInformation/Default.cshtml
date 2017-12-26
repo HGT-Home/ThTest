@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model LoginViewModel
+@{
+}
+
+@if (this.User.Identity.IsAuthenticated)
+{
+    <form class="form-inline" asp-action="Logout" asp-controller="Account" method="post" novalidate="novalidate" role="form">
+        @Html.AntiForgeryToken()
+        <div class="btn-group btn-group-sm">
+            <div class="btn btn-primary"><i class="fa fa-user-circle"></i></div>
+            <a class="btn btn-secondary" asp-controller="Account" asp-action="Profile">@this.User.Identity.Name</a>
+            <button type="submit" class="btn btn-secondary" title="@this.Localizer["Sign out"]"><i class="fa fa-sign-out"></i></button>
+        </div>
+    </form>
+}
+else
+{
+    <div class="btn-group btn-group-sm">
+        <div class="btn btn-primary" title="@this.Localizer["Register"]"><i class="fa fa-user-circle"></i></div>
+        <a id="lnkRegister" class="btn btn-sm btn-secondary" asp-controller="Account" asp-action="Register">@this.Localizer["Register"]</a>
+        <button id="btnSignIn" class="btn btn-sm btn-secondary dropdown-toggle" href="#" data-toggle="popover" data-trigger="click" data-placement="left" role="button" title="@this.Localizer["Sign in"]"></button>
+        <div id="ddSignIn" class="d-none">
+            @*<h6 class="dropdown-header bg-info text-white">Sign In</h6>*@
+            <form class="m-1" asp-controller="Account" asp-action="Login" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <label class="sr-only">Username</label>
+                        <span class="input-group-addon">
+                            <i class="fa fa-user-circle-o"></i>
+                        </span>
+                        <input id="txtUsername" type="text" class="form-control" asp-for="Username" aria-label="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-sm">
+                        <label class="sr-only">Password</label>
+                        <span class="input-group-addon">
+                            <i class="fa fa-key"></i>
+                        </span>
+                        <input type="password" class="form-control" aria-label="" asp-for="Password" />
+                    </div>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" asp-for="@this.Model.IsRememberMe" /> @this.Localizer["Remmeber me."]
+                    </label>
+                </div>
+                <hr />
+                <div class="pull-right pb-1">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">@this.Localizer["Login"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#btnSignIn').popover({
+                html: true,
+                content: function () {
+                    return $('#ddSignIn').html();
+                },
+                container: 'body'
+            });
+
+            // Close popover when click outside.
+            $('body').on('click', function (e) {
+                $('[data-toggle=popover]').each(function () {
+                    // hide any open popovers when the anywhere else in the body is clicked
+                    if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                        $(this).popover('hide');
+                    }
+                });
+            });
+        });
+    </script>
+}

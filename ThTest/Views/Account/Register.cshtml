@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model RegisterViewModel
+
+@{
+    ViewBag.Title = Localizer["Title"];
+}
+
+<div class="container">
+    <form asp-controller="Account" method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label asp-for="@this.Model.Username" class="col-form-label">@Localizer["Username"]</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-user-circle-o"></i>
+                </div>
+                <input class="form-control" placeholder="@Localizer["Username"]" type="text" asp-for="@this.Model.Username" value="@Model.Username" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Username"></span></div>
+        </div>
+        <div class="form-group">
+            <label for="txtPassword" class="col-form-label">@Localizer["Password"]</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                <input class="form-control" placeholder="@Localizer["Password"]" type="password" id="txtPassword" asp-for="@this.Model.Password" value="@Model.Password" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Password"></span></div>
+        </div>
+        <div class="form-group">
+            <label for="txtPassword" class="col-form-label">@Localizer["Confirm password"]</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                <input class="form-control" placeholder="@Localizer["Confirm password"]" type="password" id="txtPassword" asp-for="@this.Model.ConfirmPassword" value="@Model.Password" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.ConfirmPassword"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.Email" class="col-form-label">@Localizer["Email"]</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-envelope"></i>
+                </div>
+                <input class="form-control" placeholder="@Localizer["Email"]" type="email" asp-for="@this.Model.Email" value="@Model.Email" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Email"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.Fullname" class="col-form-label">@Localizer["Fullname"]</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                </div>
+                <input class="form-control" placeholder="@Localizer["Fullname"]" type="text" asp-for="@this.Model.Fullname" value="@Model.Fullname" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Fullname"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.DateOfBirth" class="col-form-label">@Localizer["Date of birth"]</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input class="form-control" placeholder="@Localizer["Date of birth"]" type="datetime-local" asp-for="@this.Model.DateOfBirth" value="@Model.DateOfBirth" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.DateOfBirth"></span></div>
+        </div>
+        <hr role="separator" />
+        <div class="form-group text-right">
+            <button type="submit" asp-action="Register" class="btn btn-outline-primary" value="Register">@Localizer["Register"]</button>
+            <button type="submit" asp-action="Login" class="btn btn-outline-secondary" value="Back">@Localizer["Back"]</button>
+        </div>
+    </form>
+</div>

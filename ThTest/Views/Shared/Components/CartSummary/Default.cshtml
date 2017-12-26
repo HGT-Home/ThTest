@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Cart
+@{
+}
+
+<div>
+    <div class="btn-group btn-group-sm">
+        <a class="btn btn-primary" asp-controller="Cart" asp-action="Index" asp-route-returnUrl="@this.ViewContext.HttpContext.Request.PathAndQuery()" title="@this.Localizer["Shopping cart"]">
+            <i class="fa fa-lg fa-shopping-cart"></i>
+        </a>
+        <label class="btn btn-secondary text-white">@this.Model.ComputeTotal().ToString("c")</label>
+        <button id="dropdownMenu" type="button" class="btn btn-secondary dropdown-toggle" title="@this.Localizer["Your Cart"]" data-toggle="popover" data-trigger="hover focus" role="button"></button>
+    </div>
+    <span class="badge badge-pill badge-dark badge-notify">@this.Model.ComputeQuantity()</span>
+</div>
+
+<div id="ddCartInfor" class="d-none">
+    <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-inverse">
+            <tr>
+                <th>@this.Localizer["Name"]</th>
+                <th class="text-center">@this.Localizer["Quantity"]</th>
+                <th class="text-center">@this.Localizer["Subtotal"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (this.Model.Lines.Count() > 0)
+            {
+                @foreach (CartLine cl in this.Model.Lines)
+                {
+                    <tr>
+                        <td class="text-nowrap">@(cl.Product.Name.GetEclipsis(8))</td>
+                        <td class="text-right">@cl.Quantity.ToString("d").GetEclipsis(2)</td>
+                        <td class="text-right text-nowrap">@((cl.Quantity * cl.Product.UnitPrice).ToString("c").GetEclipsis(9))</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="table-info">@this.Localizer["Cart is empty."]</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="bg-dark text-white">
+                <th class="text-right" colspan="2">@this.Localizer["Total"]</th>
+                <th class="text-right text-nowrap">@this.Model.ComputeTotal().ToString("c").GetEclipsis(9)</th>
+            </tr>
+        </tfoot>
+    </table>
+    @*<hr />
+    <div class="bg-secondary mr-1">
+        <a class="btn btn-sm btn-outline-primary pull-right" asp-controller="Order" asp-action="CheckOut">@this.Localizer["Checkout"]</a>
+    </div>*@
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#dropdownMenu').popover({
+            html: true,
+            container: "body",
+            content: function () {
+                return $('#ddCartInfor').html();
+
+            }
+        });
+    });
+</script>

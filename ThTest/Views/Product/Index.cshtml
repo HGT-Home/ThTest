@@ -1,0 +1,102 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ProductListViewModel
+@{
+    this.ViewBag.Title = this.Localizer["Products"];
+}
+<div class="container-fluid">
+    <div class="text-right">
+        <a asp-controller="Product" asp-action="AddCategory" class="card-link">@Localizer["Create Category"]</a>
+        <a asp-controller="Product" asp-action="Add" class="card-link">@Localizer["Create Product"]</a>
+        <a asp-controller="Supplier" asp-action="Add" class="card-link">@Localizer["Create Supplier"]</a>
+    </div>
+    <table class="table table-sm table-striped p-1">
+        <thead class="thead-inverse">
+            @*<tr class="row">
+                    <th class="col-md-2">@Localizer["Name"]</th>
+                    <th class="col-md-2"><div class="text-right">@Localizer["UnitPrice"]</div></th>
+                    <th class="col-md-1">@Localizer["Image"]</th>
+                    <th class="col-md-5">@Localizer["Description"]</th>
+                    <th class="col-md-2 text-center">@Localizer["Action"]</th>
+                </tr>*@
+            <tr class="row">
+                <th class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">@Localizer["Name"]</th>
+                <th class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"><div class="text-right">@Localizer["UnitPrice"]</div></th>
+                @*<th>@Localizer["Image"]</th>*@
+                <th class="col-5 col-sm-5 col-md-6 col-lg-6 col-xl-6">@Localizer["Description"]</th>
+                <th class="col-2 col-sm-2 col-md-1 col-lg-1 col-xl-1 text-center">@Localizer["Action"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (this.Model.Products.Count() > 0)
+            {
+                @foreach (Product p in this.Model.Products)
+                {
+                    @*<tr class="row">
+                            <td class="col-md-2">@p.Name</td>
+                            <td class="col-md-2"><div class="text-right">@string.Format("{0:C}", p.UnitPrice)</div></td>
+                            <td class="col-md-1"><img src="@Url.Content("~/imgs/" + p.Image)" alt="@p.Name" class="img-thumbnail" /></td>
+                            <td class="col-md-5"><p class="comment">@p.Description</p></td>
+                            <td class="col-md-2">
+                                <div class="text-center">
+                                    <form asp-action="Delete" asp-controller="Product" method="post">
+                                        <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-id="@p.Id">@Localizer["Edit"]</a>
+                                        <input type="hidden" name="id" value="@p.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger">@Localizer["Delete"]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>*@
+                    <tr class="row">
+                        <td class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">@p.Name</td>
+                        <td class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                            <div class="text-right">@string.Format("{0:C}", p.UnitPrice)</div>
+                        </td>
+                        <td class="col-5 col-sm-5 col-md-6 col-lg-6 col-xl-6">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+                                    <img src="@Url.Content("~/imgs/" + p.Image)" alt="@p.Name" class="img-thumbnail" />
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9">
+                                    <p class="comment">@p.Description</p>
+                                </div>
+                            </div>
+                        </td>
+                        @*<td>
+                                <p class="comment">@p.Description</p>
+                            </td>*@
+                        <td class="col-2 col-sm-2 col-md-1 col-lg-1 col-xl-1">
+                            <form asp-action="Delete" asp-controller="Product" method="post">
+                                @Html.AntiForgeryToken()
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                        <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-id="@p.Id">@Localizer["Edit"]</a>
+                                    </div>
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                        <button type="submit" class="btn btn-sm btn-danger">@Localizer["Delete"]</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="col-sm-12" colspan="5">@Localizer["No data found."]</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="row">
+                <th colspan="5" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="btn-group pull-right" page-model="@this.Model.PagingInfo" page-action="Index" page-classes-enabled="true" page-url-categoryId="@this.Model.CurrentCategory" page-class="btn" page-normal="btn-secondary" page-selected="btn-primary"></div>
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

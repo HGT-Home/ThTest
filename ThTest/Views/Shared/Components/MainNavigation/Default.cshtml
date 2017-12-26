@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model MainNavigationViewModel
+@{
+}
+
+<nav class="navbar sticky-top navbar-expand-md bg-dark m-0 py-2">
+    <div class="container-fluid m-0 p-0">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <i class="fa fa-2x fa-windows"></i>
+        </a>
+        <h4 class="navbar-brand text-white">@this.Localizer["Carlsberg"]</h4>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-shopping-info" aria-controls="nav-shopping-info" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div id="nav-shopping-info" class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto" id="divUserInformation">
+                @*<li class="nav-item p-1">@await this.Component.InvokeAsync("ProductSearch")</li>*@
+                <li class="nav-item mt-1 mt-sm-1 mt-md-0">@await this.Component.InvokeAsync("CartSummary")</li>
+                <li class="nav-item mt-1 mt-sm-1 mt-md-0">@await this.Component.InvokeAsync("UserInformation")</li>
+                <li class="nav-item mt-1 mt-sm-1 mt-md-0 ml-md-2">
+                    <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.PathAndQuery()" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                            @*<label class="btn btn-outline-light disabled"><i class="fa fa-language"></i></label>*@
+                            @foreach (var item in this.Model.SupportedCultures)
+                        {
+                            <label class="btn btn-secondary @(this.Model.CurrentLanguage == item.Name? "active": string.Empty)">
+                                <input @(this.Model.CurrentLanguage == item.Name ? "checked" : string.Empty) type="radio" id="@item.TwoLetterISOLanguageName" name="rdoLanguages" autocomplete="off" value="@item.Name" />
+                                <span class="@(this.Model.CurrentLanguage == item.Name? "text-white": "text-dark")">@item.TwoLetterISOLanguageName.ToUpper()</span>
+                            </label>
+                    }
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-md navbar-light bg-light mr-0" role="navigation">
+    <div class="container-fluid mr-0 p-0">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-menu" aria-controls="nav-menu" aria-expanded="false">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div id="nav-menu" class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item @((string.IsNullOrEmpty(this.Model.CurrentMenu) || this.Model.CurrentMenu == this.Localizer["Home"].Value) ? "active": string.Empty)">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        <i class="fa fa-home"></i>&nbsp; @this.Localizer["Home"]
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#divCategory" data-toggle="collapse" aria-expanded="false" aria-controls="divCategory" onclick="javascript: $('html,body').scrollTop(0);">
+                        <i class="fa fa-product-hunt"></i>&nbsp; @this.Localizer["Products"]
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="ContactUs">
+                        <i class="fa fa-map-signs"></i>&nbsp; @this.Localizer["Contact Us"]
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="About">
+                        <i class="fa fa-adn"></i>&nbsp; @this.Localizer["About"]
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="collapse top bg-secondary" id="divCategory">
+    @*<h5 class="my-0 p-2">@this.Localizer["Categories"]</h5>*@
+    <div class="row">
+        @foreach (Category c in this.Model.Categories)
+        {
+            <div class="mt-0 col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                <a class="btn btn-link" asp-controller="Product" asp-action="GetProductByCategoryId" asp-route-categoryId="@c.Id" asp-route-page="1">@c.Name</a>
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ($) {
+        $('input[type="radio"][name="rdoLanguages"]').change(function (evt) {
+            $(this).closest("form").submit();
+        })
+    });
+</script>

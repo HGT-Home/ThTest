@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CartListViewModel
+@{
+    ViewBag.Title = "Shopping Cart";
+}
+
+<div>
+    @*<h2>Your shopping cart.</h2>*@
+    <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (this.Model.Cart.Lines == null || this.Model.Cart.Lines.Count() == 0)
+            {
+                <tr>
+                    <td colspan="5" class="text-info">Cart is empty.</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (CartLine cl in this.Model.Cart.Lines)
+                {
+                    <tr>
+                        <td class="text-left">@cl.Product.Name</td>
+                        <td class="text-right">@cl.Quantity</td>
+                        <td class="text-right">@cl.Product.UnitPrice.ToString("C")</td>
+                        <td class="text-right">@((cl.Product.UnitPrice * cl.Quantity).ToString("C"))</td>
+                        <td class="text-center">
+                            <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                                @Html.AntiForgeryToken()
+                                <input id="@cl.Product.Id" type="hidden" name="id" value="@cl.Product.Id" />
+                                <input type="hidden" name="returnUrl" value="@this.Model.ReturnUrl" />
+                                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-right" colspan="3">Total</td>
+                <td class="text-right">@(this.Model.Cart.ComputeTotal().ToString("C"))</td>
+                <td>&nbsp;</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="text-right">
+        <a class="btn btn-sm btn-outline-primary" href="@this.Model.ReturnUrl">Continue Shopping</a>
+        <a class="btn btn-sm btn-outline-primary" asp-controller="Order" asp-action="Checkout">Checkout</a>
+    </div>
+</div>

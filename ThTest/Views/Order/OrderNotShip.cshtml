@@ -1,0 +1,77 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model OrderNotShippedViewModel
+@{
+    ViewBag.Title = this.Localizer["Title"];
+}
+
+<div>
+    <table class="table table-sm table-bordered">
+        <thead class="thead-inverse">
+            <tr>
+                <th>@this.Localizer["Customer"]</th>
+                <th>@this.Localizer["Order Date"]</th>
+                <th colspan="4">@this.Localizer["Details"]</th>
+                <th class="text-center">@this.Localizer["Action"]</th>
+            </tr>
+        </thead>
+        <tbody>
+           @if(this.Model.Orders?.Count() > 0)
+           {
+               foreach(Order o in this.Model.Orders)
+               {
+                   int odCount = (o.OrderDetails?.Count() + 2) ?? 0;
+                   <tr>
+                       <td rowspan="@odCount">@o.User?.FullName</td>
+                       <td rowspan="@odCount">@o.OrderDate</td>
+                       <th class="bg-dark text-white">@this.Localizer["Name"]</th>
+                       <th class="text-right bg-dark text-white">@this.Localizer["Quantity"]</th>
+                       <th class="text-right bg-dark text-white">@this.Localizer["Price"]</th>
+                       <th class="text-right bg-dark text-white">@this.Localizer["Subtotal"]</th>
+                       <td class="text-center" rowspan="@odCount">
+                           <div class="d-flex align-items-stretch justify-content-center m-0 p-0">
+                               <form asp-controller="Order" asp-action="MarkShipped">
+                                   @Html.AntiForgeryToken()
+                                   <input type="hidden" name="orderId" value="@o.OrderId" />
+                                   <button type="submit" class="btn btn-sm btn-link">@this.Localizer["Ship"]</button>
+                               </form>
+                               |
+                               <form asp-controller="Order" asp-action="Edit">
+                                   @Html.AntiForgeryToken()
+                                   <input type="hidden" asp-for="@o.OrderId" value="@o.OrderId" />
+                                   <button type="submit" class="btn btn-sm btn-link">@this.Localizer["Edit"]</button>
+                               </form>
+                               |
+                               <form asp-controller="Order" asp-action="Delete">
+                                   @Html.AntiForgeryToken()
+                                   <input type="hidden" asp-for="@o.OrderId" value="@o.OrderId" />
+                                   <button type="submit" class="btn btn-sm btn-link">@this.Localizer["Delete"]</button>
+                               </form>
+                           </div>
+                       </td>
+                   </tr>
+                   @foreach(OrderDetail od in o.OrderDetails)
+                   {
+                       <tr>
+                           <td>@od.Product?.Name</td>
+                           <td class="text-right">@od.Quantity</td>
+                           <td class="text-right">@od.Price.ToString("c")</td>
+                           <td class="text-right">@od.SubTotal.ToString("c")</td>
+                       </tr>
+                   }
+                   <tr>
+                       <td colspan="3" class="bg-dark text-right text-white">@this.Localizer["Total"]</td>
+                       <td class="bg-dark text-right text-white">@o.OrderDetails.Sum(od => od.SubTotal).ToString("c")</td>
+                   </tr>
+               }
+           }
+           else
+           {
+               <tr>
+                   <td colspan="7" class="text-info">@this.Localizer["No unshipped order."]</td>
+               </tr>
+           }
+        </tbody>
+    </table>
+</div>

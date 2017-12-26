@@ -1,0 +1,12 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/Style.css",
+    "inputFile": "Contents/Styles/Style.scss",
+    "minify": {
+      "enabled": true
+    },
+    "options": {
+      "sourceMap": true
+    }
+  }
+]

@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+
+@{ 
+    var requestCulture = this.Context.Features.Get<IRequestCultureFeature>();
+    string twoLetterCurrentLanguage = requestCulture.RequestCulture.Culture.TwoLetterISOLanguageName;
+}
+
+<html>
+<head lang="@twoLetterCurrentLanguage">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" asp-href-include="~/lib/font-awesome/css/*.min.css" />
+    <link rel="stylesheet" asp-href-include="~/lib/tether/dist/css/*.min.css" />
+    <link rel="stylesheet" asp-href-include="~/css/*.min.css" />
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js">
+    </script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
+    </script>
+        <![endif]-->
+    <script type="text/javascript" asp-src-include="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" asp-src-include="~/lib/tether/dist/js/**/*.min.js"></script>
+    <script type="text/javascript" asp-src-include="~/lib/popper.js/dist/umd/*.min.js"></script>
+    <script type="text/javascript" asp-src-include="~/lib/bootstrap/dist/js/*.min.js"></script>
+    <script type="text/javascript" asp-src-include="~/lib/jquery-validation/dist/*.min.js"></script>
+    <script type="text/javascript" asp-src-include="~/lib/jquery-validation-unobtrusive/*.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $('input[type="radio"][name="rdoLanguages"]').change(function (evt) {
+                $(this).closest("form").submit();
+            })
+        });
+    </script>
+</head>
+<body>
+    <header class="container-fluid">
+        <div class="">
+            @await this.Component.InvokeAsync("MainNavigation")
+        </div>
+        <nav class="navbar bg-dark navbar-expand-md py-0 my-1">
+            <div class="container-fluid p-0">
+                <h6 class="navbar-brand text-white">@ViewBag.Title</h6>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-shopping-info" aria-controls="nav-shopping-info" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div id="nav-shopping-info" class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto" id="divUserInformation">
+                        <li class="nav-item p-1">@await this.Component.InvokeAsync("ProductSearch")</li>
+                        <li class="nav-item p-1">@await this.Component.InvokeAsync("UserInformation")</li>
+                        <li class="nav-item p-1">@await this.Component.InvokeAsync("CartSummary")</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container-fluid">
+        <div class="d-flex flex-column">
+            @RenderBody()
+        </div>
+    </section>
+
+    <footer class="container-fluid my-2">
+        <div class="bg-dark">
+            <div class="row">
+                <div class="col-4 col-sm-4 col-md-1 m-4 m-md-4">
+                    <i class="fa fa-3x fa-windows text-white"></i>
+                </div>
+                <div class="d-none d-md-block col-md-2">
+                    <h6 class="text-white">@this.Localizer["Company"]</h6>
+                    <ul class="list-unstyled text-light">
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["About Us."]</a></li>
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["Contact Us."]</a></li>
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["Documentation."]</a></li>
+                    </ul>
+                </div>
+                <div class="d-none d-md-block col-md-2">
+                    <h6 class="text-white">@this.Localizer["Social"]</h6>
+                    <ul class="list-unstyled text-light">
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["Facebook."]</a></li>
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["Twitter."]</a></li>
+                    </ul>
+                </div>
+                <div class="d-none d-md-block col-md-2">
+                    <h6 class="text-white">@this.Localizer["Support"]</h6>
+                    <ul class="list-unstyled text-light">
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["Help Desk."]</a></li>
+                        <li><a asp-controller="Home" asp-action="AboutUs" class="btn btn-sm btn-link">@this.Localizer["Privacy police."]</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-sm-12 col-md-2">
+                    <address>
+                        <strong class="text-white">@this.Localizer["CompanyName"]</strong>
+                        <span class="text-light">@this.Localizer["Address1"]</span><br />
+                        <span class="text-light">@this.Localizer["Address2"]</span><br />
+                        <abbr class="text-light" title="@this.Localizer["Phone"]">P: </abbr><span class="text-light">@this.Localizer["PhoneNumber"]</span>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

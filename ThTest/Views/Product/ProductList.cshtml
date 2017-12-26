@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ProductListViewModel
+
+@{
+    ViewBag.Title = this.Localizer["Products"];
+}
+
+<div>
+    <div class="row">
+        @*<div class="col-3">
+            <div class="d-flex flex-column">
+                @await this.Component.InvokeAsync("NavigationMenu", new { categoryId = this.Model.CurrentCategory })
+            </div>
+        </div>*@
+        <div class="col-12">
+            <div class="row">
+                @foreach (var p in this.Model.Products)
+                {
+                    <div class="mt-1 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                        <div class="card w-100 h-100">
+                            <div class="card-header bg-dark">
+                                <h6 class="card-title text-white">@p.Name</h6>
+                                <span class="badge badge-primary pull-right">@p.UnitPrice.ToString("c")</span>
+                            </div>
+                            @*<img class="card-img-top" src="@Url.Content("~/imgs/" + p.Image)" />*@
+                            <div class="card-body">
+                                @*<h5 class="card-title">@p.Name</h5>*@
+                                <div class="row">
+                                    <div class="col-3">
+                                        <img class="card-img-top" src="@Url.Content("~/imgs/" + p.Image)" />
+                                    </div>
+                                    <div class="col-9">
+                                        <p class="card-text"><small>@p.Description</small></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="m-3">
+                                <a class="card-link pull-right" asp-controller="Product" asp-action="ShowProductDetails" asp-route-productId="@p.Id">@this.Localizer["Show details"] <i class="fa fa-angle-double-right"></i></a>
+                            </div>
+                            <div class="card-footer">
+                                <form id="@p.Id" asp-action="AddToCart" asp-controller="Cart" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                    <div>
+                                        <button type="submit" class="btn btn-success btn-sm pull-right">@*@this.Localizer["Add to cart"]*@<i class="fa fa-cart-plus"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        @*<div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    @p.Name
+                                    <span class="badge badge-pill badge-primary pull-right">
+                                        <small>@p.UnitPrice.ToString("C")</small>
+                                    </span>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img class="card-img" src="@Url.Content("~/imgs/" + p.Image)" />
+                                    </div>
+                                    <div class="col-10">
+                                        <p class="card-text">@p.Description</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <form id="@p.Id" asp-action="AddToCart" asp-controller="Cart" method="post">
+                                    <input type="hidden" name="id" asp-for="@p.Id" />
+                                    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                    <div class="card-text p-1">
+                                        <button type="submit" class="btn btn-success btn-sm pull-right">@this.Localizer["Add to cart"]</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>*@
+                    </div>
+                }
+            </div>
+            <div class="m-1">
+                <div class="btn-group p-1 pull-right" page-model="@this.Model.PagingInfo" page-action="GetProductByCategoryId" page-classes-enabled="true" page-class="btn" page-normal="btn-secondary" page-selected="btn-primary" page-url-categoryId="@this.Model.CurrentCategory"></div>
+            </div>
+        </div>
+    </div>
+</div>

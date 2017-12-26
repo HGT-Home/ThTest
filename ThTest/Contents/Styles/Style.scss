@@ -1,0 +1,24 @@
+﻿$body-background-color: #ffffff;
+$badge-notify-bg-color: #4CD964;
+
+
+body{
+    background: $body-background-color;
+}
+
+.badge-notify {
+    font-size: x-small;
+    background: $badge-notify-bg-color;
+    position: relative;
+    top: -16px;
+    left: -16px;
+    z-index: 9;
+}
+
+.input-validation-error {
+    border-color: red;
+    background-color: #fee;
+    ::after {
+        content: "Hi there.";
+    }
+}
