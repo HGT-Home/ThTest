@@ -4,9 +4,9 @@
 @{
 }
 
-<form class="form-inline" asp-controller="Product" asp-action="Search" method="post">
+<form class="form-inline" asp-controller="Product" asp-action="Search" method="get">
     <div class="input-group input-group-sm">
-        <input type="text" class="form-control" placeholder="@this.Localizer["Search"]" />
+        <input type="text" class="form-control" name="keyword" placeholder="@this.Localizer["Search"]" title="@this.Localizer["Search"]" />
         <span class="input-group-btn">
             <button type="submit" class="btn btn-secondary" title="@this.Localizer["Search"]">
                 <i class="fa fa-search"></i>

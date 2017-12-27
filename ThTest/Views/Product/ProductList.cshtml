@@ -18,15 +18,13 @@
             <div class="row">
                 @foreach (var p in this.Model.Products)
                 {
-                    <div class="mt-1 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="mt-1 col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
                         <div class="card w-100 h-100">
                             <div class="card-header bg-dark">
                                 <h6 class="card-title text-white">@p.Name</h6>
                                 <span class="badge badge-primary pull-right">@p.UnitPrice.ToString("c")</span>
                             </div>
-                            @*<img class="card-img-top" src="@Url.Content("~/imgs/" + p.Image)" />*@
                             <div class="card-body">
-                                @*<h5 class="card-title">@p.Name</h5>*@
                                 <div class="row">
                                     <div class="col-3">
                                         <img class="card-img-top" src="@Url.Content("~/imgs/" + p.Image)" />

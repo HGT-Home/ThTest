@@ -32,7 +32,7 @@ namespace ThTest.Controllers
             LoginSessionInfo loginSessionInfo,
             IHostingEnvironment env,
             IUnitOfWork unitOfWork,
-            IStringLocalizer<ProductController> localizer) 
+            IStringLocalizer<ProductController> localizer)
             : base(loginSessionInfo)
         {
             this._env = env;
@@ -69,7 +69,7 @@ namespace ThTest.Controllers
         [HttpGet]
         public IActionResult GetProductByCategoryId(int categoryId, int page)
         {
-            IList<Product> lstProductList = categoryId == 0? this._repoProduct.Get(page, PAGESIZE): this._repoProduct.GetByCategoryId(categoryId, page, PAGESIZE);
+            IList<Product> lstProductList = categoryId == 0 ? this._repoProduct.Get(page, PAGESIZE) : this._repoProduct.GetByCategoryId(categoryId, page, PAGESIZE);
             IList<Category> lstCategory = this._repoCategory.GetAll();
 
             ProductListViewModel vmProductList = new ProductListViewModel
@@ -142,7 +142,7 @@ namespace ThTest.Controllers
 
                 if (file != null)
                 {
-                    
+
 
                     // Check file size.
                     if (file.Length <= 1024 * 1024)
@@ -182,7 +182,7 @@ namespace ThTest.Controllers
         {
             Product mdProduct = this._repoProduct.Entities.Where(p => p.Id == id).SingleOrDefault();
 
-            if(mdProduct != null)
+            if (mdProduct != null)
             {
                 this._repoProduct.Delete(mdProduct);
                 await this._unitOfWork.SaveAsync();
@@ -261,5 +261,59 @@ namespace ThTest.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Search(string keyword, int page = 1, int pagesize = PAGESIZE)
+        {
+            try
+            {
+                keyword = keyword.Trim();
+                var query = this._repoProduct.Entities
+                        .Where(p => p.Name.Contains(keyword) || p.Description.Contains(keyword))
+                        .OrderBy(p => p.Name);
+
+                SearchResultViewModel vmSearchResult = new SearchResultViewModel
+                {
+                    Keyword = keyword,
+                    Products = query
+                        .Skip((page - 1) * pagesize)
+                        .Take(pagesize)
+                        .ToList(),
+                    PageInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = pagesize,
+                        TotalItems = query.Count()
+                    }
+                };
+
+                return this.View("SearchResult", vmSearchResult);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ShowAllCategory(int page=1, int pagesige = PAGESIZE)
+        {
+            try
+            {
+                return this.View("AllCategory", this._repoCategory.GetAll().ToList());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public IActionResult Search(SearchResultViewModel vmSearch)
+        //{
+        //    throw new NotImplementedException("Not implement.");
+        //}
     }
 }

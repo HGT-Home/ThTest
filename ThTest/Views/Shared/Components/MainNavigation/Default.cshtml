@@ -71,15 +71,18 @@
     </div>
 </nav>
 
-<div class="collapse top bg-secondary" id="divCategory">
-    @*<h5 class="my-0 p-2">@this.Localizer["Categories"]</h5>*@
-    <div class="row">
-        @foreach (Category c in this.Model.Categories)
-        {
-            <div class="mt-0 col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                <a class="btn btn-link" asp-controller="Product" asp-action="GetProductByCategoryId" asp-route-categoryId="@c.Id" asp-route-page="1">@c.Name</a>
-            </div>
-        }
+
+<div class="collapse bg-light" id="divCategory">
+    <div class=" border border-left-0 border-right-0 border-bottom-0 border-primary">
+        @*<h6 class="p-2">@this.Localizer["Categories"]</h6>*@
+        <div class="row m-0">
+            @foreach (Category c in this.Model.Categories)
+            {
+                <div class="col-12 col-sm-12 col-md-4 col-lg-2 col-xl-2">
+                    <a class="btn btn-link" asp-controller="Product" asp-action="GetProductByCategoryId" asp-route-categoryId="@c.Id" asp-route-page="1"><small><i class="fa fa-angle-double-right"></i> @c.Name</small></a>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
