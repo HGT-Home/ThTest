@@ -27,13 +27,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-3">
-                                        <img class="card-img-top" src="@Url.Content("~/imgs/" + p.Image)" />
+                                        <img class="card-img-top" src="@Url.Content("/" + p.Image)" />
                                     </div>
                                     <div class="col-9">
                                         <p class="card-text"><small>@p.Description</small></p>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="m-3">
                                 <a class="card-link pull-right" asp-controller="Product" asp-action="ShowProductDetails" asp-route-productId="@p.Id">@this.Localizer["Show details"] <i class="fa fa-angle-double-right"></i></a>

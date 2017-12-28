@@ -81,5 +81,46 @@ namespace ThTest.Models.ViewModels
 
             set => this.SetValue(value);
         }
+
+        public DateTime? UpdatedDate
+        {
+            get => this.GetValue<DateTime?>();
+
+            set => this.SetValue(value);
+        }
+
+        public DateTime? CreatedDate
+        {
+            get => this.GetValue<DateTime?>();
+            set => this.SetValue(value);
+        }
+
+        public string CreatedBy
+        {
+            get => this.GetValue<string>();
+
+            set => this.SetValue(value);
+        }
+        
+        public string UpdatedBy
+        {
+            get => this.GetValue<string>();
+
+            set => this.SetValue(value);
+        }
+
+        public string Image
+        {
+            get => this.GetValue<string>();
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "/imgs/no-image.png";
+                }
+
+                this.SetValue(value);
+            }
+        }
     }
 }

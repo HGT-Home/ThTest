@@ -7,41 +7,83 @@
 }
 <div class="m-0">
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card w-100 h-100">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="card w-100 h-100 animated fadeInUp">
                 <div class="card-header bg-light">
                     <h6 class="card-title">@this.Localizer["Product Management"]</h6>
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a id="lnkCategory" class="nav-link active" href="#tabCategory" role="tab" data-toggle="tab" aria-controls="tabCategory" aria-expanded="true"><small>@this.Localizer["Category"]</small> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="lnkProduct" class="nav-link" href="#tabProduct" role="tab" data-toggle="tab" aria-controls="tabProduct" aria-expanded="true"><small>@this.Localizer["Product"]</small></a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
-                            <div class="row border border-success border-left-0 border-top-0 border-right-0">
-                                <div class="col-10">
-                                    <p href="#" class="card-title">@this.Localizer["New Category"]</p>
+                <div class="card-body tab-content">
+                    <div id="tabCategory" class="tab-pane active" aria-labelledby="lnkCategory" role="tabpanel">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="d-flex justify-content-between border border-success border-left-0 border-top-0 border-right-0">
+                                    <div>
+                                        <span class="card-title">@this.Localizer["New Category"]</span>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a class="card-link pull-right" asp-controller="Product" title="@this.Localizer["Show all"]" asp-action="ShowAllCategory" asp-route-page="1"><small>@this.Localizer["Show all"] <i class="fa fa-angle-double-right"></i></small></a>
+                                    </div>
                                 </div>
-                                <div class="col-2">
-                                    <span class="badge badge-dark">@this.Model.NewCategories.Count</span>
+                                <div class="d-flex flex-column justify-content-between">
+                                    @foreach (Category c in this.Model.NewCategories)
+                                    {
+                                        <div>
+                                            <a asp-controller="Product" asp-action="ShowCategoryDetails">@c.Name</a>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                            <div class="d-flex flex-column">
-                                @foreach(Category c in this.Model.NewCategories)
-                                {
-                                    <div>
-                                        <a asp-controller="Product" asp-action="ShowProductDetails">@c.Name</a>
-                                    </div>
-                                }
-                                <div>
-                                    <a class="card-link pull-right" asp-controller="Product" title="@this.Localizer["Show all"]" asp-action="ShowAllCategory" asp-route-page="1">@this.Localizer["Show all"] <i class="fa fa-angle-double-right"></i></a>
+                            <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                <div class="border border-success border-left-0 border-top-0 border-right-0">
+                                    <span class="card-title">@this.Localizer["Action"]</span>
                                 </div>
+                                <ul class="list-unstyled">
+                                    <li><a class="card-link" asp-controller="Product" asp-action="ShowAllCategory"><i class="fa fa-list"></i> @this.Localizer["All Categories"]</a></li>
+
+                                    <li><a class="card-link" asp-controller="Product" asp-action="AddCategory"><i class="fa fa-plus-square"></i> @this.Localizer["Add Category."]</a></li>
+
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <ul class="list-unstyled">
-                                <li><a class="card-link" asp-controller="Product" asp-action="ShowAllCategory"><i class="fa fa-list"></i>@this.Localizer["All Categories"]</a></li>
-                                <li><a class="card-link" asp-controller="Product" asp-action="Index"><i class="fa fa-list"></i> @this.Localizer["All Product."]</a></li>
-                                <li><a class="card-link" asp-controller="Product" asp-action="AddCategory"><i class="fa fa-plus-square"></i> @this.Localizer["Add Category."]</a></li>
-                                <li><a class="card-link" asp-controller="Product" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Product."]</a></li>
-                            </ul>
+                    </div>
+
+                    <div id="tabProduct" class="tab-pane" aria-labelledby="lnkProduct" role="tabpanel">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="d-flex justify-content-between border border-success border-left-0 border-top-0 border-right-0">
+                                    <div>
+                                        <span class="card-title">@this.Localizer["New Products"]</span>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a class="card-link pull-right" asp-controller="Product" title="@this.Localizer["Show all"]" asp-action="GetProductByCategoryId" asp-route-page="1"><small>@this.Localizer["Show all"] <i class="fa fa-angle-double-right"></i></small></a>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column justify-content-between">
+                                    @foreach (Product p in this.Model.NewProducts)
+                                    {
+                                        <div>
+                                            <a asp-controller="Product" asp-action="ShowProductDetails">@p.Name</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                <div class="border border-success border-left-0 border-top-0 border-right-0">
+                                    <span class="card-title">@this.Localizer["Action"]</span>
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li><a class="card-link" asp-controller="Product" asp-action="Index"><i class="fa fa-list"></i> @this.Localizer["All Product."]</a></li>
+                                    <li><a class="card-link" asp-controller="Product" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Product."]</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,9 +107,9 @@
                             </div>
                             <div class="d-flex flex-column">
                                 @foreach (Order o in this.Model.OrderNotShipped)
-                                {   
+                                {
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <a asp-controller="Order" asp-action="ShowOrderDetails">@(string.IsNullOrEmpty(o.User?.FullName)? this.Localizer["..."].Value : o.User?.FullName)</a>
+                                        <a asp-controller="Order" asp-action="ShowOrderDetails">@(string.IsNullOrEmpty(o.User?.FullName) ? this.Localizer["..."].Value : o.User?.FullName)</a>
                                         <span class="badge badge-dark">@o.OrderDetails.Sum(od => od.SubTotal).ToString("c")</span>
                                     </div>
                                 }

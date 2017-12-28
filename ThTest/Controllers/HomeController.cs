@@ -81,6 +81,7 @@ namespace ThTest.Controllers
             IndexAdminViewModel vmIndexAdmin = new IndexAdminViewModel
             {
                 NewCategories = this._repoCategory.GetNewCategory(1, 4),
+                NewProducts = this._repoProduct.Entities.OrderByDescending(p => p.CreatedDate).Take(4).ToList(),
                 OrderNotShipped = this._repoOrder.GetOrderNotShip(1),
             };
 

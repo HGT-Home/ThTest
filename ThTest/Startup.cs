@@ -21,6 +21,7 @@ using ThTest.Resources;
 using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Routing;
 using ThTest.Models;
+using ThTest.Models.Helpers;
 
 namespace ThTest
 {
@@ -87,6 +88,7 @@ namespace ThTest
             //services.AddTransient<IThRepository<Supplier>, ThSupplierRepository>();
             //services.AddScoped(typeof(IThRepository<>), typeof(ThRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IPathProvider, PathProvider>();
             services.AddTransient<IThCountryRepository, ThCountryRepository>();
             services.AddTransient<IThCityRepository, ThCityRepository>();
             services.AddTransient<IThCategoryRepository, ThCategoryRepository>();
@@ -117,6 +119,11 @@ namespace ThTest
                 {
                     options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(ShareResource));
                 });
+
+            services.AddAuthorization(options =>
+            {
+
+            });
 
             //services.AddMemoryCache();
             services.AddDistributedMemoryCache();

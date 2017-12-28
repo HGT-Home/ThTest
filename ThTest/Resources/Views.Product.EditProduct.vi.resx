@@ -138,6 +138,9 @@
   <data name="Please select supplier" xml:space="preserve">
     <value>Hãy chọn nhà cung cấp</value>
   </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Ảnh</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Lưu lại</value>
   </data>

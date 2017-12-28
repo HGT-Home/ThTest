@@ -16,7 +16,7 @@ namespace Th.Models
 
         [Column(nameof(Name))]
         [Required(ErrorMessage = "Enter the Name.")]
-        [MaxLength(40, ErrorMessage = "Name is too long. It only {1}.")]
+        [MaxLength(256, ErrorMessage = "Name is too long. It only {1}.")]
         [Display(Name = "Product Name")]
         public string Name { get; set; }
 
@@ -26,12 +26,15 @@ namespace Th.Models
         public decimal UnitPrice { get; set; }
 
         [Column(nameof(Image))]
-        [MaxLength(50)]
+        [MaxLength(1024)]
         //[Required(ErrorMessage = "Enter the Image.")]
         public string Image { get; set; }
 
+        [Column(nameof(ImageBinary))]
+        public byte[] ImageBinary { get; set; }
+
         [Column(nameof(Description))]
-        [MaxLength(2000, ErrorMessage = "Description is too long. It only {1}.")]
+        [MaxLength(4000, ErrorMessage = "Description is too long. It only {1}.")]
         public string Description { get; set; }
 
         [Column(nameof(CategoryId))]
@@ -49,6 +52,20 @@ namespace Th.Models
 
         [ForeignKey(nameof(SupplierId))]
         public Supplier Suppiler { get; set; }
+
+        [Column(nameof(UpdatedBy))]
+        [MaxLength(50)]
+        public string UpdatedBy { get; set; }
+
+        [Column(nameof(CreatedBy))]
+        [MaxLength(50)]
+        public string CreatedBy { get; set; }
+
+        [Column(nameof(CreatedDate))]
+        public DateTime? CreatedDate { get; set; }
+
+        [Column(nameof(UpdatedDate))]
+        public DateTime? UpdatedDate { get; set; }
 
     }
 }

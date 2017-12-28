@@ -102,5 +102,34 @@ namespace Th.Data.Helper
                 throw ex;
             }
         }
+
+        public Category GetById(int id)
+        {
+            try
+            {
+                return this.Entities.FirstOrDefault(c => c.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                Category mdDelete = this.GetById(id);
+
+                if (mdDelete != null)
+                {
+                    this.Delete(mdDelete);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

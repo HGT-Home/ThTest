@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="Add Category." xml:space="preserve">
     <value>Add Category.</value>
   </data>
@@ -126,20 +129,32 @@
   <data name="Add Product." xml:space="preserve">
     <value>Add Product.</value>
   </data>
+  <data name="All Categories" xml:space="preserve">
+    <value>All Categories</value>
+  </data>
   <data name="All Order." xml:space="preserve">
     <value>All.</value>
   </data>
   <data name="All Product." xml:space="preserve">
     <value>All Product.</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
   <data name="New Category" xml:space="preserve">
     <value>New Category</value>
+  </data>
+  <data name="New Products" xml:space="preserve">
+    <value>New Products</value>
   </data>
   <data name="Not shipped." xml:space="preserve">
     <value>Not shipped.</value>
   </data>
   <data name="Orders Management" xml:space="preserve">
     <value>Orders Management</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
   </data>
   <data name="Product Management" xml:space="preserve">
     <value>Product Management</value>

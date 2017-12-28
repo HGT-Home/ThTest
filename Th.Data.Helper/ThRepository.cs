@@ -24,6 +24,12 @@ namespace Th.Data.Helper
             return this.Entities.ToList<T>();
         }
 
+        public virtual T GetById<TKey>(params object[] keys)
+        {
+            T entity = (T)this._dbContext.Find(typeof(T), keys);
+            return entity;
+        }
+
         public abstract void Delete(T mdDelete);
 
         public abstract void Insert(T mdInsert);

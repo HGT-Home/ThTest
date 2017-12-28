@@ -195,4 +195,7 @@
   <data name="OrderViewModelRequiredName" xml:space="preserve">
     <value>Name is required.</value>
   </data>
+  <data name="EditCategoryViewModelMaxLengthDescription" xml:space="preserve">
+    <value>Description is too long. It is only {1}.</value>
+  </data>
 </root>

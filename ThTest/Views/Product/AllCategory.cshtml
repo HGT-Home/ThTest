@@ -7,5 +7,45 @@
 }
 
 <div>
-    
+    @if (this.Model != null && this.Model.Count() > 0)
+    {
+        <div class="row">
+            @foreach (Category c in this.Model)
+            {
+                <div class="mt-1 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">@c.Name</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <img class="img-thumbnail" src="@Url.Content("/imgs/" + c.ImagePath)" />
+                                </div>
+                                <div class="col-9">
+                                    <small>@c.Description</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="pull-right">
+                                <form asp-controller="Product" asp-action="DeleteCategory">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-warning" title="@this.Localizer["Edit"]" asp-controller="Product" asp-action="EditCategory" asp-route-id="@c.Id"><i class="fa fa-pencil"></i></a>
+                                        <button type="submit" class="btn btn-sm btn-danger" title="@this.Localizer["Delete"]"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div>@this.Localizer["No data found."]</div>
+    }
 </div>

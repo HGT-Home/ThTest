@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using ThTest.Models;
+using ThTest.Infrastructures;
+using ThTest.Models.Helpers;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,22 +26,25 @@ namespace ThTest.Controllers
         private IThSupplierRepository _repoSupplier;
         private IThCategoryRepository _repoCategory;
         private readonly IStringLocalizer _localizer;
+        private IPathProvider _pvdPath;
         private const int PAGESIZE = 10;
-
-        private IHostingEnvironment _env;
 
         public ProductController(
             LoginSessionInfo loginSessionInfo,
-            IHostingEnvironment env,
+            IPathProvider pvdPath,
             IUnitOfWork unitOfWork,
             IStringLocalizer<ProductController> localizer)
             : base(loginSessionInfo)
         {
-            this._env = env;
+            this._pvdPath = pvdPath;
+
+            // Repositories.
             this._unitOfWork = unitOfWork;
             this._repoProduct = this._unitOfWork.ProductRepo;
             this._repoSupplier = this._unitOfWork.SupplierRepo;
             this._repoCategory = this._unitOfWork.CategoryRepo;
+            
+            // Localization.
             this._localizer = localizer;
         }
 
@@ -89,12 +94,14 @@ namespace ThTest.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public IActionResult Add()
         {
             EditProductViewModel vmEditProduct = new EditProductViewModel
             {
                 Categories = this._repoCategory.GetAll().ToList(),
                 Suppliers = this._repoSupplier.GetAll().ToList(),
+                Image = "/imgs/no-image.png",
                 Mode = ThAction.Add
             };
 
@@ -102,75 +109,52 @@ namespace ThTest.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public IActionResult Edit(int id)
         {
-            Product mdProduct = this._repoProduct.GetAll().Where(p => p.Id == id).SingleOrDefault();
-
-            EditProductViewModel vmEditProduct = new EditProductViewModel
-            {
-                Id = mdProduct.Id,
-                Name = mdProduct.Name,
-                Description = mdProduct.Description,
-                UnitPrice = mdProduct.UnitPrice,
-                CategoryId = mdProduct.CategoryId,
-                SupplierId = mdProduct.SupplierId,
-                Categories = this._repoCategory.GetAll().ToList(),
-                Suppliers = this._repoSupplier.GetAll().ToList(),
-                Mode = ThAction.Edit
-            };
+            Product mdProduct = this._repoProduct.GetById(id);
+            EditProductViewModel vmEditProduct = mdProduct.Map<EditProductViewModel>();
+            vmEditProduct.Categories = this._repoCategory.GetAll().ToList();
+            vmEditProduct.Suppliers = this._repoSupplier.GetAll().ToList();
+            vmEditProduct.Mode = ThAction.Edit;
 
             return this.View("EditProduct", vmEditProduct);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(EditProductViewModel editProductViewModel)
         {
             if (this.ModelState.IsValid)
             {
-                Product p = new Product
-                {
-                    Id = editProductViewModel.Id,
-                    Name = editProductViewModel.Name,
-                    Description = editProductViewModel.Description,
-                    CategoryId = editProductViewModel.CategoryId,
-                    SupplierId = editProductViewModel.SupplierId,
-                    UnitPrice = editProductViewModel.UnitPrice,
-                };
+                Product p =  editProductViewModel.Map<Product>();
 
                 IFormFile file = editProductViewModel.FileImage;
 
                 if (file != null)
                 {
-
-
-                    // Check file size.
-                    if (file.Length <= 1024 * 1024)
-                    {
-                        string path = Path.Combine(this._env.WebRootPath, "imgs", file.FileName);
-                        using (FileStream fs = new FileStream(path, FileMode.Create))
-                        {
-                            file.CopyTo(fs);
-                        }
-
-                        p.Image = file.FileName;
-                    }
+                    p.Image = file.SaveImageFile(ImageFolder.Product, this._pvdPath);
+                    p.ImageBinary = file.GetBytes();
                 }
 
                 if (editProductViewModel.Mode == ThAction.Edit)
                 {
+                    p.CreatedBy = p.UpdatedBy = this.User.Identity.Name;
+                    p.CreatedDate = p.UpdatedDate = DateTime.Now;
                     this._repoProduct.Update(p);
                 }
                 else
                 {
+                    p.UpdatedBy = this.User.Identity.Name;
+                    p.UpdatedDate = DateTime.Now;
                     this._repoProduct.Insert(p);
                 }
 
                 await this._unitOfWork.SaveAsync();
-
                 this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Name);
 
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction("IndexAdmin", "Home");
             }
 
             return this.View("EditProduct", editProductViewModel);
@@ -180,7 +164,9 @@ namespace ThTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Product mdProduct = this._repoProduct.Entities.Where(p => p.Id == id).SingleOrDefault();
+            Product mdProduct = this._repoProduct.Entities
+                .Where(p => p.Id == id)
+                .SingleOrDefault();
 
             if (mdProduct != null)
             {
@@ -200,6 +186,39 @@ namespace ThTest.Controllers
             return this.View("EditCategory", new EditCategoryViewModel() { Mode = ThAction.Add });
         }
 
+        [HttpGet]
+        public IActionResult EditCategory(int id)
+        {
+            Category mdCategory = this._repoCategory.GetById(id);
+            if (mdCategory != null)
+            {
+                EditCategoryViewModel vmCategory = mdCategory.Map<EditCategoryViewModel>();
+
+                return this.View("EditCategory", vmCategory);
+            }
+
+            return this.NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCatgory(int categoryId)
+        {
+            try
+            {
+                if (categoryId != 0)
+                {
+                    this._repoCategory.Delete(categoryId);
+                    this._unitOfWork.Save();
+                }
+
+                return this.RedirectToAction("ShowAllCategroy");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveCategory(EditCategoryViewModel vmEditCategory)
@@ -208,22 +227,26 @@ namespace ThTest.Controllers
             {
                 if (this.ModelState.IsValid)
                 {
-                    Category c = new Category
+                    Category c = vmEditCategory.Map<Category>();
+
+                    // Upload file.
+                    IFormFile file = vmEditCategory.FileImage;
+                    if (file != null)
                     {
-                        Name = vmEditCategory.Name,
-                        NameVn = vmEditCategory.NameVn
-                    };
+                        c.ImageBinary = file.GetBytes();
+                        c.ImagePath = file.SaveImageFile(ImageFolder.Category, this._pvdPath);
+                    }
 
                     switch (vmEditCategory.Mode)
                     {
                         case ThAction.Add:
-                            c.CreatedBy = this.User.Identity.Name;
-                            c.CreatedDate = DateTime.UtcNow;
+                            c.CreatedBy = c.UpdatedBy = this.User.Identity.Name;
+                            c.CreatedDate = c.UpdatedDate = DateTime.UtcNow;
                             this._repoCategory.Insert(c);
                             break;
                         case ThAction.Edit:
                             c.UpdatedBy = this.User.Identity.Name;
-                            c.UpdatedBy = this.User.Identity.Name;
+                            c.UpdatedDate = DateTime.UtcNow;
                             this._repoCategory.Update(c);
                             break;
                     }
@@ -232,7 +255,7 @@ namespace ThTest.Controllers
 
                     this.TempData["Message"] = string.Format(this._localizer["Category {0} has been saved."], c.Name);
 
-                    return this.RedirectToAction("Index", "Home");
+                    return this.RedirectToAction(nameof(HomeController.IndexAdmin), "Home");
                 }
 
                 return this.View(vmEditCategory);
@@ -268,7 +291,7 @@ namespace ThTest.Controllers
         {
             try
             {
-                keyword = keyword.Trim();
+                keyword = string.IsNullOrEmpty(keyword)? string.Empty: keyword.Trim();
                 var query = this._repoProduct.Entities
                         .Where(p => p.Name.Contains(keyword) || p.Description.Contains(keyword))
                         .OrderBy(p => p.Name);
@@ -308,12 +331,5 @@ namespace ThTest.Controllers
                 throw ex;
             }
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public IActionResult Search(SearchResultViewModel vmSearch)
-        //{
-        //    throw new NotImplementedException("Not implement.");
-        //}
     }
 }

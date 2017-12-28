@@ -287,5 +287,13 @@ namespace ThTest.Resources {
                 return ResourceManager.GetString("OrderViewModelRequiredCity", resourceCulture);
             }
         }
+
+        internal static string EditCategoryViewModelMaxLengthDescription
+        {
+            get
+            {
+                return ResourceManager.GetString("EditCategoryViewModelMaxLengthDescription", resourceCulture);
+            }
+        }
     }
 }

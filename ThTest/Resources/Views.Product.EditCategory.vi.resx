@@ -123,6 +123,9 @@
   <data name="Back" xml:space="preserve">
     <value>Quay lại</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
   <data name="Edit Category" xml:space="preserve">
     <value>Chỉnh sửa nhóm sản phẩm</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Lưu lại</value>
+  </data>
+  <data name="Select image" xml:space="preserve">
+    <value>Chọn ảnh</value>
   </data>
   <data name="Vietnamese Name" xml:space="preserve">
     <value>Tên (Tiếng Việt)</value>

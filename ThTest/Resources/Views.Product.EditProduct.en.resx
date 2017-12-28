@@ -138,6 +138,9 @@
   <data name="Please select supplier" xml:space="preserve">
     <value>Please select supplier</value>
   </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>

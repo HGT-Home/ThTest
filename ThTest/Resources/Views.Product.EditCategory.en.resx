@@ -123,6 +123,9 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="Edit Category" xml:space="preserve">
     <value>Edit Category</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Select image" xml:space="preserve">
+    <value>Select image</value>
   </data>
   <data name="Vietnamese Name" xml:space="preserve">
     <value>Vietnamese Name</value>

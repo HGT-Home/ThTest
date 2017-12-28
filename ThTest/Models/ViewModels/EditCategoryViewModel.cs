@@ -64,6 +64,42 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
+        [MaxLength(4000, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "EditCategoryViewModelMaxLengthDescription")]
+        public string Description
+        {
+            get =>  this.GetValue<string>();
+
+            set => this.SetValue(value);
+        }
+
+        public string CreatedBy
+        {
+            get => this.GetValue<string>();
+
+            set => this.SetValue(value);
+        }
+
+        public string UpdatedBy
+        {
+            get => this.GetValue<string>();
+
+            set => this.SetValue(value);
+        }
+
+        public DateTime? UpdatedDate
+        {
+            get => this.GetValue<DateTime?>();
+
+            set => this.SetValue(value);
+        }
+
+        public DateTime? CreatedDate
+        {
+            get => this.GetValue<DateTime?>();
+
+            set => this.SetValue(value);
+        }
+
         public EditCategoryViewModel()
             : base()
         {

@@ -11,9 +11,10 @@ using Th.Data.Helper;
 namespace Th.Data.Helper.Migrations
 {
     [DbContext(typeof(ThDbContext))]
-    partial class ThDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171228085910_AddProductImageBinary")]
+    partial class AddProductImageBinary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,13 +276,6 @@ namespace Th.Data.Helper.Migrations
                         .IsRequired()
                         .HasColumnName("CategoryId");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnName("CreatedBy")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnName("CreatedDate");
-
                     b.Property<string>("Description")
                         .HasColumnName("Description")
                         .HasMaxLength(4000);
@@ -305,13 +299,6 @@ namespace Th.Data.Helper.Migrations
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnName("UnitPrice");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnName("UpdatedBy")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnName("UpdatedDate");
 
                     b.HasKey("Id");
 

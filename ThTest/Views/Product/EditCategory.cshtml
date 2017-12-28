@@ -22,7 +22,7 @@
         <input type="hidden" asp-for="@this.Model.Mode" value="@this.Model.Mode" />
         <div class="form-group">
             <label asp-for="@this.Model.NameVn" class="col-form-label">@Localizer["Vietnamese Name"]</label>
-            <div class="input-group">
+            <div class="input-group input-group-sm">
                 <div class="input-group-addon">
                     <i class="fa fa-edit"></i>
                 </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="form-group">
             <label asp-for="@this.Model.Name" class="col-form-label">@Localizer["English Name"]</label>
-            <div class="input-group">
+            <div class="input-group input-group-sm">
                 <div class="input-group-addon">
                     <i class="fa fa-edit"></i>
                 </div>
@@ -40,11 +40,27 @@
             </div>
             <div><span class="text-danger" asp-validation-for="@this.Model.Name"></span></div>
         </div>
-        
+        <div class="form-group">
+            <label asp-for="@this.Model.Description">@Localizer["Description"]</label>
+            <div class="input-group input-group-sm">
+                <div class="input-group-addon"><i class="fa fa-sticky-note"></i></div>
+                <textarea asp-for="@this.Model.Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
+            </div>
+            <div><span asp-validation-for="@this.Model.Description" class="text-danger"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.FileImage">@Localizer["Select image"]</label>
+            <div class="input-group input-group-sm">
+                <div class="input-group-addon"><i class="fa fa-file-image-o"></i></div>
+                <input asp-for="@this.Model.FileImage" class="form-control-file" type="file" accept="image/*" placeholder="@Localizer["Select image"]" />
+            </div>
+            <div><span asp-validation-for="@this.Model.FileImage" class="text-danger"></span></div>
+        </div>
+
         <hr />
         <div class="form-group text-right">
-            <button class="btn btn-outline-primary" type="submit">@Localizer["Save"]</button>
-            <button class="btn btn-outline-secondary" type="submit">@Localizer["Back"]</button>
+            <button class="btn btn-primary" type="submit" title="@Localizer["Save"]"><i class="fa fa-save"></i></button>
+            @*<button class="btn btn-outline-secondary" type="submit">@Localizer["Back"]</button>*@
         </div>
     </form>
 </div>

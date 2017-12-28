@@ -195,4 +195,13 @@
   <data name="OrderViewModelRequiredName" xml:space="preserve">
     <value>Nhập họ tên.</value>
   </data>
+  <data name="EditCategoryViewModelMaxLengthDescription" xml:space="preserve">
+    <value>Chi tiết quá dài. Tối đa là {1} ký tự.</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Nhóm sản phẩm</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Sản phẩm</value>
+  </data>
 </root>
