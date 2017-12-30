@@ -10,7 +10,6 @@
 <div class="my-1">
     <div class="p-2 bg-secondary text-white d-flex justify-content-between">
         <h5 class="text-left">@this.Localizer["New Product"]</h5>
-        <a asp-controller="Product" asp-action="SeeMore">@this.Localizer["More new"]</a>
     </div>
     <div class="my-0">
         <div id="siteIndicator" class="carousel slide my-0 py-0" data-ride="carousel">
@@ -74,7 +73,7 @@
                         {
                             <div class="my-2 col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 my-1">
                                 <div class="card w-100 h-100">
-                                    <img class="card-img-top" src="@Url.Content(p.Image)" height="200"/>
+                                    <img class="card-img-top" src="@Url.Content(p.ImagePath)" height="200"/>
 
                                     <div class="card-body">
                                         <h5 class="card-title">@p.Name</h5>

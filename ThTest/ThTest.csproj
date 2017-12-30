@@ -109,6 +109,12 @@
     <EmbeddedResource Update="Resources\Views.Product.EditProduct.vi.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Product.ProductDetails.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Product.ProductDetails.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Product.ProductList.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <CustomToolNamespace></CustomToolNamespace>

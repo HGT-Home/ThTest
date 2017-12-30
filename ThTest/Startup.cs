@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Routing;
 using ThTest.Models;
 using ThTest.Models.Helpers;
+using ThTest.Infrastructures;
 
 namespace ThTest
 {
@@ -58,7 +59,7 @@ namespace ThTest
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 6;
 
@@ -89,15 +90,17 @@ namespace ThTest
             //services.AddScoped(typeof(IThRepository<>), typeof(ThRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IPathProvider, PathProvider>();
-            services.AddTransient<IThCountryRepository, ThCountryRepository>();
-            services.AddTransient<IThCityRepository, ThCityRepository>();
-            services.AddTransient<IThCategoryRepository, ThCategoryRepository>();
-            services.AddTransient<IThProductRepository, ThProductRepository>();
-            services.AddTransient<IThSupplierRepository, ThSupplierRepository>();
-            services.AddTransient<IThOrderRepository, ThOrderRepository>();
+            // Repositories.
+            //services.AddTransient<IThCountryRepository, ThCountryRepository>();
+            //services.AddTransient<IThCityRepository, ThCityRepository>();
+            //services.AddTransient<IThCategoryRepository, ThCategoryRepository>();
+            //services.AddTransient<IThProductRepository, ThProductRepository>();
+            //services.AddTransient<IThSupplierRepository, ThSupplierRepository>();
+            //services.AddTransient<IThOrderRepository, ThOrderRepository>();
+
+            // HttpContextAccessor
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-
             // Customer implement service and use DI to create the instance.
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddScoped<LoginSessionInfo>(sp => LoginSessionInfo.GetLoginSessionInfo(sp));
@@ -153,7 +156,7 @@ namespace ThTest
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Error");
             }
 
             app.UseStatusCodePages();
@@ -168,6 +171,9 @@ namespace ThTest
             });
             app.UseSession();
             app.UseAuthentication();
+
+            // Setup Middleware.
+            app.UseMiddleware<LanguageMiddleware>();
 
             // Localize
             IList<CultureInfo> lstSupportCurlture = (from c in thConfig.Cultures

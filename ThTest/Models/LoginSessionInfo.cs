@@ -17,95 +17,20 @@ namespace ThTest.Models
         [JsonIgnore]
         public ISession Session { get; set; }
 
-        //private string _userId;
         public string UserId { get; set; }
-        //{
-        //    get
-        //    {
-        //        return this._userId;
-        //    }
-        //    set
-        //    {
-        //        this._userId = value;
 
-        //        this.Session.Set(SESSION_LOGIN_INFO_NAME, this);
-        //    }
-        //}
-
-        //private string _username;
         public string Username { get; set; }
-        //{
-        //    get
-        //    {
-        //        return this._username;
-        //    }
-        //    set
-        //    {
-        //        this._username = value;
 
-        //        this.Session.Set(SESSION_LOGIN_INFO_NAME, this);
-        //    }
-        //}
-
-
-        //private int? _customerId;
         public int? CustomerId { get; set; }
-        //{
-        //    get
-        //    {
-        //        return this._customerId;
-        //    }
-        //    set
-        //    {
-        //        this._customerId = value;
-        //        this.Session.Set(SESSION_LOGIN_INFO_NAME, this);
-        //    }
-        //}
 
-        //private string _customerName;
-        
         public string CustomerName { get; set; }
-        //{
-        //    get
-        //    {
-        //        return this._customerName;
-        //    }
-        //    set
-        //    {
-        //        this._customerName = value;
-        //        this.Session.Set(SESSION_LOGIN_INFO_NAME, this);
-        //    }
-        //}
-
-        //private DateTime _loginDate;
+       
         public DateTime LoginDate { get; set; }
-        //{
-        //    get
-        //    {
-        //        return this._loginDate;
-        //    }
-        //    set
-        //    {
-        //        this._loginDate = value;
-        //        this.Session.Set(SESSION_LOGIN_INFO_NAME, this);
-        //    }
-        //}
+       
+        public IList<string> RoleNames { get; set; }
 
-        //private string _roleNames;
-        public string RoleNames { get; set; }
-        //{
-        //    get
-        //    {
-        //        return this._roleNames;
-        //    }
-
-        //    set
-        //    {
-        //        this._roleNames = value;
-        //        this.Session.Set(SESSION_LOGIN_INFO_NAME, this);
-        //    }
-        //}
-
+        public string CurrentLanguage { get; set; }
+       
         public LoginSessionInfo()
         {
 

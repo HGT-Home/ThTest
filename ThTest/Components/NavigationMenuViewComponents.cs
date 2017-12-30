@@ -11,18 +11,18 @@ namespace ThTest.Components
     [ViewComponent(Name = "NavigationMenu")]
     public class NavigationMenuViewComponents: ViewComponent
     {
-        private IThCategoryRepository _repoCategory;
+        private IUnitOfWork _unitOfWork;
 
-        public NavigationMenuViewComponents(IThCategoryRepository repoCategory)
+        public NavigationMenuViewComponents(IUnitOfWork unitOfWork)
         {
-            this._repoCategory = repoCategory;
+            this._unitOfWork = unitOfWork;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(int categoryId)
         {
             return this.View(new NavigationMenuViewModel
             {
-                Categories = this._repoCategory.GetAll(),
+                Categories = this._unitOfWork.CategoryRepo.GetAll(),
                 CurrentCategoryId = categoryId,
             });
         }

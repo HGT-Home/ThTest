@@ -120,6 +120,9 @@
   <data name="Add to cart" xml:space="preserve">
     <value>Đặt mua</value>
   </data>
+  <data name="No data found." xml:space="preserve">
+    <value>Không có dữ liệu.</value>
+  </data>
   <data name="Products" xml:space="preserve">
     <value>Sản Phẩm</value>
   </data>

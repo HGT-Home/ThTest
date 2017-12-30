@@ -32,5 +32,11 @@ namespace Th.Models
         public string Phone { get; set; }
 
         public IList<Product> Products { get; set; }
+
+        public Supplier()
+            : base(string.Empty)
+        {
+
+        }
     }
 }

@@ -62,6 +62,7 @@ namespace Th.Data.Helper
                     .Include(
                         c => c.Products.OrderBy(p => p.Id)
                         .Take(2)
+                        .Select(p => p.Translations)
                     )
                     .ToList();
             }

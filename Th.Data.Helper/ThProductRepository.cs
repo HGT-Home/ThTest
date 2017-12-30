@@ -58,9 +58,28 @@ namespace Th.Data.Helper
                 }
 
                 return this._dbContext.Products
+                    .Include(p => p.Translations)
                     .OrderBy(p => p.Id)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
+                    .Select(p => new Product
+                    {
+                        Id = p.Id,
+                        CategoryId = p.CategoryId,
+                        Category = p.Category,
+                        CreatedBy = p.CreatedBy,
+                        CreatedDate = p.CreatedDate,
+                        ImageBinary = p.ImageBinary,
+                        ImagePath = p.ImagePath,
+                        Suppiler = p.Suppiler,
+                        SupplierId = p.SupplierId,
+                        UnitPrice = p.UnitPrice,
+                        UpdatedBy = p.UpdatedBy,
+                        UpdatedDate = p.UpdatedDate,
+                        ViewCount = p.ViewCount,
+                        //Translations = this._dbContext.ProductTranslation.Where(pt => pt.ProductId == p.Id).ToList<ITranslation>()
+                        
+                    })
                     .ToList();
             }
             catch (Exception ex)
@@ -74,6 +93,7 @@ namespace Th.Data.Helper
             try
             {
                 return this._dbContext.Products
+                    .Include(p => p.Translations)
                     .FirstOrDefault(p => p.Id == id);
             }
             catch (Exception ex)
@@ -87,10 +107,26 @@ namespace Th.Data.Helper
             try
             {
                 return this._dbContext.Products
+                    .Include(p => p.Translations)
                     .Where(p => p.CategoryId == categoryId)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int CountProductByCategoryId(int categoryId = 0)
+        {
+            try
+            {
+                // Nếu cateogryId == 0 thì sẽ đếm tất cả các sản phẩm.
+                return this.Entities
+                    .Where(p => categoryId == 0 || p.CategoryId == categoryId)
+                    .Count();
             }
             catch (Exception ex)
             {

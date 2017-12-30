@@ -24,6 +24,12 @@ namespace Th.Data.Helper
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<Language> Languages { get; set; }
+
+        public DbSet<ProductAppreciation> ProductAppreciations { get; set; }
+
+        public DbSet<ProductTranslation> ProductTranslation { get; set; }
+
         public ThDbContext(DbContextOptions options)
             : base(options)
         {

@@ -16,7 +16,6 @@ namespace ThTest.Controllers
 {
     public class HomeController : ThBaseController
     {
-        private IUnitOfWork _unitOfWork;
         private IThProductRepository _repoProduct;
         private IThCategoryRepository _repoCategory;
         private IThOrderRepository _repoOrder;
@@ -24,12 +23,11 @@ namespace ThTest.Controllers
         private const int PAGESIZE = 2;
 
         public HomeController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
-            this._repoCategory = this._unitOfWork.CategoryRepo;
-            this._repoProduct = this._unitOfWork.ProductRepo;
-            this._repoOrder = this._unitOfWork.OrderRepo;
+            this._repoCategory = this.UnitOfWork.CategoryRepo;
+            this._repoProduct = this.UnitOfWork.ProductRepo;
+            this._repoOrder = this.UnitOfWork.OrderRepo;
         }
 
         [AllowAnonymous]

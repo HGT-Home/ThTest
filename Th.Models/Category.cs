@@ -49,7 +49,7 @@ namespace Th.Models
         public IList<Product> Products { get; set; }
 
         public Category()
-            : base()
+            : base(string.Empty)
         {
 
         }

@@ -15,15 +15,13 @@ namespace ThTest.Controllers
 {
     public class SupplierController : ThBaseController
     {
-        private IUnitOfWork _unitOfWork;
         private IThSupplierRepository _repoSupplier;
         private readonly IStringLocalizer<SupplierController> _localizer;
 
         public SupplierController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork, IStringLocalizer<SupplierController> localizer)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
-            this._repoSupplier = this._unitOfWork.SupplierRepo;
+            this._repoSupplier = this.UnitOfWork.SupplierRepo;
             this._localizer = localizer;
         }
 
@@ -78,7 +76,7 @@ namespace ThTest.Controllers
                             break;
                     }
 
-                    await this._unitOfWork.SaveAsync();
+                    await this.UnitOfWork.SaveAsync();
 
                     // Display successfull message.
                     this.TempData["Message"] = string.Format(this._localizer["Supplier {0} has been save."], vmSupplier.Name);

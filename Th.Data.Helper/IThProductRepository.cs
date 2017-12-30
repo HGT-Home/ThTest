@@ -12,5 +12,7 @@ namespace Th.Data.Helper
         Product GetById(int id);
 
         IList<Product> GetByCategoryId(int categoryId, int page = 1, int pageSize = 10);
+
+        int CountProductByCategoryId(int categoryId = 0);
     }
 }

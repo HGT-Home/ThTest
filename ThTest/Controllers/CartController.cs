@@ -21,15 +21,11 @@ namespace ThTest.Controllers
         private IStringLocalizer<CartController> _localizer;
         //private IThProductRepository _repoProduct;
 
-        private IUnitOfWork _unitOfWork;
-
         private Cart _cart;
 
         public CartController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork, Cart cartService, IStringLocalizer<CartController> localizer)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
-
             this._localizer = localizer;
             this._cart = cartService;
         }
@@ -49,7 +45,7 @@ namespace ThTest.Controllers
         [HttpPost]
         public RedirectToActionResult AddToCart(int id, string returnUrl)
         {
-            Product mdProduct = this._unitOfWork.ProductRepo.GetById(id);
+            Product mdProduct = this.UnitOfWork.ProductRepo.GetById(id);
             if (mdProduct != null)
             {
                 this._cart.AddItem(mdProduct, 1);
@@ -63,7 +59,7 @@ namespace ThTest.Controllers
         [ValidateAntiForgeryToken]
         public RedirectToActionResult RemoveFromCart(int id, string returnUrl)
         {
-            Product mdProduct = this._unitOfWork.ProductRepo.GetById(id);
+            Product mdProduct = this.UnitOfWork.ProductRepo.GetById(id);
 
             if (mdProduct != null)
             {

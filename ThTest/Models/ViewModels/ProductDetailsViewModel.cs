@@ -15,10 +15,17 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
+        public int Quantiy
+        {
+            get => this.GetValue<int>();
+
+            set => this.SetValue(value);
+        }
+
         public ProductDetailsViewModel()
             : base()
         {
-
+            this.Quantiy = 0;
         }
     }
 }

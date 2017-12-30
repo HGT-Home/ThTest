@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Th.Models;
 
 namespace ThTest.Models.ViewModels
 {
@@ -40,6 +41,14 @@ namespace ThTest.Models.ViewModels
 
             }
         }
+
+        protected IList<Language> SupportLanguage
+        {
+            get;
+            set;
+        }
+
+        public string CurrentLanguage { get; set; }
 
         public ViewModelBase()
         {

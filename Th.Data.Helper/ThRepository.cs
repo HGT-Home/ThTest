@@ -11,6 +11,8 @@ namespace Th.Data.Helper
     {
         protected ThDbContext _dbContext;
 
+        protected string CurrentLanguage { get; set; }
+
         public ThRepository(ThDbContext dbContext)
         {
             this._dbContext = dbContext;

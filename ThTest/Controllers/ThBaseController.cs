@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
 using ThTest.Models;
+using Th.Data.Helper;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,16 +18,9 @@ namespace ThTest.Controllers
     {
         protected LoginSessionInfo LoginSession { get; set; }
 
-        protected string CurrentLanguage
-        {
-            get
-            {
-                var feature = HttpContext.Features.Get<IRequestCultureFeature>();
-                return feature?.RequestCulture.Culture.TwoLetterISOLanguageName;
-            }
-        }
+        protected IUnitOfWork UnitOfWork { get; set; }
 
-        public ThBaseController(LoginSessionInfo loginSessionInfo)
+        public ThBaseController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork)
         {
             //var cultureFeature = this.HttpContext.Features.Get<IRequestCultureFeature>();
 
@@ -45,6 +39,9 @@ namespace ThTest.Controllers
             //}
 
             this.LoginSession = loginSessionInfo;
+
+            // UnitOfWork Initialization.
+            this.UnitOfWork = unitOfWork;
         }
 
         [AllowAnonymous]

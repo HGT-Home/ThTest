@@ -38,7 +38,7 @@ namespace Th.Models
         public IList<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
         public Order()
-            : base()
+            : base(string.Empty)
         {
 
         }

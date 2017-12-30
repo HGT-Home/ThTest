@@ -117,49 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action" xml:space="preserve">
-    <value>Action</value>
+  <data name="Add to cart" xml:space="preserve">
+    <value>Add to cart</value>
   </data>
-  <data name="Catgrories" xml:space="preserve">
-    <value>Catgrories</value>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
   </data>
-  <data name="Create Category" xml:space="preserve">
-    <value>Create Category</value>
-  </data>
-  <data name="Create Product" xml:space="preserve">
-    <value>Create Product</value>
-  </data>
-  <data name="Create Supplier" xml:space="preserve">
-    <value>Create Supplier</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Image" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="New Product" xml:space="preserve">
-    <value>New Product</value>
-  </data>
-  <data name="No data found." xml:space="preserve">
-    <value>No data found.</value>
-  </data>
-  <data name="See all" xml:space="preserve">
-    <value>See all</value>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="UnitPrice" xml:space="preserve">
-    <value>UnitPrice</value>
+    <value>Product Details</value>
   </data>
 </root>

@@ -70,6 +70,14 @@ namespace Th.Data.Helper
             }
         }
 
+        public IThLanguageRepository LanguageRepo
+        {
+            get
+            {
+                return this.GetRepository<ThLanguageRepository>();
+            }
+        }
+
         public UnitOfWork(ThDbContext dbContext)
         {
             this.DbContext = dbContext;

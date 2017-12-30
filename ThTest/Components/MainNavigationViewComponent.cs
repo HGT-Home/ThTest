@@ -13,13 +13,13 @@ namespace ThTest.Components
     [ViewComponent(Name = "MainNavigation")]
     public class MainNavigationViewComponent: ViewComponent
     {
-        private IThCategoryRepository _repoCategory;
+        private IUnitOfWork _unitOfWork;
 
-        public MainNavigationViewComponent(IThCategoryRepository repoCategory)
+        public MainNavigationViewComponent(IUnitOfWork unitOfWork)
         {
             try
             {
-                this._repoCategory = repoCategory;
+                this._unitOfWork = unitOfWork;
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace ThTest.Components
                 var requestAcceptLanguageProvice = requestCulture.Provider as AcceptLanguageHeaderRequestCultureProvider;
                 MainNavigationViewModel vmMainNavigation = new MainNavigationViewModel
                 {
-                    Categories = this._repoCategory.GetAll(),
+                    Categories = this._unitOfWork.CategoryRepo.GetAll(),
                     CurrentLanguage = requestCulture.RequestCulture.Culture.ToString(),
                     TwoLetterCurrentLanguage = requestCulture.RequestCulture.Culture.TwoLetterISOLanguageName,
                     SupportedCultures = requestCultureProvider != null ? requestCultureProvider.Options.SupportedUICultures : requestAcceptLanguageProvice.Options.SupportedUICultures,

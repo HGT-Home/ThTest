@@ -10,7 +10,7 @@ using ThTest.Resources;
 
 namespace ThTest.Models.ViewModels
 {
-    public class EditProductViewModel : ViewModelBase
+    public class EditProductViewModel : ViewModelBase, ILanguageTranslation<ProductTranslation>
     {
         [Required]
         public int Id { get; set; }
@@ -109,18 +109,39 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
-        public string Image
+        public string ImagePath
         {
-            get => this.GetValue<string>();
+            get
+            {
+                string value = this.GetValue<string>();
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    return "imgs/no-image.png";
+                }
+
+                return value;
+            }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "/imgs/no-image.png";
+                    value = "imgs/no-image.png";
                 }
 
                 this.SetValue(value);
             }
         }
+
+        public int ViewCount
+        {
+            get => this.GetValue<int>();
+
+            set => this.SetValue(value);
+        }
+
+        public IList<ProductTranslation> Translations { get; set; }
+
+        public IList<Language> SupportLanguages { get; set; }
     }
 }

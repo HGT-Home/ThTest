@@ -25,12 +25,12 @@
                         <div class="btn-group btn-group-sm" data-toggle="buttons">
                             @*<label class="btn btn-outline-light disabled"><i class="fa fa-language"></i></label>*@
                             @foreach (var item in this.Model.SupportedCultures)
-                        {
-                            <label class="btn btn-secondary @(this.Model.CurrentLanguage == item.Name? "active": string.Empty)">
-                                <input @(this.Model.CurrentLanguage == item.Name ? "checked" : string.Empty) type="radio" id="@item.TwoLetterISOLanguageName" name="rdoLanguages" autocomplete="off" value="@item.Name" />
-                                <span class="@(this.Model.CurrentLanguage == item.Name? "text-white": "text-dark")">@item.TwoLetterISOLanguageName.ToUpper()</span>
-                            </label>
-                    }
+                            {
+                                <label class="btn btn-secondary @(this.Model.CurrentLanguage == item.Name? "active": string.Empty)">
+                                    <input @(this.Model.CurrentLanguage == item.Name ? "checked" : string.Empty) type="radio" id="@item.TwoLetterISOLanguageName" name="rdoLanguages" autocomplete="off" value="@item.Name" />
+                                    <span class="@(this.Model.CurrentLanguage == item.Name? "text-white": "text-dark")">@item.TwoLetterISOLanguageName.ToUpper()</span>
+                                </label>
+                            }
                         </div>
                     </form>
                 </li>
@@ -70,7 +70,6 @@
         </div>
     </div>
 </nav>
-
 
 <div class="collapse bg-light" id="divCategory">
     <div class=" border border-left-0 border-right-0 border-bottom-0 border-primary">

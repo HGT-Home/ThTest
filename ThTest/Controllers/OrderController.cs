@@ -14,19 +14,17 @@ namespace ThTest.Controllers
 {
     public class OrderController : ThBaseController
     {
-        private IUnitOfWork _unitOfWork;
         private IThCountryRepository _repoCountry;
         private IThCityRepository _repoCity;
         private IThOrderRepository _repoOrder;
         private Cart _cart;
 
         public OrderController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork, Cart cart)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
-            this._repoOrder = this._unitOfWork.OrderRepo;
-            this._repoCountry = this._unitOfWork.CountryRepo;
-            this._repoCity = this._unitOfWork.CityRepo;
+            this._repoOrder = this.UnitOfWork.OrderRepo;
+            this._repoCountry = this.UnitOfWork.CountryRepo;
+            this._repoCity = this.UnitOfWork.CityRepo;
             this._cart = cart;
         }
 
@@ -70,7 +68,7 @@ namespace ThTest.Controllers
                                             }).ToList();
 
                     this._repoOrder.Insert(mdOrder);
-                    await this._unitOfWork.SaveAsync();
+                    await this.UnitOfWork.SaveAsync();
 
                     this._cart.Clear(); // Clear all item(s) in cart.
 
@@ -94,7 +92,7 @@ namespace ThTest.Controllers
             try
             {
                 this._repoOrder.MarkShippedOrder(orderId);
-                await this._unitOfWork.SaveAsync();
+                await this.UnitOfWork.SaveAsync();
 
                 return this.RedirectToAction(nameof(GetOrderNotShip));
             }
@@ -127,7 +125,7 @@ namespace ThTest.Controllers
             {
                 Order mdOrder = this._repoOrder.GetById(id);
                 this._repoOrder.Delete(mdOrder);
-                await this._unitOfWork.SaveAsync();
+                await this.UnitOfWork.SaveAsync();
 
                 return this.RedirectToAction(nameof(GetOrderNotShip));
             }

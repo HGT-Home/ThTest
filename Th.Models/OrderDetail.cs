@@ -37,9 +37,8 @@ namespace Th.Models
         [Column(nameof(SubTotal))]
         public decimal SubTotal { get; set; }
 
-
         public OrderDetail()
-            : base()
+            : base(string.Empty)
         {
 
         }

@@ -2,6 +2,7 @@
 @{
     var requestCulture = this.Context.Features.Get<IRequestCultureFeature>();
     string twoLetterCurrentLanguage = requestCulture.RequestCulture.Culture.TwoLetterISOLanguageName;
+    string CurrentLanguage = requestCulture.RequestCulture.Culture.Name;
 }
 
 <html lang="@twoLetterCurrentLanguage">

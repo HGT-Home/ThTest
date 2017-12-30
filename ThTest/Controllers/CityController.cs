@@ -10,17 +10,15 @@ namespace ThTest.Controllers
 {
     public class CityController: ThBaseController
     {
-        private IUnitOfWork _unitOfWork;
 
         public CityController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
         }
 
         public IActionResult GetCityByCountryId(int countryId)
         {
-            return new JsonResult(this._unitOfWork.CityRepo.GetCityByCountryId(countryId));
+            return new JsonResult(this.UnitOfWork.CityRepo.GetCityByCountryId(countryId));
         }
     }
 }

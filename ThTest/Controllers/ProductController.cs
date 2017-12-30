@@ -14,6 +14,7 @@ using Microsoft.Extensions.Localization;
 using ThTest.Models;
 using ThTest.Infrastructures;
 using ThTest.Models.Helpers;
+using System.Threading;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +22,6 @@ namespace ThTest.Controllers
 {
     public class ProductController : ThBaseController
     {
-        private IUnitOfWork _unitOfWork;
         private IThProductRepository _repoProduct;
         private IThSupplierRepository _repoSupplier;
         private IThCategoryRepository _repoCategory;
@@ -34,15 +34,14 @@ namespace ThTest.Controllers
             IPathProvider pvdPath,
             IUnitOfWork unitOfWork,
             IStringLocalizer<ProductController> localizer)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
             this._pvdPath = pvdPath;
 
             // Repositories.
-            this._unitOfWork = unitOfWork;
-            this._repoProduct = this._unitOfWork.ProductRepo;
-            this._repoSupplier = this._unitOfWork.SupplierRepo;
-            this._repoCategory = this._unitOfWork.CategoryRepo;
+            this._repoProduct = this.UnitOfWork.ProductRepo;
+            this._repoSupplier = this.UnitOfWork.SupplierRepo;
+            this._repoCategory = this.UnitOfWork.CategoryRepo;
             
             // Localization.
             this._localizer = localizer;
@@ -67,7 +66,6 @@ namespace ThTest.Controllers
                 Categories = lstCategory
             };
             return this.View(vmProductList);
-
         }
 
         [AllowAnonymous]
@@ -84,7 +82,7 @@ namespace ThTest.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PAGESIZE,
-                    TotalItems = lstProductList.Count(),
+                    TotalItems = this._repoProduct.CountProductByCategoryId(categoryId),
                 },
                 Products = lstProductList,
                 Categories = lstCategory
@@ -99,10 +97,12 @@ namespace ThTest.Controllers
         {
             EditProductViewModel vmEditProduct = new EditProductViewModel
             {
-                Categories = this._repoCategory.GetAll().ToList(),
-                Suppliers = this._repoSupplier.GetAll().ToList(),
-                Image = "/imgs/no-image.png",
-                Mode = ThAction.Add
+                Categories = this._repoCategory.GetAll(),
+                Suppliers = this._repoSupplier.GetAll(),
+                ImagePath = "imgs/no-image.png",
+                Mode = ThAction.Add,
+                SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll(),
+                CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name,
             };
 
             return this.View("EditProduct", vmEditProduct);
@@ -114,8 +114,10 @@ namespace ThTest.Controllers
         {
             Product mdProduct = this._repoProduct.GetById(id);
             EditProductViewModel vmEditProduct = mdProduct.Map<EditProductViewModel>();
-            vmEditProduct.Categories = this._repoCategory.GetAll().ToList();
-            vmEditProduct.Suppliers = this._repoSupplier.GetAll().ToList();
+            vmEditProduct.Categories = this._repoCategory.GetAll();
+            vmEditProduct.Suppliers = this._repoSupplier.GetAll();
+            vmEditProduct.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
+            vmEditProduct.CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name;
             vmEditProduct.Mode = ThAction.Edit;
 
             return this.View("EditProduct", vmEditProduct);
@@ -134,7 +136,7 @@ namespace ThTest.Controllers
 
                 if (file != null)
                 {
-                    p.Image = file.SaveImageFile(ImageFolder.Product, this._pvdPath);
+                    p.ImagePath = file.SaveImageFile(ImageFolder.Product, this._pvdPath);
                     p.ImageBinary = file.GetBytes();
                 }
 
@@ -151,8 +153,8 @@ namespace ThTest.Controllers
                     this._repoProduct.Insert(p);
                 }
 
-                await this._unitOfWork.SaveAsync();
-                this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Name);
+                await this.UnitOfWork.SaveAsync();
+                this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Translations[0]);
 
                 return this.RedirectToAction("IndexAdmin", "Home");
             }
@@ -171,7 +173,7 @@ namespace ThTest.Controllers
             if (mdProduct != null)
             {
                 this._repoProduct.Delete(mdProduct);
-                await this._unitOfWork.SaveAsync();
+                await this.UnitOfWork.SaveAsync();
 
                 this.TempData["Message"] = string.Format(this._localizer["Product {0} has been deleted."], mdProduct.Name);
                 return this.RedirectToAction("Index", "Home");
@@ -208,7 +210,7 @@ namespace ThTest.Controllers
                 if (categoryId != 0)
                 {
                     this._repoCategory.Delete(categoryId);
-                    this._unitOfWork.Save();
+                    this.UnitOfWork.Save();
                 }
 
                 return this.RedirectToAction("ShowAllCategroy");
@@ -251,7 +253,7 @@ namespace ThTest.Controllers
                             break;
                     }
 
-                    await this._unitOfWork.SaveAsync();
+                    await this.UnitOfWork.SaveAsync();
 
                     this.TempData["Message"] = string.Format(this._localizer["Category {0} has been saved."], c.Name);
 
@@ -272,12 +274,26 @@ namespace ThTest.Controllers
         {
             try
             {
-                ProductDetailsViewModel vmP = new ProductDetailsViewModel
-                {
-                    Product = this._repoProduct.GetById(productId)
-                };
+                // Tăng giá trị xem sản phẩm.
+                Product p = this._repoProduct.GetById(productId);
 
-                return this.View("ProductDetails", vmP);
+                if (p != null)
+                {
+                    p.ViewCount++;
+
+                    this._repoProduct.Update(p);
+                    this.UnitOfWork.Save();
+
+                    ProductDetailsViewModel vmP = new ProductDetailsViewModel
+                    {
+                        Product = p
+                    };
+
+                    vmP.Product.Category = this._repoCategory.GetById(p.CategoryId);
+                    return this.View("ProductDetails", vmP);
+                }
+
+                return this.NotFound();
             }
             catch (Exception ex)
             {

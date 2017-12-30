@@ -27,9 +27,9 @@ namespace Th.Models
         public City City { get; set; }
 
         public Customer()
-            : base()
+            : base(string.Empty)
         {
-
+                
         }
     }
 }

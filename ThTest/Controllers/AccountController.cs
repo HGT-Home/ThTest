@@ -11,6 +11,7 @@ using Microsoft.Extensions.Localization;
 using System.Security.Claims;
 using ThTest.Models;
 using System.Text;
+using Th.Data.Helper;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,8 +28,14 @@ namespace ThTest.Controllers
         private readonly IStringLocalizer _localizer;
 
 
-        public AccountController(LoginSessionInfo loginSessionInfo, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, IStringLocalizer<AccountController> localizer)
-            : base(loginSessionInfo)
+        public AccountController(
+            LoginSessionInfo loginSessionInfo, 
+            IUnitOfWork unitOfWork,
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager, 
+            RoleManager<Role> roleManager, 
+            IStringLocalizer<AccountController> localizer)
+            : base(loginSessionInfo, unitOfWork)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
@@ -159,14 +166,7 @@ namespace ThTest.Controllers
                         this.LoginSession.CustomerName = user.FullName;
                         this.LoginSession.SaveSession();
 
-                        StringBuilder sbRoles = new StringBuilder();
-                        foreach (string role in await this._userManager.GetRolesAsync(user))
-                        {
-                            sbRoles.Append(role);
-                            sbRoles.Append(";");
-                        }
-
-                        this.LoginSession.RoleNames = sbRoles.ToString();
+                        this.LoginSession.RoleNames = await this._userManager.GetRolesAsync(user);
 
                         if (user != null)
                         {

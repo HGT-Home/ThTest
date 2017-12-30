@@ -11,9 +11,10 @@ using Th.Data.Helper;
 namespace Th.Data.Helper.Migrations
 {
     [DbContext(typeof(ThDbContext))]
-    partial class ThDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171229122537_AddLanguageUserInfo")]
+    partial class AddLanguageUserInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -222,9 +223,6 @@ namespace Th.Data.Helper.Migrations
                         .HasColumnName("Description")
                         .HasMaxLength(4000);
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnName("IsDefault");
-
                     b.Property<string>("Name")
                         .HasColumnName("Name")
                         .HasMaxLength(1024);
@@ -317,12 +315,21 @@ namespace Th.Data.Helper.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnName("CreatedDate");
 
+                    b.Property<string>("Description")
+                        .HasColumnName("Description")
+                        .HasMaxLength(4000);
+
+                    b.Property<string>("Image")
+                        .HasColumnName("Image")
+                        .HasMaxLength(1024);
+
                     b.Property<byte[]>("ImageBinary")
                         .HasColumnName("ImageBinary");
 
-                    b.Property<string>("ImagePath")
-                        .HasColumnName("ImagePath")
-                        .HasMaxLength(1024);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("Name")
+                        .HasMaxLength(256);
 
                     b.Property<string>("SupplierId")
                         .IsRequired()
@@ -351,63 +358,31 @@ namespace Th.Data.Helper.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Th.Models.ProductAppreciation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Id");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnName("CreatedBy")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnName("CreatedDate");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnName("CustomerId");
-
-                    b.Property<decimal>("Point")
-                        .HasColumnName("Point");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnName("ProductId");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnName("UpdatedBy")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnName("UpdatedDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductAppreciateions");
-                });
-
-            modelBuilder.Entity("Th.Models.ProductTranslation", b =>
+            modelBuilder.Entity("Th.Models.ProductTranlation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ColumnName");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnName("CreatedBy")
                         .HasMaxLength(50);
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnName("CreatedDate");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("Description")
+                        .HasMaxLength(4000);
 
                     b.Property<string>("LanguageId")
                         .IsRequired()
                         .HasColumnName("LanguageId")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Name")
+                        .HasColumnName("Name")
+                        .HasMaxLength(256);
+
                     b.Property<int>("ProductId")
                         .HasColumnName("ProductId");
 
@@ -417,9 +392,6 @@ namespace Th.Data.Helper.Migrations
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnName("UpdatedDate");
-
-                    b.Property<string>("Value")
-                        .HasColumnName("Value");
 
                     b.HasKey("Id");
 
@@ -427,7 +399,7 @@ namespace Th.Data.Helper.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductTranslations");
+                    b.ToTable("ProductTranlations");
                 });
 
             modelBuilder.Entity("Th.Models.Role", b =>
@@ -655,20 +627,7 @@ namespace Th.Data.Helper.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Th.Models.ProductAppreciation", b =>
-                {
-                    b.HasOne("Th.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Th.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Th.Models.ProductTranslation", b =>
+            modelBuilder.Entity("Th.Models.ProductTranlation", b =>
                 {
                     b.HasOne("Th.Models.Language", "Language")
                         .WithMany()
@@ -676,7 +635,7 @@ namespace Th.Data.Helper.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Th.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductTranslations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

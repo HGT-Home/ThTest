@@ -13,6 +13,10 @@ namespace ThTest.Infrastructures
             JsonSerializerSettings jsonSetting = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
+
+                // Dùng để serialize các IList<T> con trong đối đươc source
+                PreserveReferencesHandling = PreserveReferencesHandling.None,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
 
             string jsonString = JsonConvert.SerializeObject(source, jsonSetting);

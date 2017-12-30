@@ -6,6 +6,39 @@
     this.ViewBag.Title = this.Localizer["Title"];
 }
 
-<div class="container-fluid">
-    <div>Not implement.</div>
+<div class="bg-light">
+    <div class="row m-2">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-2 col-xl-2">
+            <img class="card-img-bottom" src="@Url.Content("/" + this.Model.Product.ImagePath)" alt="@this.Model.Product.Name" />
+        </div>
+        <div class="col-12 col-sm-12 col-md-8 col-lg-10 col-xl-10 mt-2">
+            <p class="comment">@this.Model.Product.Category.Name</p>
+            <h5 class="">@this.Model.Product.Name</h5>
+            <small>@this.Localizer["Price"]:</small><h4 class="text-primary"> @this.Model.Product.UnitPrice.ToString("c")</h4>
+            <small>@this.Model.Product.Description</small>
+
+            <div class="mt-2 border border-warning border-left-0 border-right-0 border-bottom-0 pt-2">
+                <form id="@this.Model.Product.Id" asp-action="AddToCart" asp-controller="Cart" method="post" class="form-row">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@this.Model.Product.Id" />
+                    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    <div class="form-group row">
+                        @*<label asp-for="@this.Model.Quantiy" class="col-2 col-form-label">@this.Localizer["Quantity"]</label>*@
+                        <div class="col-8">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">@this.Localizer["Quantity"]</div>
+                                <input asp-for="@this.Model.Quantiy" type="number" class="form-control" />
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-success" title="@this.Localizer["Add to cart"]"><i class="fa fa-cart-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row m-3">
+        Feature
+    </div>
 </div>

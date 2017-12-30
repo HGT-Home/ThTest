@@ -13,14 +13,12 @@ namespace ThTest.Controllers
     public class CustomerController : ThBaseController
     {
         private IThCustomerRepository _repoCustomer;
-        private IUnitOfWork _unitOfWork;
 
         public CustomerController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork)
-            : base(loginSessionInfo)
+            : base(loginSessionInfo, unitOfWork)
         {
             // Initialize Repository.
-            this._unitOfWork = unitOfWork;
-            this._repoCustomer = this._unitOfWork.CustomerRepo;
+            this._repoCustomer = this.UnitOfWork.CustomerRepo;
         }
 
         // GET: /<controller>/
