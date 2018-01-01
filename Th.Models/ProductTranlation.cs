@@ -29,14 +29,6 @@ namespace Th.Models
         [ForeignKey(nameof(LanguageId))]
         public Language Language { get; set; }
 
-        //[MaxLength(4000)]
-        //[Column(nameof(Description))]
-        //public string Description { get; set; }
-
-        //[MaxLength(256)]
-        //[Column(nameof(Name))]
-        //public string Name { get; set; }
-
         [MaxLength(50)]
         [Column(nameof(CreatedBy))]
         public string CreatedBy { get; set; }
@@ -57,7 +49,6 @@ namespace Th.Models
         public string Value { get; set; }
 
         public ProductTranslation()
-            : base(string.Empty)
         {
         }
     }

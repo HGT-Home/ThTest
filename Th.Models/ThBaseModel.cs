@@ -10,14 +10,6 @@ namespace Th.Models
 {
     public abstract class ThBaseModel
     {
-        [NotMapped]
-        protected virtual string CurrentCulture { get; set; }
-
-        public ThBaseModel(string strCurrentCulture)
-        {
-            this.CurrentCulture = strCurrentCulture;
-        }
-
         //public virtual string GetTranslationValue(string strLanguageId = "", [CallerMemberName]string strPropertyName = null)
         //{
         //    if (this.Translations != null && this.Translations.Count > 0)

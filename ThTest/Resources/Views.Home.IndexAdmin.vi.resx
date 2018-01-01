@@ -138,6 +138,9 @@
   <data name="All Product." xml:space="preserve">
     <value>Tất cả sản phẩm.</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Nhóm sản phẩm</value>
+  </data>
   <data name="New Category" xml:space="preserve">
     <value>Nhóm mới</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="Orders Management" xml:space="preserve">
     <value>Quản lý đơn hàng</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Sản phẩm</value>
   </data>
   <data name="Product Management" xml:space="preserve">
     <value>Quản lý sản phẩm</value>

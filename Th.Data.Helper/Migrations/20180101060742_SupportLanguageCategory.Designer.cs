@@ -11,9 +11,10 @@ using Th.Data.Helper;
 namespace Th.Data.Helper.Migrations
 {
     [DbContext(typeof(ThDbContext))]
-    partial class ThDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180101060742_SupportLanguageCategory")]
+    partial class SupportLanguageCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

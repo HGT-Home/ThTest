@@ -7,7 +7,7 @@ using System.Text;
 namespace Th.Models
 {
     [Table("Categories")]
-    public class Category : ThBaseModel
+    public class Category : ThBaseModel, ILanguageTranslation<CategoryTranslation>
     {
         [Column(nameof(Id))]
         [Required]
@@ -15,13 +15,28 @@ namespace Th.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column(nameof(NameVn))]
-        [MaxLength(50)]
-        public string NameVn { get; set; }
+        //[Column(nameof(Name))]
+        [NotMapped]
+        [MaxLength(1024)]
+        public string Name
+        {
+            get
+            {
+                return this.GetLanguageText();
+            }
+        }
 
-        [Column(nameof(Name))]
-        [MaxLength(50)]
-        public string Name { get; set; }
+        //[Column(nameof(Description))]
+        [NotMapped]
+        [MaxLength(4000)]
+        public string Description
+        {
+            get
+            {
+                return this.GetLanguageText();
+            }
+                
+        }
 
         [Column(nameof(UpdatedDate))]
         public DateTime? UpdatedDate { get; set; }
@@ -42,14 +57,15 @@ namespace Th.Models
         [Column(nameof(ImageBinary))]
         public byte[] ImageBinary { get; set; }
 
-        [Column(nameof(Description))]
-        [MaxLength(4000)]
-        public string Description { get; set; }
-
         public IList<Product> Products { get; set; }
 
+        public IList<CategoryTranslation> Translations 
+        {
+            get;
+            set;
+        }
+
         public Category()
-            : base(string.Empty)
         {
 
         }

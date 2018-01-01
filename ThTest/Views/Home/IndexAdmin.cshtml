@@ -10,7 +10,7 @@
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
             <div class="card w-100 h-100 animated fadeInUp">
                 <div class="card-header bg-light">
-                    <h6 class="card-title">@this.Localizer["Product Management"]</h6>
+                    <h6 class="card-title pull-right">@this.Localizer["Product Management"]</h6>
                     <ul class="nav nav-tabs card-header-tabs" role="tablist">
                         <li class="nav-item">
                             <a id="lnkCategory" class="nav-link active" href="#tabCategory" role="tab" data-toggle="tab" aria-controls="tabCategory" aria-expanded="true"><small>@this.Localizer["Category"]</small> </a>
@@ -70,7 +70,7 @@
                                     @foreach (Product p in this.Model.NewProducts)
                                     {
                                         <div>
-                                            <a asp-controller="Product" asp-action="ShowProductDetails">@p.Name</a>
+                                            <a asp-controller="Product" asp-action="ShowProductDetails" asp-route-productId="@p.Id">@p.Name</a>
                                         </div>
                                     }
                                 </div>

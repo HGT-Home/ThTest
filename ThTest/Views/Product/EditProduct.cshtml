@@ -28,32 +28,33 @@
                 @foreach (Language l in this.Model.SupportLanguages)
                 {
                     <li class="nav-item">
-                        <a class="nav-link @(l.LanguageId == this.Model.CurrentLanguage? "active": string.Empty)" data-toggle="tab" href="#@l.LanguageId" role="tab">@l.Name</a>
+                        <a class="nav-link @(l.LanguageId == this.Model.CurrentLanguage ? "active" : string.Empty)" data-toggle="tab" href="#@l.LanguageId" role="tab">@l.Name</a>
                     </li>
                 }
             </ul>
             <div class="tab-content bg-white p-3 border border-top-0">
-                @foreach (Language l in this.Model.SupportLanguages)
+                @for(int i = 0; i<this.Model.Translations.Count; i++)
                 {
-                    <div class="tab-pane @(l.LanguageId == this.Model.CurrentLanguage? "active": string.Empty)" id="@l.LanguageId" role="tabpanel">
-                        <div class="form-group">
-                            <label asp-for="@this.Model.Name">@Localizer["Name"]</label>
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-addon"><i class="fa fa-edit"></i></div>
-                                <input asp-for="@this.Model.Name" class="form-control" placeholder="@Localizer["Name"]" />
-                            </div>
-                            <div><span asp-validation-for="@this.Model.Name" class="text-danger"></span></div>
+                <div class="tab-pane @(this.Model.Translations[i].LanguageId == this.Model.CurrentLanguage? "active": string.Empty)" id="@this.Model.Translations[i].LanguageId" role="tabpanel">
+                    <input type="hidden" asp-for="@this.Model.Translations[i].LanguageId" />
+                    <div class="form-group">
+                        <label asp-for="@this.Model.Translations[i].Name">@Localizer["Name"]</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                            <input asp-for="@this.Model.Translations[i].Name" class="form-control" placeholder="@Localizer["Name"]" />
                         </div>
-                        <div class="form-group">
-                            <label asp-for="@this.Model.Description">@Localizer["Description"]</label>
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-addon"><i class="fa fa-sticky-note"></i></div>
-                                <textarea asp-for="@this.Model.Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
-                            </div>
-                            <div><span asp-validation-for="@this.Model.Description" class="text-danger"></span></div>
-
-                        </div>
+                        <div><span asp-validation-for="@this.Model.Translations[i].Name" class="text-danger"></span></div>
                     </div>
+
+                    <div class="form-group">
+                        <label asp-for="@this.Model.Translations[i].Description">@Localizer["Description"]</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-addon"><i class="fa fa-sticky-note"></i></div>
+                            <textarea asp-for="@this.Model.Translations[i].Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
+                        </div>
+                        <div><span asp-validation-for="@this.Model.Translations[i].Name" class="text-danger"></span></div>
+                    </div>
+                </div>
                 }
             </div>
 
@@ -66,14 +67,14 @@
                 <div><span asp-validation-for="@this.Model.UnitPrice" class="text-danger"></span></div>
             </div>
             @*<div class="form-group">
-                <label asp-for="@this.Model.Description">@Localizer["Description"]</label>
-                <div class="input-group input-group-sm">
-                    <div class="input-group-addon"><i class="fa fa-sticky-note"></i></div>
-                    <textarea asp-for="@this.Model.Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
-                </div>
-                <div><span asp-validation-for="@this.Model.Description" class="text-danger"></span></div>
+                    <label asp-for="@this.Model.Description">@Localizer["Description"]</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-addon"><i class="fa fa-sticky-note"></i></div>
+                        <textarea asp-for="@this.Model.Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
+                    </div>
+                    <div><span asp-validation-for="@this.Model.Description" class="text-danger"></span></div>
 
-            </div>*@
+                </div>*@
 
             <div class="form-group">
                 <div class="row">

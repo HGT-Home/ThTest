@@ -16,7 +16,7 @@ namespace Th.Models
         public string Id { get; set; }
 
         [Column(nameof(Name))]
-        [MaxLength(50)]
+        [MaxLength(1024)]
         public string Name { get; set; }
 
         [Column(nameof(Logo))]
@@ -24,7 +24,7 @@ namespace Th.Models
         public string Logo { get; set; }
 
         [Column(nameof(Email))]
-        [MaxLength(50)]
+        [MaxLength(256)]
         public string Email { get; set; }
 
         [Column(nameof(Phone))]
@@ -34,7 +34,6 @@ namespace Th.Models
         public IList<Product> Products { get; set; }
 
         public Supplier()
-            : base(string.Empty)
         {
 
         }

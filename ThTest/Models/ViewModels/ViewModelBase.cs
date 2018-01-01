@@ -37,12 +37,18 @@ namespace ThTest.Models.ViewModels
         {
             if (!string.IsNullOrEmpty(strPropertyName))
             {
-                this.Values[strPropertyName] = value;
+                switch (value)
+                {
+                    case string strValue:
+                        value = strValue.Trim();
+                        break;
+                }
 
+                this.Values[strPropertyName] = value;
             }
         }
 
-        protected IList<Language> SupportLanguage
+        public IList<Language> SupportLanguages
         {
             get;
             set;

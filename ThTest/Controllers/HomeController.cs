@@ -36,41 +36,10 @@ namespace ThTest.Controllers
         {
             HomeIndexViewModel vmHomeIndex = new HomeIndexViewModel
             {
-                Categories = (from c in
-                                 this._repoCategory.Entities
-
-                              select new Category
-                              {
-                                  Name = c.Name,
-                                  CreatedBy = c.CreatedBy,
-                                  CreatedDate = c.CreatedDate,
-                                  Description = c.Description,
-                                  Id = c.Id,
-                                  ImageBinary = c.ImageBinary,
-                                  ImagePath = c.ImagePath,
-                                  NameVn = c.NameVn,
-                                  UpdatedBy = c.UpdatedBy,
-                                  UpdatedDate = c.UpdatedDate,
-                                  Products = c.Products.OrderByDescending(p => p.Id).Take(4).ToList()
-                              }).ToList()
-                             
+                Categories = this._repoCategory.GetAllCategoryFirstPageProduct()
             };
 
             return this.View(vmHomeIndex);
-
-            //page = page == 0 ? 1 : page;
-
-            //return View(new ProductListViewModel
-            //{
-            //    Products = this._repoProduct.Get(page, PAGESIZE),
-            //    Categories = this._repoCategory.GetAll(),
-            //    PagingInfo = new PagingInfo
-            //    {
-            //        CurrentPage = page,
-            //        ItemsPerPage = PAGESIZE,
-            //        TotalItems = this._repoProduct.Count()
-            //    }
-            //});
         }
 
         [Authorize(Roles = "Administrators")]
@@ -79,7 +48,7 @@ namespace ThTest.Controllers
             IndexAdminViewModel vmIndexAdmin = new IndexAdminViewModel
             {
                 NewCategories = this._repoCategory.GetNewCategory(1, 4),
-                NewProducts = this._repoProduct.Entities.OrderByDescending(p => p.CreatedDate).Take(4).ToList(),
+                NewProducts = this._repoProduct.GetNewProductInCategory(0, 1, 4),
                 OrderNotShipped = this._repoOrder.GetOrderNotShip(1),
             };
 

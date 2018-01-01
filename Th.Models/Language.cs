@@ -40,7 +40,6 @@ namespace Th.Models
         public string UpdatedBy { get; set; }
 
         public Language()
-            : base(string.Empty)
         {
 
         }

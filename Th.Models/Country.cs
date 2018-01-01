@@ -23,7 +23,6 @@ namespace Th.Models
         public IList<City> Cities { get; set; }
 
         public Country()
-            : base(string.Empty)
         {
             this.Cities = new List<City>();
         }

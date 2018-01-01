@@ -48,7 +48,7 @@ namespace ThTest.Controllers
         }
 
         // GET: /<controller>/
-        public IActionResult Index(int page)
+        public IActionResult Index(int page = 1)
         {
             IList<Product> lstProductList = this._repoProduct.Get(page, PAGESIZE);
             IList<Category> lstCategory = this._repoCategory.GetAll();
@@ -63,8 +63,9 @@ namespace ThTest.Controllers
                     TotalItems = lstProductList.Count(),
                 },
                 Products = lstProductList,
-                Categories = lstCategory
+                Categories = lstCategory,
             };
+
             return this.View(vmProductList);
         }
 
@@ -85,7 +86,8 @@ namespace ThTest.Controllers
                     TotalItems = this._repoProduct.CountProductByCategoryId(categoryId),
                 },
                 Products = lstProductList,
-                Categories = lstCategory
+                Categories = lstCategory,
+                SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll()
             };
 
             return this.View("ProductList", vmProductList);
@@ -105,6 +107,15 @@ namespace ThTest.Controllers
                 CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name,
             };
 
+            vmEditProduct.Translations = (from l in vmEditProduct.SupportLanguages
+                                          select new ProductTranslationViewModel
+                                          {
+                                              LanguageId = l.LanguageId,
+                                              LanguageName = l.Name,
+                                              Description = string.Empty,
+                                              Name = string.Empty,
+                                          }).ToList();
+
             return this.View("EditProduct", vmEditProduct);
         }
 
@@ -119,6 +130,14 @@ namespace ThTest.Controllers
             vmEditProduct.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
             vmEditProduct.CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name;
             vmEditProduct.Mode = ThAction.Edit;
+            vmEditProduct.Translations = (from l in vmEditProduct.SupportLanguages
+                                          select new ProductTranslationViewModel
+                                          {
+                                              LanguageId = l.LanguageId,
+                                              LanguageName = l.Name,
+                                              Description = mdProduct.GetLanguageText(l.LanguageId, nameof(Product.Description)),
+                                              Name = mdProduct.GetLanguageText(l.LanguageId, nameof(Product.Name)),
+                                          }).ToList();
 
             return this.View("EditProduct", vmEditProduct);
         }
@@ -140,24 +159,53 @@ namespace ThTest.Controllers
                     p.ImageBinary = file.GetBytes();
                 }
 
+                // Create translation for product name and description.
+                if (editProductViewModel.Translations != null && editProductViewModel.Translations.Count > 0)
+                {
+                    p.Translations = new List<ProductTranslation>();
+                    foreach(ProductTranslationViewModel vmPt in editProductViewModel.Translations)
+                    {
+                        ProductTranslation ptName = new ProductTranslation
+                        {
+                            ColumnName = nameof(Product.Name),
+                            LanguageId = vmPt.LanguageId,
+                            Value = vmPt.Name,
+                            ProductId = p.Id
+                        };
+
+                        ProductTranslation ptDescription = new ProductTranslation
+                        {
+                            ColumnName = nameof(Product.Description),
+                            LanguageId = vmPt.LanguageId,
+                            Value = vmPt.Description,
+                            ProductId = p.Id,
+                        };
+
+                        p.Translations.Add(ptName);
+                        p.Translations.Add(ptDescription);
+                    }
+                }
+
                 if (editProductViewModel.Mode == ThAction.Edit)
                 {
-                    p.CreatedBy = p.UpdatedBy = this.User.Identity.Name;
-                    p.CreatedDate = p.UpdatedDate = DateTime.Now;
+                    p.UpdatedBy = this.User.Identity.Name;
+                    p.UpdatedDate = DateTime.Now;
                     this._repoProduct.Update(p);
                 }
                 else
                 {
-                    p.UpdatedBy = this.User.Identity.Name;
-                    p.UpdatedDate = DateTime.Now;
+                    p.CreatedBy = p.UpdatedBy = this.User.Identity.Name;
+                    p.CreatedDate = p.UpdatedDate = DateTime.Now;
                     this._repoProduct.Insert(p);
                 }
 
                 await this.UnitOfWork.SaveAsync();
-                this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Translations[0]);
+                this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Name);
 
                 return this.RedirectToAction("IndexAdmin", "Home");
             }
+
+            editProductViewModel.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
 
             return this.View("EditProduct", editProductViewModel);
         }
@@ -185,6 +233,23 @@ namespace ThTest.Controllers
         [HttpGet]
         public IActionResult AddCategory()
         {
+            EditCategoryViewModel vmEditCategory = new EditCategoryViewModel
+            {
+                Mode = ThAction.Edit,
+                SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll(),
+                CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name,
+            };
+
+            vmEditCategory.Translations = (from l
+                                           in vmEditCategory.SupportLanguages
+                                           select new CategoryTranslationViewModel
+                                           {
+                                               LanguageId = l.LanguageId,
+                                               LanguageName = l.Name,
+                                               Name = string.Empty,
+                                               Description = string.Empty,
+                                           }).ToList();
+
             return this.View("EditCategory", new EditCategoryViewModel() { Mode = ThAction.Add });
         }
 
@@ -195,6 +260,19 @@ namespace ThTest.Controllers
             if (mdCategory != null)
             {
                 EditCategoryViewModel vmCategory = mdCategory.Map<EditCategoryViewModel>();
+                vmCategory.Mode = ThAction.Edit;
+                vmCategory.CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name;
+                vmCategory.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
+
+                vmCategory.Translations = (from l
+                                           in vmCategory.SupportLanguages
+                                           select new CategoryTranslationViewModel
+                                           {
+                                               LanguageId = l.LanguageId,
+                                               LanguageName = l.Name,
+                                               Name = mdCategory.GetLanguageText(l.LanguageId, nameof(Category.Name)),
+                                               Description = mdCategory.GetLanguageText(l.LanguageId, nameof(Category.Description)),
+                                           }).ToList();
 
                 return this.View("EditCategory", vmCategory);
             }
@@ -239,6 +317,33 @@ namespace ThTest.Controllers
                         c.ImagePath = file.SaveImageFile(ImageFolder.Category, this._pvdPath);
                     }
 
+                    if (vmEditCategory.Translations != null  && vmEditCategory.Translations.Count > 0)
+                    {
+                        c.Translations = new List<CategoryTranslation>();
+
+                        foreach (CategoryTranslationViewModel vmCt in vmEditCategory.Translations)
+                        {
+                            CategoryTranslation ctName = new CategoryTranslation
+                            {
+                                ColumnName = nameof(Category.Name),
+                                LanguageId = vmCt.LanguageId,
+                                CategoryId = c.Id,
+                                Value = vmCt.Name,
+                            };
+
+                            CategoryTranslation ctDescription = new CategoryTranslation
+                            {
+                                ColumnName = nameof(Category.Description),
+                                LanguageId = vmCt.LanguageId,
+                                CategoryId = c.Id,
+                                Value = vmCt.Description,
+                            };
+
+                            c.Translations.Add(ctName);
+                            c.Translations.Add(ctDescription);
+                        }
+                    }
+
                     switch (vmEditCategory.Mode)
                     {
                         case ThAction.Add:
@@ -259,6 +364,8 @@ namespace ThTest.Controllers
 
                     return this.RedirectToAction(nameof(HomeController.IndexAdmin), "Home");
                 }
+
+                vmEditCategory.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
 
                 return this.View(vmEditCategory);
             }

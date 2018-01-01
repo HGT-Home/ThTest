@@ -18,6 +18,7 @@ namespace Th.Models
 
         //[Column(nameof(Name))]
         [NotMapped]
+        [MaxLength(1024)]
         public string Name
         {
             get
@@ -27,7 +28,7 @@ namespace Th.Models
         }
 
         //[Column(nameof(Description))]
-        //[MaxLength(4000, ErrorMessage = "Description is too long. It only {1}.")]
+        [MaxLength(4000, ErrorMessage = "Description is too long. It only {1}.")]
         [NotMapped]
         public string Description
         {
@@ -86,13 +87,7 @@ namespace Th.Models
         public IList<ProductTranslation> Translations { get; set; }
         
         public Product()
-            : base("")
-        {
-            
-        }
-
-        public Product(string strCulture)
-            : base(strCulture)
+            : base()
         {
             
         }

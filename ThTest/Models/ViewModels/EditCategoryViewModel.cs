@@ -14,38 +14,19 @@ namespace ThTest.Models.ViewModels
         [Required]
         public int Id
         {
-            get
-            {
-                return this.GetValue<int>();
-            }
-            set
-            {
-                this.SetValue(value);
-            }
-        }
-
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequireNameVn")]
-        [MaxLength(50)]
-        public string NameVn
-        {
-            get => this.GetValue<string>();
-
+            get => this.GetValue<int>();
             set => this.SetValue(value);
         }
 
-        [MaxLength(50)]
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequireName")]
         public string Name
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         public IFormFile FileImage
         {
             get => this.GetValue<IFormFile>();
-
             set => this.SetValue(value);
         }
 
@@ -53,14 +34,12 @@ namespace ThTest.Models.ViewModels
         public string ImagePath
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         public byte[] ImageBinary
         {
             get => this.GetValue<byte[]>();
-
             set => this.SetValue(value);
         }
 
@@ -68,37 +47,34 @@ namespace ThTest.Models.ViewModels
         public string Description
         {
             get =>  this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         public string CreatedBy
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         public string UpdatedBy
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         public DateTime? UpdatedDate
         {
             get => this.GetValue<DateTime?>();
-
             set => this.SetValue(value);
         }
 
         public DateTime? CreatedDate
         {
             get => this.GetValue<DateTime?>();
-
             set => this.SetValue(value);
         }
+
+        public IList<CategoryTranslationViewModel> Translations { get; set; }
 
         public EditCategoryViewModel()
             : base()

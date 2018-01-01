@@ -9,7 +9,6 @@ namespace Th.Data.Helper
 {
     public class ThProductRepository : ThRepository<Product>, IThProductRepository, IDisposable
     {
-
         public ThProductRepository(ThDbContext dbContext)
             : base(dbContext)
         {
@@ -29,17 +28,47 @@ namespace Th.Data.Helper
         {
             if (mdInsert != null)
             {
+                mdInsert.CreatedDate = DateTime.Now;
+
                 this._dbContext.Products.Add(mdInsert);
             }
         }
 
         public override void Update(Product mdUpdate)
         {
-            Product mdProduct = this._dbContext.Products.FirstOrDefault(p => p.Id == mdUpdate.Id);
-            if (mdUpdate != null)
+            try
             {
-                this._dbContext.Attach(mdUpdate);
-                this._dbContext.Entry(mdUpdate).State = EntityState.Modified;
+                Product mdProduct = this._dbContext.Products
+                    .FirstOrDefault(p => p.Id == mdUpdate.Id);
+
+                if (mdProduct != null)
+                {
+                    mdUpdate.UpdatedDate = DateTime.Now;
+                    this._dbContext.Entry(mdProduct).CurrentValues.SetValues(mdUpdate);
+                    foreach (ProductTranslation pt in mdUpdate.Translations)
+                    {
+                        ProductTranslation mdProductTranslation = this._dbContext.ProductTranslation
+                            .Where(pt1 => pt1.ProductId == pt.ProductId 
+                                && pt1.LanguageId == pt.LanguageId 
+                                && pt1.ColumnName == pt.ColumnName)
+                            .SingleOrDefault();
+
+                        if (mdProductTranslation != null)
+                        {
+                            pt.Id = mdProductTranslation.Id;
+                            this._dbContext.Entry(mdProductTranslation).CurrentValues.SetValues(pt);
+                        }
+                        else
+                        {
+                            this._dbContext.ProductTranslation.Add(pt);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -52,34 +81,11 @@ namespace Th.Data.Helper
         {
             try
             {
-                if (page == 0)
-                {
-                    return this.GetAll();
-                }
-
                 return this._dbContext.Products
                     .Include(p => p.Translations)
                     .OrderBy(p => p.Id)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
-                    .Select(p => new Product
-                    {
-                        Id = p.Id,
-                        CategoryId = p.CategoryId,
-                        Category = p.Category,
-                        CreatedBy = p.CreatedBy,
-                        CreatedDate = p.CreatedDate,
-                        ImageBinary = p.ImageBinary,
-                        ImagePath = p.ImagePath,
-                        Suppiler = p.Suppiler,
-                        SupplierId = p.SupplierId,
-                        UnitPrice = p.UnitPrice,
-                        UpdatedBy = p.UpdatedBy,
-                        UpdatedDate = p.UpdatedDate,
-                        ViewCount = p.ViewCount,
-                        //Translations = this._dbContext.ProductTranslation.Where(pt => pt.ProductId == p.Id).ToList<ITranslation>()
-                        
-                    })
                     .ToList();
             }
             catch (Exception ex)
@@ -127,6 +133,29 @@ namespace Th.Data.Helper
                 return this.Entities
                     .Where(p => categoryId == 0 || p.CategoryId == categoryId)
                     .Count();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IList<Product> GetNewProductInCategory(int intCategoryId = 0, int intPage = 1, int intPagesize = 10)
+        {
+            try
+            {
+                var query = (from p
+                             in this._dbContext.Products
+                                .Include(p => p.Translations)
+                                .Include(p => p.Category)
+                             where intCategoryId == 0
+                                 || p.CategoryId == intCategoryId
+                             orderby p.CreatedDate
+                             select p)
+                            .Skip((intPage - 1) * intPagesize)
+                            .Take(intPagesize);
+
+                return query.ToList();
             }
             catch (Exception ex)
             {

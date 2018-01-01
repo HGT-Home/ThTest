@@ -14,5 +14,8 @@ namespace Th.Data.Helper
         IList<Product> GetByCategoryId(int categoryId, int page = 1, int pageSize = 10);
 
         int CountProductByCategoryId(int categoryId = 0);
+
+        IList<Product> GetNewProductInCategory(int intCategoryId = 0, int intPage = 1, int intPagesize = 10);
+
     }
 }

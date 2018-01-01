@@ -129,16 +129,13 @@
   <data name="Edit Category" xml:space="preserve">
     <value>Edit Category</value>
   </data>
-  <data name="English Name" xml:space="preserve">
-    <value>English Name</value>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="Select image" xml:space="preserve">
     <value>Select image</value>
-  </data>
-  <data name="Vietnamese Name" xml:space="preserve">
-    <value>Vietnamese Name</value>
   </data>
 </root>

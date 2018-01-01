@@ -11,7 +11,13 @@ namespace ThTest.Infrastructures
     {
         public static void Set<T>(this ISession session, string key, T value)
         {
-            session.SetString(key, JsonConvert.SerializeObject(value));
+            JsonSerializerSettings jsonSetting = new JsonSerializerSettings
+            {
+                Formatting = Formatting.None,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
+
+            session.SetString(key, JsonConvert.SerializeObject(value, jsonSetting));
         }
 
         public static T Get<T>(this ISession session, string key)

@@ -50,7 +50,6 @@ namespace Th.Models
         public string UpdatedBy { get; set; }
 
         public ProductAppreciation()
-            : base(string.Empty)
         {
 
         }

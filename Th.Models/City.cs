@@ -27,7 +27,6 @@ namespace Th.Models
         public Country Country { get; set; }
 
         public City()
-            : base(string.Empty)
         {
 
         }
