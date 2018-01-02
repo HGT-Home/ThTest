@@ -43,6 +43,8 @@ namespace Th.Models
         [Column(nameof(UpdatedDate))]
         public DateTime UpdatedDate { get; set; }
 
+        [MaxLength(128)]
+        [Column(nameof(ColumnName))]
         public string ColumnName { get; set; }
 
         [Column(nameof(Value))]

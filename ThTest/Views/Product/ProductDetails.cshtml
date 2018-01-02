@@ -14,8 +14,23 @@
         <div class="col-12 col-sm-12 col-md-8 col-lg-10 col-xl-10 mt-2">
             <p class="comment">@this.Model.Product.Category.Name</p>
             <h5 class="">@this.Model.Product.Name</h5>
-            <small>@this.Localizer["Price"]:</small><h4 class="text-primary"> @this.Model.Product.UnitPrice.ToString("c")</h4>
-            <small>@this.Model.Product.Description</small>
+            <small>@this.Model.Product.Description</small><br />
+            <small><u>@this.Localizer["Price"]:</u></small><h4 class="text-primary"> @this.Model.Product.UnitPrice.ToString("c")</h4>
+
+            <div class="text-right">
+                <div id="fb-root"></div>
+                <script>
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = 'https://connect.facebook.net/@(this.Model.CurrentLanguage.Replace("-", "_"))/sdk.js#xfbml=1&version=v2.11';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                </script>
+                <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+            </div>
 
             <div class="mt-2 border border-warning border-left-0 border-right-0 border-bottom-0 pt-2">
                 <form id="@this.Model.Product.Id" asp-action="AddToCart" asp-controller="Cart" method="post" class="form-row">
@@ -27,7 +42,7 @@
                         <div class="col-8">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-addon">@this.Localizer["Quantity"]</div>
-                                <input asp-for="@this.Model.Quantiy" type="number" class="form-control" />
+                                <input name="quantity" type="number" class="form-control" />
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn btn-success" title="@this.Localizer["Add to cart"]"><i class="fa fa-cart-plus"></i></button>
                                 </div>
@@ -35,6 +50,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

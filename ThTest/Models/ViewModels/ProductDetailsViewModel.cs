@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Th.Models;
+using ThTest.Resources;
 
 namespace ThTest.Models.ViewModels
 {
@@ -14,7 +16,8 @@ namespace ThTest.Models.ViewModels
 
             set => this.SetValue(value);
         }
-
+        
+        [Range(1, int.MaxValue, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RangeQuantity")]
         public int Quantiy
         {
             get => this.GetValue<int>();
@@ -25,7 +28,7 @@ namespace ThTest.Models.ViewModels
         public ProductDetailsViewModel()
             : base()
         {
-            this.Quantiy = 0;
+            this.Quantiy = 1;
         }
     }
 }

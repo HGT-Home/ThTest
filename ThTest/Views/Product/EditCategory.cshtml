@@ -15,7 +15,7 @@
     }
 }
 
-<div class="container">
+<div>
     <form asp-controller="Product" asp-action="SaveCategory">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="@this.Model.Id" value="@this.Model.Id" />

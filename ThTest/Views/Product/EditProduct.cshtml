@@ -62,7 +62,7 @@
                 <label asp-for="@this.Model.UnitPrice">@Localizer["UnitPrice"]</label>
                 <div class="input-group input-group-sm">
                     <div class="input-group-addon"><i class="fa fa-edit"></i></div>
-                    <input asp-for="@this.Model.UnitPrice" class="form-control" placeholder="@Localizer["UnitPrice"]" />
+                    <input asp-for="@this.Model.UnitPrice" asp-format="{0:C}" class="form-control" placeholder="@Localizer["UnitPrice"]" />
                 </div>
                 <div><span asp-validation-for="@this.Model.UnitPrice" class="text-danger"></span></div>
             </div>

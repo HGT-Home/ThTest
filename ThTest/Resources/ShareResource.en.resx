@@ -130,7 +130,7 @@
     <value>Password is invalid. Password length is at least 8, contain at least 1 digit, 1 upper case, 1 lower case alphabet.</value>
   </data>
   <data name="RangeUnitPrice" xml:space="preserve">
-    <value>UnitPrice value is invalid. It is from {1} to {2}.</value>
+    <value>Unit price value is invalid. It is from {1} to {2}.</value>
   </data>
   <data name="RequiredCategory" xml:space="preserve">
     <value>Category is required.</value>
@@ -197,5 +197,14 @@
   </data>
   <data name="EditCategoryViewModelMaxLengthDescription" xml:space="preserve">
     <value>Description is too long. It is only {1}.</value>
+  </data>
+  <data name="RangeQuantity" xml:space="preserve">
+    <value>Quantity value is invalid. It is from {1} to {2}.</value>
+  </data>
+  <data name="MaxLengthPhone" xml:space="preserve">
+    <value>Phone is too long. It is only {1}.</value>
+  </data>
+  <data name="MaxLengthAddress" xml:space="preserve">
+    <value>Address is too long. It only {1}.</value>
   </data>
 </root>

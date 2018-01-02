@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Th.Models;
 
@@ -17,5 +18,6 @@ namespace Th.Data.Helper
 
         IList<Product> GetNewProductInCategory(int intCategoryId = 0, int intPage = 1, int intPagesize = 10);
 
+        (IList<Product> products, int totalItem) Search(string keyword, Func<IQueryable<Product>, IOrderedQueryable<Product>> fnOrderBy = null, int intPage = 1, int intPageSize = 10);
     }
 }

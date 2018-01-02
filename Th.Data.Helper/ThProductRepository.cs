@@ -163,6 +163,29 @@ namespace Th.Data.Helper
             }
         }
 
+        public (IList<Product> products, int totalItem) Search(string keyword, Func<IQueryable<Product>, IOrderedQueryable<Product>> fnOrderBy = null, int intPage = 1, int intPageSize = 10)
+        {
+            try
+            {
+                IQueryable<Product> query = from p
+                                            in this._dbContext.Products
+                                                .Include(p => p.Translations)
+                                            where p.Translations.Where(t => t.Value.Contains(keyword)).Count() > 0
+                                            select p;
+
+                if (fnOrderBy != null)
+                {
+                    return (products: fnOrderBy(query).Skip((intPage - 1) * intPageSize).Take(intPageSize).ToList(), totalItem: query.Count());
+                }
+
+                return (products: query.Skip((intPage - 1) * intPageSize).Take(intPageSize).ToList(), totalItem: query.Count());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public virtual void Dispose()
         {
             if (this._dbContext != null)

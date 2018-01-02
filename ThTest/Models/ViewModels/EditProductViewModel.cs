@@ -22,6 +22,7 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
+        [Range(0, double.MaxValue, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RangeUnitPrice")]
         public decimal UnitPrice
         {
             get => this.GetValue<decimal>();

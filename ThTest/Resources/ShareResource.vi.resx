@@ -204,4 +204,13 @@
   <data name="Product" xml:space="preserve">
     <value>Sản phẩm</value>
   </data>
+  <data name="RangeQuantity" xml:space="preserve">
+    <value>Số lượng không hợp lệ. Nhập giá trị trong khoảng {1} tới {2}.</value>
+  </data>
+  <data name="MaxLengthPhone" xml:space="preserve">
+    <value>Số điện thoại quá dài. Tối đa là {1} ký tự.</value>
+  </data>
+  <data name="MaxLengthAddress" xml:space="preserve">
+    <value>Địa chỉ quá dài. Tối đa là {1} ký tự.</value>
+  </data>
 </root>

@@ -387,7 +387,7 @@ namespace ThTest.Controllers
                 if (p != null)
                 {
                     p.ViewCount++;
-
+                    
                     this._repoProduct.Update(p);
                     this.UnitOfWork.Save();
 
@@ -415,22 +415,18 @@ namespace ThTest.Controllers
             try
             {
                 keyword = string.IsNullOrEmpty(keyword)? string.Empty: keyword.Trim();
-                var query = this._repoProduct.Entities
-                        .Where(p => p.Name.Contains(keyword) || p.Description.Contains(keyword))
-                        .OrderBy(p => p.Name);
+
+                (IList<Product> products, int totalItem) = this.UnitOfWork.ProductRepo.Search(keyword, null, 1);
 
                 SearchResultViewModel vmSearchResult = new SearchResultViewModel
                 {
                     Keyword = keyword,
-                    Products = query
-                        .Skip((page - 1) * pagesize)
-                        .Take(pagesize)
-                        .ToList(),
+                    Products = products,
                     PageInfo = new PagingInfo
                     {
                         CurrentPage = page,
                         ItemsPerPage = pagesize,
-                        TotalItems = query.Count()
+                        TotalItems = totalItem
                     }
                 };
 

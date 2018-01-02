@@ -20,16 +20,20 @@ namespace Th.Models
         public string Name { get; set; }
 
         [Column(nameof(Logo))]
-        [MaxLength(50)]
+        [MaxLength(1024)]
         public string Logo { get; set; }
 
         [Column(nameof(Email))]
-        [MaxLength(256)]
+        [MaxLength(1024)]
         public string Email { get; set; }
 
         [Column(nameof(Phone))]
         [MaxLength(50)]
         public string Phone { get; set; }
+
+        [Column(nameof(Address))]
+        [MaxLength(1024)]
+        public string Address { get; set; }
 
         public IList<Product> Products { get; set; }
 

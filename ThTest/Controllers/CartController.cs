@@ -43,7 +43,7 @@ namespace ThTest.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public RedirectToActionResult AddToCart(int id, string returnUrl)
+        public RedirectToActionResult AddToCart(int id, int quantity, string returnUrl)
         {
             Product mdProduct = this.UnitOfWork.ProductRepo.GetById(id);
             if (mdProduct != null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Th.Models;
 
@@ -58,6 +59,7 @@ namespace ThTest.Models.ViewModels
 
         public ViewModelBase()
         {
+            this.CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name;
         }
     }
 }

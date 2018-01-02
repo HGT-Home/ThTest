@@ -20,12 +20,14 @@ namespace Th.Models
         public Category Category { get; set; }
 
         [Required]
+        [MaxLength(50)]
         [Column(nameof(LanguageId))]
         public string LanguageId { get; set; }
 
         [ForeignKey(nameof(LanguageId))]
         public Language Language { get; set; }
 
+        [MaxLength(128)]
         [Column(nameof(ColumnName))]
         public string ColumnName { get; set; }
 

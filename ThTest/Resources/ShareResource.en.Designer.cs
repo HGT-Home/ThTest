@@ -295,5 +295,21 @@ namespace ThTest.Resources {
                 return ResourceManager.GetString("EditCategoryViewModelMaxLengthDescription", resourceCulture);
             }
         }
+
+        internal static string RangeQuantity
+        {
+            get
+            {
+                return ResourceManager.GetString("RangeQuantity", resourceCulture);
+            }
+        }
+
+        internal static string MaxLengthPhone
+        {
+            get
+            {
+                return ResourceManager.GetString("MaxLengthPhone", resourceCulture);
+            }
+        }
     }
 }

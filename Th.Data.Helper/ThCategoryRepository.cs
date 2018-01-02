@@ -90,6 +90,7 @@ namespace Th.Data.Helper
                 // Get all categories.
                 var query = from c
                             in this._dbContext.Categories
+                                .Include(c => c.Translations)
                             select c;
                 IList<Category> lstAllCategory = query.ToList();
 

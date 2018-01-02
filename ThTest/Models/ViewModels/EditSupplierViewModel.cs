@@ -12,7 +12,6 @@ namespace ThTest.Models.ViewModels
         public string Id
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
@@ -21,7 +20,6 @@ namespace ThTest.Models.ViewModels
         public string Name
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
@@ -31,14 +29,20 @@ namespace ThTest.Models.ViewModels
         public string Email
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
+        [MaxLength(50, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthPhone")]
         public string Phone
         {
             get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
 
+        [MaxLength(1024, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthAddress")]
+        public string Address
+        {
+            get => this.GetValue<string>();
             set => this.SetValue(value);
         }
     }
