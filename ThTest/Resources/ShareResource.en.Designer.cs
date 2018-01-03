@@ -311,5 +311,13 @@ namespace ThTest.Resources {
                 return ResourceManager.GetString("MaxLengthPhone", resourceCulture);
             }
         }
+
+        internal static string MaxLengthAddress
+        {
+            get
+            {
+                return ResourceManager.GetString("MaxLengthAddress", resourceCulture);
+            }
+        }
     }
 }

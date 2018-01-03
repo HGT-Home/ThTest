@@ -6,8 +6,7 @@
 @{
     ViewBag.Title = Localizer["Title"];
 }
-<div class="container-fluid">
-    @*<h2>@Localizer["Check out now"]</h2>*@
+<div class="container-fluid bg-light p-3">
     <p><small>Please enter your details, and we'll ship your goods right away!</small></p>
 
     <form asp-action="Checkout" asp-controller="Order" method="post">

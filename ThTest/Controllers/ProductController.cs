@@ -105,6 +105,7 @@ namespace ThTest.Controllers
                 Mode = ThAction.Add,
                 SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll(),
                 CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name,
+                ProductStatuses = this.UnitOfWork.ProductStatusRepo.GetAll(),
             };
 
             vmEditProduct.Translations = (from l in vmEditProduct.SupportLanguages

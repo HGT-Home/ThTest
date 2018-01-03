@@ -36,20 +36,25 @@
 
     @await this.Component.InvokeAsync("MainNavigation")
 
-    <nav class="navbar bg-dark navbar-expand-sm py-0 my-0">
-        <div class="navbar-brand">
-            <h6 class="navbar-brand text-white">@ViewBag.Title</h6>
+    <nav class="navbar bg-dark navbar-expand-md">
+        <div class="text-white">
+            @Html.ActionLink(this.Localizer["Home"].Value, "Index", "Home", null, new { @class="text-white" })
+            @if (this.ViewContext.RouteData.Values["controller"].ToString() != "Home" && this.ViewContext.RouteData.Values["action"].ToString() != "Index")
+            {
+                @:> @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index", ViewContext.RouteData.Values["controller"].ToString(), null, new { @class="text-white" })
+                @:> @ViewBag.ActiveTitle
+            }
         </div>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item py-1">@await this.Component.InvokeAsync("ProductSearch")</li>
+            <li class="nav-item">@await this.Component.InvokeAsync("ProductSearch")</li>
         </ul>
     </nav>
 
-    <div class="d-flex flex-column align-items-stretch">
+    <div>
         @RenderBody()
     </div>
 
-    <div class="bg-dark text-white py-1">
+    <div class="bg-dark text-white">
         <div class="row p-2">
             <div class="col-12 col-sm-12 col-md-4">
                 <address>

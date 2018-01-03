@@ -120,8 +120,14 @@
   <data name="Back" xml:space="preserve">
     <value>Quay lại</value>
   </data>
+  <data name="City" xml:space="preserve">
+    <value>Thành phố</value>
+  </data>
   <data name="Confirm password" xml:space="preserve">
     <value>Xác nhận mật khẩu</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Quốc gia</value>
   </data>
   <data name="Date of birth" xml:space="preserve">
     <value>Ngày sinh</value>
@@ -134,6 +140,12 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Mật khẩu</value>
+  </data>
+  <data name="Please select a city." xml:space="preserve">
+    <value>Hãy chọn thành phố.</value>
+  </data>
+  <data name="Please select a country." xml:space="preserve">
+    <value>Hãy chọn quốc gia.</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Đăng ký</value>

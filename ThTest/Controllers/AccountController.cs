@@ -17,7 +17,7 @@ using Th.Data.Helper;
 
 namespace ThTest.Controllers
 {
-    public class AccountController : ThBaseController
+    public class AccountController: ThBaseController
     {
         private readonly UserManager<User> _userManager;
 
@@ -44,16 +44,20 @@ namespace ThTest.Controllers
         }
 
         // GET: /<controller>/
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
-            return this.View(new RegisterViewModel());
+            return this.View(new RegisterViewModel {
+                Cities = this.UnitOfWork.CityRepo.GetAll(),
+                Countries = this.UnitOfWork.CountryRepo.GetAll(),
+                SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll(),
+            });
         }
 
         [AllowAnonymous]
@@ -93,39 +97,48 @@ namespace ThTest.Controllers
             // Create regitation user.
             if (this.ModelState.IsValid)
             {
-                User user = new User
-                {
-                    UserName = vmRegister.Username,
-                    Email = vmRegister.Email,
-                    FullName = vmRegister.Fullname,
-                    DateOfBirth = vmRegister.DateOfBirth
-                };
+                User user = await this._userManager.FindByEmailAsync(vmRegister.Username);
 
-                IdentityResult userResult = await this._userManager.CreateAsync(user, vmRegister.Password);
-
-                if (userResult.Succeeded)
+                if (user == null)
                 {
-                    if (!this._roleMananger.RoleExistsAsync("Users").Result)
+                    user = new User
                     {
-                        Role role = new Role
+                        UserName = vmRegister.Username,
+                        Email = vmRegister.Email,
+                        FullName = vmRegister.Fullname,
+                        DateOfBirth = vmRegister.DateOfBirth
+                    };
+
+                    IdentityResult userResult = await this._userManager.CreateAsync(user, vmRegister.Password);
+
+                    if (userResult.Succeeded)
+                    {
+                        if (!this._roleMananger.RoleExistsAsync("Users").Result)
                         {
-                            Name = "Users",
-                            Description = "Normal user.",
-                        };
+                            Role role = new Role
+                            {
+                                Name = "Users",
+                                Description = "Normal user.",
+                            };
 
-                        IdentityResult roleResult = await this._roleMananger.CreateAsync(role);
+                            IdentityResult roleResult = await this._roleMananger.CreateAsync(role);
 
-                        if (!roleResult.Succeeded)
-                        {
-                            this.ModelState.AddModelError(string.Empty, this._localizer["Error while creating role."]);
+                            if (!roleResult.Succeeded)
+                            {
+                                this.ModelState.AddModelError(string.Empty, this._localizer["Error while creating role."]);
 
-                            return this.View(vmRegister);
+                                return this.View(vmRegister);
+                            }
+
+                            await this._userManager.AddToRoleAsync(user, "Users");
+
+                            return this.RedirectToAction("Login", "Account");
                         }
-
-                        await this._userManager.AddToRoleAsync(user, "Users");
-
-                        return this.RedirectToAction("Login", "Account");
                     }
+                }
+                else
+                {
+                    this.ModelState.AddModelError(nameof(RegisterViewModel.Username), this._localizer["Username has been existed."]);
                 }
             }
 
@@ -176,7 +189,7 @@ namespace ThTest.Controllers
                             }
                         }
 
-                        return this.Redirect(vmLogin?.ReturnUrl ?? "/Admin/Index");
+                        return this.LocalRedirect(this.Url.IsLocalUrl(vmLogin?.ReturnUrl)? vmLogin?.ReturnUrl: "/Home/Index");
                     }
                 }
 
@@ -195,7 +208,7 @@ namespace ThTest.Controllers
             return this.RedirectToAction("Login", "Account");
         }
 
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile()
         {
             return this.View(new ProfileViewModel());
         }

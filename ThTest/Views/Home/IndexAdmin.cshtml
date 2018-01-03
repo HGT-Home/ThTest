@@ -13,7 +13,7 @@
                     <h6 class="card-title pull-right">@this.Localizer["Product Management"]</h6>
                     <ul class="nav nav-tabs card-header-tabs" role="tablist">
                         <li class="nav-item">
-                            <a id="lnkCategory" class="nav-link active" href="#tabCategory" role="tab" data-toggle="tab" aria-controls="tabCategory" aria-expanded="true"><small>@this.Localizer["Category"]</small> </a>
+                            <a id="lnkCategory" class="nav-link active" href="#tabCategory" role="tab" data-toggle="tab" aria-controls="tabCategory" aria-expanded="true">@this.Localizer["Category"]</a>
                         </li>
                         <li class="nav-item">
                             <a id="lnkProduct" class="nav-link" href="#tabProduct" role="tab" data-toggle="tab" aria-controls="tabProduct" aria-expanded="true"><small>@this.Localizer["Product"]</small></a>
@@ -82,6 +82,7 @@
                                 <ul class="list-unstyled">
                                     <li><a class="card-link" asp-controller="Product" asp-action="Index"><i class="fa fa-list"></i> @this.Localizer["All Product."]</a></li>
                                     <li><a class="card-link" asp-controller="Product" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Product."]</a></li>
+                                    <li><a class="card-link" asp-controller="Supplier" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Supplier."]</a></li>
                                 </ul>
                             </div>
                         </div>

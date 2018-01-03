@@ -14,9 +14,6 @@ namespace Th.Models
         [Column(nameof(Id))]
         public int Id { get; set; }
 
-        [Column(nameof(Name))]
-        public string Name { get; set; }
-
         [Column(nameof(Address))]
         public string Address { get; set; }
 
@@ -25,6 +22,12 @@ namespace Th.Models
 
         [ForeignKey(nameof(CityId))]
         public City City { get; set; }
+
+        [MaxLength(128)]
+        [Column(nameof(Username))]
+        public string Username { get; set; }
+
+        public IList<User> Users { get; set; }
 
         public Customer()
         {

@@ -6,6 +6,10 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180102072328_UpdateLanguageSupportCategory.cs" />
+    <Compile Remove="Migrations\20180102100552_AddProductRate.cs" />
+    <Compile Remove="Migrations\20180102101419_AddProductRate.cs" />
+    <Compile Remove="Migrations\20180102101632_AddProductRate.cs" />
+    <Compile Remove="Migrations\20180102102104_AddProductRate.cs" />
   </ItemGroup>
 
   <ItemGroup>

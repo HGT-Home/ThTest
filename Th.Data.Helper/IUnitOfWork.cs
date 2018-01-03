@@ -23,6 +23,10 @@ namespace Th.Data.Helper
 
         IThLanguageRepository LanguageRepo { get; }
 
+        IThProductStatusRepository ProductStatusRepo { get; }
+
+        IThCompanyRepository CompanyRepo { get; }
+
         T GetRepository<T>() where T : class;
 
         int Save();

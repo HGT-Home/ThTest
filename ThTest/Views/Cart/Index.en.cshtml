@@ -53,8 +53,10 @@
             </tr>
         </tfoot>
     </table>
-    <div class="btn-group pull-right mb-3 mr-3">
-        <a class="btn btn-success" href="@this.Model.ReturnUrl" title="Continous shopping"><i class="fa fa-plus"></i></a>
-        <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout" title="Checkout"><i class="fa fa-check-circle-o"></i></a>
+    <div class="text-right">
+        <div class="btn-group mb-3 mr-3">
+            <a class="btn btn-success" href="@this.Model.ReturnUrl" title="Continous shopping"><i class="fa fa-plus"></i></a>
+            <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout" title="Checkout"><i class="fa fa-check-circle-o"></i></a>
+        </div>
     </div>
 </div>

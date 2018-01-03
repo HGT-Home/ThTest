@@ -135,6 +135,9 @@
   <data name="Please select category" xml:space="preserve">
     <value>Please select category</value>
   </data>
+  <data name="Please select status" xml:space="preserve">
+    <value>Please select status</value>
+  </data>
   <data name="Please select supplier" xml:space="preserve">
     <value>Please select supplier</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="Select image" xml:space="preserve">
     <value>Select image</value>
+  </data>
+  <data name="Select Status" xml:space="preserve">
+    <value>Select Status</value>
   </data>
   <data name="Select supplier" xml:space="preserve">
     <value>Select supplier</value>

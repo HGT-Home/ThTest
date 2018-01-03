@@ -120,6 +120,9 @@
   <data name="Error while creating role." xml:space="preserve">
     <value>Xảy ra lỗi trong quá trình tạo role.</value>
   </data>
+  <data name="Username has been existed." xml:space="preserve">
+    <value>Tên đăng nhập đã tồn tại.</value>
+  </data>
   <data name="Username or password are invalid." xml:space="preserve">
     <value>Tên đăng nhập hoặc mật khẩu không đúng.</value>
   </data>

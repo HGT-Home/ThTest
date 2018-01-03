@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Company
+@{
+}
+
+<div class="container-fluid">
+    <div class="row bg-light">
+        <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 p-3">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="border border-success border-left-0 border-right-0 border-top-0">@this.Localizer["Map"]</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="dvMap" style="height:500px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-sm-2 mt-md-2 mt-lg-0 mt-xl-0 p-3">
+            <h4 class="border border-success border-left-0 border-top-0 border-right-0">@this.Model.Name</h4>
+            <p></p>
+            <p><i class="fa fa-map-signs"></i> @this.Localizer["Address"]: <b> @this.Model.Address</b></p>
+            <p><i class="fa fa-phone-square"></i> @this.Localizer["Phone"]: <b> @this.Model.Phone</b></p>
+            <p class="text-danger"><i class="fa fa-phone-square"></i> @this.Localizer["Hotline"]: <b> @this.Model.Hotline </b></p>
+            <p><i class="fa fa-envelope"></i> @this.Localizer["Email"]: <a href="mailto: @this.Model.Email"><b>@this.Model.Email</b></a></p>
+
+            @if (!string.IsNullOrEmpty(this.Model.Facebook))
+            {
+                <p><a href="@this.Model.Facebook">@this.Localizer["Facebook"]</a></p>
+
+            }
+
+            @if (!string.IsNullOrEmpty(this.Model.Twitter))
+            {
+                <p>@this.Localizer["Facebook"] <a href="@this.Model.Twitter">@this.Model.Twitter</a></p>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTjzjmC8Q3lct-PdW-T3-PIanH7GcrIy4"></script>
+<script type="text/javascript">
+        var markers = [
+            {
+                'title': '@Html.Raw(this.Model.Name)',
+                'description':  '@Html.Raw(this.Model.Address)',
+                'lat': @Html.Raw(this.Model.Latitude),
+                'lng': @Html.Raw(this.Model.Longitude),
+            }
+        ];
+
+        $(document).ready(function () {
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 18,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                title: markers[0].title,
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            for (i = 0; i < markers.length; i++) {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title
+                });
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            }
+        });
+</script>

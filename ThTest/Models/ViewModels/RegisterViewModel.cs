@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Th.Models;
 using ThTest.Resources;
 
 namespace ThTest.Models.ViewModels
@@ -12,7 +13,7 @@ namespace ThTest.Models.ViewModels
         [Display(Name = "Username")]
         [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredUsername")]
         [RegularExpression(@"^[a-zA-Z0-9]+", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "UserInvalid")]
-        [MaxLength(30, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthUsername")]
+        [MaxLength(50, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthUsername")]
         public string Username
         {
             get => this.GetValue<string>();
@@ -63,6 +64,37 @@ namespace ThTest.Models.ViewModels
         {
             get => this.GetValue<DateTime>();
 
+            set => this.SetValue(value);
+        }
+
+        [MaxLength(1024, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthAddress")]
+        public string Address
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        public int CountryId
+        {
+            get => this.GetValue<int>();
+            set => this.SetValue(value);
+        }
+
+        public IList<Country> Countries
+        {
+            get => this.GetValue<IList<Country>>();
+            set => this.SetValue(value);
+        }
+
+        public int CityId
+        {
+            get => this.GetValue<int>();
+            set => this.SetValue(value);
+        }
+
+        public IList<City> Cities
+        {
+            get => this.GetValue<IList<City>>();
             set => this.SetValue(value);
         }
     }

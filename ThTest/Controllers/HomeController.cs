@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using ThTest.Models.ViewModels;
 using ThTest.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Web.Helpers;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,6 +41,20 @@ namespace ThTest.Controllers
             };
 
             return this.View(vmHomeIndex);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult ContactUs()
+        {
+            Company mdCompany = this.UnitOfWork.CompanyRepo.GetAll().FirstOrDefault();
+            
+            if (mdCompany != null)
+            {
+               return this.View(mdCompany);
+            }
+
+            return this.NotFound();
         }
 
         [Authorize(Roles = "Administrators")]

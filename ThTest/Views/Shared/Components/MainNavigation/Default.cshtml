@@ -5,8 +5,8 @@
 @{
 }
 
-<nav class="navbar sticky-top navbar-expand-md bg-dark m-0 py-2">
-    <div class="container-fluid m-0 p-0">
+<nav class="navbar sticky-top navbar-expand-md bg-dark">
+    <div class="container-fluid">
         <h4 class="navbar-brand text-white">@this.Localizer["Carlsberg"]</h4>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-shopping-info" aria-controls="nav-shopping-info" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-bars"></i>
@@ -36,8 +36,8 @@
     </div>
 </nav>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light mr-0" role="navigation">
-    <div class="container-fluid mr-0 p-0">
+<nav class="navbar navbar-expand-md navbar-light bg-light" role="navigation">
+    <div class="container-fluid mr-0">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <i class="fa fa-2x fa-windows"></i>
         </a>
@@ -74,7 +74,7 @@
 <div class="collapse bg-light" id="divCategory">
     <div class=" border border-left-0 border-right-0 border-bottom-0 border-primary">
         @*<h6 class="p-2">@this.Localizer["Categories"]</h6>*@
-        <div class="row m-0">
+        <div class="row">
             @foreach (Category c in this.Model.Categories)
             {
                 <div class="col-12 col-sm-12 col-md-4 col-lg-2 col-xl-2">

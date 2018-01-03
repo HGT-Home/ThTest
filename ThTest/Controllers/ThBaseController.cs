@@ -47,7 +47,7 @@ namespace ThTest.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> SetLanguage(string rdoLanguages, string returnUrl)
+        public IActionResult SetLanguage(string rdoLanguages, string returnUrl)
         {
             this.Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName, 

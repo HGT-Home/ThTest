@@ -45,7 +45,6 @@ namespace Th.Models
 
         [Column(nameof(ImagePath))]
         [MaxLength(1024)]
-        //[Required(ErrorMessage = "Enter the Image.")]
         public string ImagePath { get; set; }
 
         [Column(nameof(ImageBinary))]
@@ -84,7 +83,15 @@ namespace Th.Models
         [Column(nameof(ViewCount))]
         public int ViewCount { get; set; }
 
+        [Column(nameof(ProductStatusId))]
+        public int? ProductStatusId { get; set; }
+
+        [ForeignKey(nameof(ProductStatusId))]
+        public ProductStatus ProductStatus { get; set; }
+
         public IList<ProductTranslation> Translations { get; set; }
+
+        public IList<ProductRate> Rates { get; set; }
         
         public Product()
             : base()

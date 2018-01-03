@@ -35,7 +35,6 @@ namespace Th.Data.Helper
 
         public override void Update(Language mdUpdate)
         {
-            Language mdProduct = this._dbContext.Languages.FirstOrDefault(l => l.LanguageId == mdUpdate.LanguageId);
             if (mdUpdate != null)
             {
                 this._dbContext.Attach(mdUpdate);

@@ -129,6 +129,9 @@
   <data name="Add Product." xml:space="preserve">
     <value>Thêm sản phẩm.</value>
   </data>
+  <data name="Add Supplier." xml:space="preserve">
+    <value>Thêm nhà cung cấp</value>
+  </data>
   <data name="All Categories" xml:space="preserve">
     <value>Tất cả nhóm</value>
   </data>

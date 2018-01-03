@@ -120,6 +120,9 @@
   <data name="Error while creating role." xml:space="preserve">
     <value>Error while creating role.</value>
   </data>
+  <data name="Username has been existed." xml:space="preserve">
+    <value>Username has been existed.</value>
+  </data>
   <data name="Username or password are invalid." xml:space="preserve">
     <value>Username or password are invalid.</value>
   </data>

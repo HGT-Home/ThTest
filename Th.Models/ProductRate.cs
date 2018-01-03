@@ -9,8 +9,8 @@ namespace Th.Models
     /// <summary>
     /// Đánh giá sản phẩm.
     /// </summary>
-    [Table("ProductAppreciateions")]
-    public class ProductAppreciation: ThBaseModel
+    [Table("ProductRates")]
+    public class ProductRate: ThBaseModel
     {
         [Key]
         [Required]
@@ -35,6 +35,10 @@ namespace Th.Models
         [Column(nameof(Point))]
         public decimal Point { get; set; }
 
+        [MaxLength(2048)]
+        [Column(nameof(Comment))]
+        public string Comment { get; set; }
+
         [Column(nameof(CreatedDate))]
         public DateTime CreatedDate { get; set; }
 
@@ -49,7 +53,7 @@ namespace Th.Models
         [Column(nameof(UpdatedBy))]
         public string UpdatedBy { get; set; }
 
-        public ProductAppreciation()
+        public ProductRate()
         {
 
         }

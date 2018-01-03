@@ -63,7 +63,6 @@ namespace Th.Data.Helper
             {
                 throw ex;
             }
-
         }
     }
 }

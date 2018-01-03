@@ -129,6 +129,9 @@
   <data name="Add Product." xml:space="preserve">
     <value>Add Product.</value>
   </data>
+  <data name="Add Supplier." xml:space="preserve">
+    <value>Add Supplier.</value>
+  </data>
   <data name="All Categories" xml:space="preserve">
     <value>All Categories</value>
   </data>

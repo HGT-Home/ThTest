@@ -11,9 +11,10 @@ using Th.Data.Helper;
 namespace Th.Data.Helper.Migrations
 {
     [DbContext(typeof(ThDbContext))]
-    partial class ThDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180103083717_AddContactUs")]
+    partial class AddContactUs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,38 +196,18 @@ namespace Th.Data.Helper.Migrations
                         .HasColumnName("Address")
                         .HasMaxLength(1024);
 
-                    b.Property<string>("Email")
-                        .HasColumnName("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Facebook")
-                        .HasColumnName("Facebook")
-                        .HasMaxLength(1024);
-
-                    b.Property<string>("Hotline")
-                        .HasColumnName("Hotline")
-                        .HasMaxLength(50);
-
                     b.Property<bool>("IsDefault")
                         .HasColumnName("IsDefault");
 
-                    b.Property<string>("Latitude")
+                    b.Property<decimal>("Latitude")
                         .HasColumnName("Latitude");
 
-                    b.Property<string>("Longitude")
+                    b.Property<decimal>("Longitude")
                         .HasColumnName("Longitude");
 
                     b.Property<string>("Name")
                         .HasColumnName("Name")
                         .HasMaxLength(256);
-
-                    b.Property<string>("Phone")
-                        .HasColumnName("Phone")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Twitter")
-                        .HasColumnName("Twitter")
-                        .HasMaxLength(1024);
 
                     b.HasKey("Id");
 

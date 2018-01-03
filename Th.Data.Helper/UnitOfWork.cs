@@ -78,6 +78,22 @@ namespace Th.Data.Helper
             }
         }
 
+        public IThProductStatusRepository ProductStatusRepo
+        {
+            get
+            {
+                return this.GetRepository<ThProductStatusReposirtory>();
+            }
+        }
+
+        public IThCompanyRepository CompanyRepo
+        {
+            get
+            {
+                return this.GetRepository<ThCompanyRepository>();
+            }
+        }
+
         public UnitOfWork(ThDbContext dbContext)
         {
             this.DbContext = dbContext;
