@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using ThTest.Models.ViewModels;
 using ThTest.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Web.Helpers;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -55,6 +54,13 @@ namespace ThTest.Controllers
             }
 
             return this.NotFound();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult AboutUs()
+        {
+            return this.View();
         }
 
         [Authorize(Roles = "Administrators")]

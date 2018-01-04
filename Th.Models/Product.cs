@@ -18,7 +18,6 @@ namespace Th.Models
 
         //[Column(nameof(Name))]
         [NotMapped]
-        [MaxLength(1024)]
         public string Name
         {
             get
@@ -28,7 +27,6 @@ namespace Th.Models
         }
 
         //[Column(nameof(Description))]
-        [MaxLength(4000, ErrorMessage = "Description is too long. It only {1}.")]
         [NotMapped]
         public string Description
         {
@@ -39,8 +37,8 @@ namespace Th.Models
         }
 
         [Column(nameof(UnitPrice))]
-        [Required(ErrorMessage = "Enter the UnitPrice.")]
-        [Range(0, double.MaxValue, ErrorMessage = "UnitPrice value is invalid. It is from {1} to {2}.")]
+        [Required]
+        [Range(0, double.MaxValue)]
         public decimal UnitPrice { get; set; }
 
         [Column(nameof(ImagePath))]

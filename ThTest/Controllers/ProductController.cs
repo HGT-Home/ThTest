@@ -104,7 +104,6 @@ namespace ThTest.Controllers
                 ImagePath = "imgs/no-image.png",
                 Mode = ThAction.Add,
                 SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll(),
-                CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name,
                 ProductStatuses = this.UnitOfWork.ProductStatusRepo.GetAll(),
             };
 
@@ -129,7 +128,7 @@ namespace ThTest.Controllers
             vmEditProduct.Categories = this._repoCategory.GetAll();
             vmEditProduct.Suppliers = this._repoSupplier.GetAll();
             vmEditProduct.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
-            vmEditProduct.CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name;
+            vmEditProduct.ProductStatuses = this.UnitOfWork.ProductStatusRepo.GetAll();
             vmEditProduct.Mode = ThAction.Edit;
             vmEditProduct.Translations = (from l in vmEditProduct.SupportLanguages
                                           select new ProductTranslationViewModel

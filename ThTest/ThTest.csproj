@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler" Version="1.11.375" />
-    <PackageReference Include="Microsoft.AspNet.Web.Helpers.Mvc" Version="2.0.20710" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +65,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Account.Register.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Home.AboutUs.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Home.AboutUs.vi.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Home.ContactUs.en.resx">

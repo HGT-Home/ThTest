@@ -15,6 +15,7 @@
             <p class="comment">@this.Model.Product.Category.Name</p>
             <h5 class="">@this.Model.Product.Name</h5>
             <small>@this.Model.Product.Description</small><br />
+            <p>&nbsp;</p>
             <small><u>@this.Localizer["Price"]:</u></small><h4 class="text-primary"> @this.Model.Product.UnitPrice.ToString("c")</h4>
 
             <div class="text-right">
@@ -40,12 +41,8 @@
                     <div class="form-group row">
                         @*<label asp-for="@this.Model.Quantiy" class="col-2 col-form-label">@this.Localizer["Quantity"]</label>*@
                         <div class="col-8">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-addon">@this.Localizer["Quantity"]</div>
-                                <input name="quantity" type="number" class="form-control" />
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-success" title="@this.Localizer["Add to cart"]"><i class="fa fa-cart-plus"></i></button>
-                                </div>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-success" title="@this.Localizer["Add to cart"]"><i class="fa fa-cart-plus"></i></button>
                             </div>
                         </div>
                     </div>

@@ -66,5 +66,19 @@ namespace Th.Data.Helper
                 throw ex;
             }
         }
+
+        public override IList<ProductStatus> GetAll()
+        {
+            try
+            {
+                return this._dbContext.ProductStatuses
+                    .Include(ps => ps.Translations)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

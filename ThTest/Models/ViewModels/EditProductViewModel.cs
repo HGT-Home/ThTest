@@ -135,7 +135,7 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
-        public int ProductStatusId { get; set; }
+        public int? ProductStatusId { get; set; }
 
         public IList<ProductStatus> ProductStatuses { get; set; }
 
