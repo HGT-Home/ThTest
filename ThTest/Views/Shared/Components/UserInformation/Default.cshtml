@@ -21,39 +21,44 @@ else
     <div class="btn-group btn-group-sm">
         <div class="btn btn-primary" title="@this.Localizer["Register"]"><i class="fa fa-user-circle"></i></div>
         <a id="lnkRegister" class="btn btn-sm btn-secondary" asp-controller="Account" asp-action="Register">@this.Localizer["Register"]</a>
-        <button id="btnSignIn" class="btn btn-sm btn-secondary dropdown-toggle" href="#" data-toggle="popover" data-trigger="click" data-placement="left" role="button" title="@this.Localizer["Sign in"]"></button>
-        <div id="ddSignIn" class="d-none">
+        <button id="btnSignIn" class="btn btn-sm btn-secondary dropdown-toggle" href="#" data-toggle="popover" data-trigger="click focus" data-placement="left" role="button" title="@this.Localizer["Sign in"]"></button>
+        <div id="ddSignIn" class="d-none popover">
             @*<h6 class="dropdown-header bg-info text-white">Sign In</h6>*@
-            <form class="m-1" asp-controller="Account" asp-action="Login" method="post">
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    <div class="input-group input-group-sm">
-                        <label class="sr-only">Username</label>
-                        <span class="input-group-addon">
-                            <i class="fa fa-user-circle-o"></i>
-                        </span>
-                        <input id="txtUsername" type="text" class="form-control" asp-for="Username" aria-label="" />
+            <div class="popover-body">
+                <form class="m-1" asp-controller="Account" asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <label class="sr-only">Username</label>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa fa-user-circle-o"></i>
+                                </div>
+                            </div>
+                            <input id="txtUsername" type="text" class="form-control" asp-for="Username" aria-label="" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group input-group-sm">
-                        <label class="sr-only">Password</label>
-                        <span class="input-group-addon">
-                            <i class="fa fa-key"></i>
-                        </span>
-                        <input type="password" class="form-control" aria-label="" asp-for="Password" />
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <label class="sr-only">Password</label>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa fa-key"></i>
+                                </div>
+                            </div>
+                            <input type="password" class="form-control" aria-label="" asp-for="Password" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" asp-for="@this.Model.IsRememberMe" /> @this.Localizer["Remmeber me."]
-                    </label>
-                </div>
-                <hr />
-                <div class="pull-right pb-1">
-                    <button type="submit" class="btn btn-sm btn-outline-primary">@this.Localizer["Login"]</button>
-                </div>
-            </form>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="chkRemember1" asp-for="@this.Model.IsRememberMe" />
+                        <label class="custom-control-label" for="chkRemember1">@this.Localizer["Remember me."]</label>
+                    </div>
+                    <hr />
+                    <div class="pull-right pb-1">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">@this.Localizer["Login"]</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script>
@@ -63,12 +68,14 @@ else
                 content: function () {
                     return $('#ddSignIn').html();
                 },
-                container: 'body'
+                container: 'body',
+                boundary: 'viewport' // 'viewport', 'window', 'scrollParent'
             });
 
             // Close popover when click outside.
             $('body').on('click', function (e) {
                 $('[data-toggle=popover]').each(function () {
+
                     // hide any open popovers when the anywhere else in the body is clicked
                     if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
                         $(this).popover('hide');

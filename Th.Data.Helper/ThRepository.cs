@@ -24,7 +24,7 @@ namespace Th.Data.Helper
 
         public virtual IList<T> GetAll()
         {
-            return this.Entities.ToList<T>();
+            return this.Entities.ToList();
         }
 
         public virtual T GetById<TKey>(params object[] keys)
@@ -41,7 +41,11 @@ namespace Th.Data.Helper
 
         public abstract int Count();
 
-        public virtual IList<T> Get(Expression<Func<T, bool>> expFilter, Func<IQueryable<T>, IOrderedQueryable<T>> fnOrderBy)
+        public virtual IList<T> Get(
+            Expression<Func<T, bool>> expFilter = null, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> fnOrderBy = null, 
+            int intPage = 1, 
+            int intPageSize = 10)
         {
             try
             {
@@ -52,12 +56,29 @@ namespace Th.Data.Helper
                     query.Where(expFilter);
                 }
 
-                if (fnOrderBy != null)
+                // Lấy các dữ liệu đa ngôn ngữ nếu như table đó có bảng đa ngôn ngữ.
+                Type t = typeof(T);
+                Type[] arrT = t.FindInterfaces((type, filter) =>
+                    {
+                        return type.FullName.Contains(filter.ToString());
+                    },
+                    typeof(ILanguageTranslation<>).FullName
+                );
+
+                if (arrT != null && arrT.Length > 0)
                 {
-                    return fnOrderBy(query).ToList();
+                    foreach(var e in query)
+                    {
+                        this._dbContext.Entry(e).Collection(q => ((ILanguageTranslation<ITranslation>)q).Translations).Load();
+                    }
                 }
 
-                return query.ToList();
+                if (fnOrderBy != null)
+                {
+                    return fnOrderBy(query).Skip((intPage - 1) * intPageSize).Take(intPageSize).ToList();
+                }
+
+                return query.Skip((intPage - 1) * intPageSize).Take(intPageSize).ToList();
             }
             catch (Exception ex)
             {

@@ -18,6 +18,9 @@
                         <li class="nav-item">
                             <a id="lnkProduct" class="nav-link" href="#tabProduct" role="tab" data-toggle="tab" aria-controls="tabProduct" aria-expanded="true"><small>@this.Localizer["Product"]</small></a>
                         </li>
+                        <li class="nav-item">
+                            <a id="lnkSupplier" class="nav-link" href="#tabSupplier" role="tab" data-toggle="tab" aria-controls="tabProduct" aria-expanded="true"><small>@this.Localizer["Supplier"]</small></a>
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body tab-content">
@@ -82,7 +85,41 @@
                                 <ul class="list-unstyled">
                                     <li><a class="card-link" asp-controller="Product" asp-action="Index"><i class="fa fa-list"></i> @this.Localizer["All Product."]</a></li>
                                     <li><a class="card-link" asp-controller="Product" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Product."]</a></li>
+                                    @*<li><a class="card-link" asp-controller="Supplier" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Supplier."]</a></li>*@
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tabSupplier" class="tab-pane" role="tabpanel">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="d-flex justify-content-between border border-success border-left-0 border-top-0 border-right-0">
+                                    <div>
+                                        <span class="card-title">@this.Localizer["New Supplier"]</span>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a class="card-link pull-right" asp-controller="Supplier" title="@this.Localizer["Show all"]" asp-action="ShowAllSupplier" asp-route-page="1"><small>@this.Localizer["Show all"] <i class="fa fa-angle-double-right"></i></small></a>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column justify-content-between">
+                                    @foreach (Supplier s in this.Model.Suppliers)
+                                    {
+                                        <div>
+                                            <a asp-controller="Supplier" asp-action="ShowCategoryDetails" asp-route-supplierId="@s.Id">@s.Name</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                <div class="border border-success border-left-0 border-top-0 border-right-0">
+                                    <span class="card-title">@this.Localizer["Action"]</span>
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li><a class="card-link" asp-controller="Supplier" asp-action="ShowAllSupplier"><i class="fa fa-list"></i> @this.Localizer["All Supplier"]</a></li>
+
                                     <li><a class="card-link" asp-controller="Supplier" asp-action="Add"><i class="fa fa-plus-square"></i> @this.Localizer["Add Supplier."]</a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -90,8 +127,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card w-100 h-100 mt-1">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="card w-100 h-100">
                 <div class="card-header bg-light">
                     <h6 class="card-title">@this.Localizer["Orders Management"]</h6>
                 </div>

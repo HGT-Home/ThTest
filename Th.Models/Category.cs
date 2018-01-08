@@ -59,11 +59,7 @@ namespace Th.Models
 
         public IList<Product> Products { get; set; }
 
-        public IList<CategoryTranslation> Translations 
-        {
-            get;
-            set;
-        }
+        public IList<CategoryTranslation> Translations { get; set; }
 
         public Category()
         {

@@ -51,7 +51,7 @@ namespace ThTest.Infrastructures
 
                 // Tạo tên file với tên file góc cộng thêm ngày giờ hiện tại.
                 // VD: file: img.png => img.2017.12.24.16.30.25.fff.png.
-                string strFilename = $"{Path.GetFileNameWithoutExtension(file.FileName)}.{DateTime.Now.ToString("yyyy.MM.dd.HH.mm.ss.fff")}.{Path.GetExtension(file.FileName)}";
+                string strFilename = $"{Path.GetFileNameWithoutExtension(file.FileName)}.{DateTime.Now.ToString("yyyy.MM.dd.HH.mm.ss.fff")}{Path.GetExtension(file.FileName)}";
                 string filePath = Path.Combine(strFolder, strFilename);
 
                 using(FileStream fs = new FileStream(filePath, FileMode.Create))

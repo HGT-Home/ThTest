@@ -51,7 +51,7 @@ namespace ThTest.Controllers
                 this._cart.AddItem(mdProduct, 1);
             }
 
-            return this.RedirectToAction("Index", new { returnUrl });
+            return this.RedirectToAction(nameof(Index), new { returnUrl });
         }
 
         [AllowAnonymous]
@@ -66,7 +66,7 @@ namespace ThTest.Controllers
                 this._cart.RemoveLine(mdProduct);
             }
 
-            return this.RedirectToAction("Index", new { returnUrl });
+            return this.RedirectToAction(nameof(Index), new { returnUrl });
         }
     }
 }

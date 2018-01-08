@@ -49,7 +49,19 @@ namespace Th.Data.Helper
             return this.Entities.Count();
         }
 
-        public async Task<Supplier> GetById(string id)
+        public Supplier GetById(string id)
+        {
+            try
+            {
+                return this._dbContext.Suppliers.FirstOrDefault(s => s.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Supplier> GetByIdAsync(string id)
         {
             return await this._dbContext.Suppliers
                 .FirstOrDefaultAsync(s => s.Id == id);

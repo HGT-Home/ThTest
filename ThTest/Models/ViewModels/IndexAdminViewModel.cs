@@ -29,6 +29,13 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
+        public IList<Supplier> Suppliers
+        {
+            get => this.GetValue<IList<Supplier>>();
+
+            set => this.SetValue(value);
+        }
+
         public IndexAdminViewModel()
             : base()
         {

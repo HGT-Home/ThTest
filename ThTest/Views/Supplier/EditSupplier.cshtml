@@ -19,7 +19,7 @@
     }
 }
 
-<div>
+<div class="bg-light p-3">
     <form asp-controller="Supplier" role="form" method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="@this.Model.Id" value="@this.Model.Id" />
@@ -27,7 +27,7 @@
         <div class="form-group">
             <label asp-for="@this.Model.Name">@Localizer["Name"]</label>
             <div class="input-group input-group-sm">
-                <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                <div class="input-group-prepend"><i class="fa fa-edit input-group-text"></i></div>
                 <input type="text" role="textbox" asp-for="@this.Model.Name" class="form-control" placeholder="@Localizer["Name"]" />
             </div>
             <div class="text-danger"><span asp-validation-for="@this.Model.Name"></span></div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label asp-for="@this.Model.Email">@Localizer["Email"]</label>
             <div class="input-group input-group-sm">
-                <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                <div class="input-group-prepend"><i class="fa fa-envelope input-group-text"></i></div>
                 <input type="text" role="textbox" asp-for="@this.Model.Email" class="form-control" placeholder="@Localizer["Email"]" />
             </div>
             <div class="text-danger"><span asp-validation-for="@this.Model.Email"></span></div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             <label asp-for="@this.Model.Phone">@Localizer["Phone"]</label>
             <div class="input-group input-group-sm">
-                <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                <div class="input-group-prepend"><i class="fa fa-edit input-group-text"></i></div>
                 <input type="text" role="textbox" asp-for="@this.Model.Phone" class="form-control" placeholder="@Localizer["Phone"]" />
             </div>
             <div class="text-danger"><span asp-validation-for="@this.Model.Phone"></span></div>
@@ -51,7 +51,7 @@
         <div class="form-group">
             <label asp-for="@this.Model.Address">@this.Localizer["Address"]</label>
             <div class="input-group input-group-sm">
-                <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                <div class="input-group-prepend"><i class="fa fa-edit input-group-text"></i></div>
                 <input type="text" role="textbox" asp-for="@this.Model.Address" class="form-control" placeholder="@this.Localizer["Address"]" />
             </div>
         </div>

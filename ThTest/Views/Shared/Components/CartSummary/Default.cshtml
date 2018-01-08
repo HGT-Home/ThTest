@@ -5,16 +5,14 @@
 @{
 }
 
-<div>
-    <div class="btn-group btn-group-sm">
-        <a class="btn btn-primary" asp-controller="Cart" asp-action="Index" asp-route-returnUrl="@this.ViewContext.HttpContext.Request.PathAndQuery()" title="@this.Localizer["Shopping cart"]">
-            <i class="fa fa-lg fa-shopping-cart"></i>
-        </a>
-        <label class="btn btn-secondary text-white">@this.Model.ComputeTotal().ToString("c")</label>
-        <button id="dropdownMenu" type="button" class="btn btn-secondary dropdown-toggle" title="@this.Localizer["Your Cart"]" data-toggle="popover" data-trigger="hover focus" role="button"></button>
-    </div>
-    <span class="badge badge-pill badge-dark badge-notify">@this.Model.ComputeQuantity()</span>
+<div class="btn-group btn-group-sm" role="group" aria-label="@this.Localizer["Cart information"]">
+    <a class="btn btn-primary" asp-controller="Cart" asp-action="Index" asp-route-returnUrl="@this.ViewContext.HttpContext.Request.PathAndQuery()" title="@this.Localizer["Shopping cart"]">
+        <i class="fa fa-shopping-cart"></i>
+    </a>
+    <button class="btn btn-secondary text-white">@this.Model.ComputeTotal().ToString("c")</button>
+    <button id="dropdownMenu" class="btn btn-secondary dropdown-toggle" type="button" title="@this.Localizer["Your Cart"]" data-toggle="popover" data-trigger="hover focus" role="button"></button>
 </div>
+<span class="badge badge-pill badge-dark badge-notify">@this.Model.ComputeQuantity()</span>
 
 <div id="ddCartInfor" class="d-none">
     <table class="table table-sm table-bordered table-striped">
@@ -52,9 +50,9 @@
         </tfoot>
     </table>
     @*<hr />
-    <div class="bg-secondary mr-1">
-        <a class="btn btn-sm btn-outline-primary pull-right" asp-controller="Order" asp-action="CheckOut">@this.Localizer["Checkout"]</a>
-    </div>*@
+        <div class="bg-secondary mr-1">
+            <a class="btn btn-sm btn-outline-primary pull-right" asp-controller="Order" asp-action="CheckOut">@this.Localizer["Checkout"]</a>
+        </div>*@
 </div>
 
 <script>

@@ -8,11 +8,14 @@ using Th.Models;
 using Th.Data.Helper;
 using Microsoft.Extensions.Localization;
 using ThTest.Models;
+using Microsoft.AspNetCore.Authorization;
+using ThTest.Infrastructures;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ThTest.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class SupplierController : ThBaseController
     {
         private IThSupplierRepository _repoSupplier;
@@ -34,9 +37,21 @@ namespace ThTest.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string id)
         {
-            return View("EditSupplier", new EditSupplierViewModel { Mode = ThAction.Edit });
+            this.TempData[nameof(Supplier.Id)] = id;
+
+            Supplier mdSupplier = this.UnitOfWork.SupplierRepo.GetById(id);
+
+            if (mdSupplier != null)
+            {
+                EditSupplierViewModel vmEditSupplier = mdSupplier.Map<EditSupplierViewModel>();
+                vmEditSupplier.Mode = ThAction.Edit;
+
+                this.View("EditSupplier", vmEditSupplier);
+            }
+
+            return this.NotFound();
         }
 
         [HttpPost]
@@ -65,14 +80,13 @@ namespace ThTest.Controllers
                             this._repoSupplier.Insert(mdSupplier);
                             break;
                         case ThAction.Edit:
-                            
+                            if (this.TempData[nameof(Supplier.Id)] != null)
+                            {
+                                mdSupplier.Id = TempData[nameof(Supplier.Id)].ToString();
+                            }
+
                             // Update data to database.
                             this._repoSupplier.Update(mdSupplier);
-                            break;
-                        case ThAction.Delete:
-
-                            // Delete data from database.
-                            this._repoSupplier.Delete(mdSupplier);
                             break;
                     }
 
@@ -82,11 +96,67 @@ namespace ThTest.Controllers
                     this.TempData["Message"] = string.Format(this._localizer["Supplier {0} has been save."], vmSupplier.Name);
 
                     // Redirecto home.
-                    return this.RedirectToAction("Index", "Home");
+                    return this.RedirectToAction(nameof(HomeController.IndexAdmin), "Home");
                 }
 
                 // If has an error, return to the EditSupplier view.
                 return this.View("EditSupplier", vmSupplier);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                Supplier mdSupplier = this.UnitOfWork.SupplierRepo.GetById(id);
+                if (mdSupplier != null)
+                {
+                    this.UnitOfWork.SupplierRepo.Delete(mdSupplier);
+
+                    return this.LocalRedirect("/Home/IndexAdmin");
+                }
+
+                return this.NotFound();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowSupplierDetails(string supplierId)
+        {
+            try
+            {
+                Supplier mdSupplier = await this.UnitOfWork.SupplierRepo.GetByIdAsync(supplierId);
+                if (mdSupplier != null)
+                {
+                    return this.View("SupplierDetails", mdSupplier);
+                }
+
+                return this.NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ShowAllSupplier()
+        {
+            try
+            {
+                IList<Supplier> lstSupplier = this.UnitOfWork.SupplierRepo.GetAll();
+
+                return this.View("AllSupplier", lstSupplier);
             }
             catch (Exception ex)
             {

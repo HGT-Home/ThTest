@@ -22,7 +22,9 @@ namespace ThTest.Controllers
 
         private const int PAGESIZE = 2;
 
-        public HomeController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork)
+        public HomeController(
+            LoginSessionInfo loginSessionInfo, 
+            IUnitOfWork unitOfWork)
             : base(loginSessionInfo, unitOfWork)
         {
             this._repoCategory = this.UnitOfWork.CategoryRepo;
@@ -46,7 +48,9 @@ namespace ThTest.Controllers
         [HttpGet]
         public IActionResult ContactUs()
         {
-            Company mdCompany = this.UnitOfWork.CompanyRepo.GetAll().FirstOrDefault();
+            Company mdCompany = this.UnitOfWork.CompanyRepo
+                .GetAll()
+                .FirstOrDefault();
             
             if (mdCompany != null)
             {
@@ -68,32 +72,13 @@ namespace ThTest.Controllers
         {
             IndexAdminViewModel vmIndexAdmin = new IndexAdminViewModel
             {
-                NewCategories = this._repoCategory.GetNewCategory(1, 4),
-                NewProducts = this._repoProduct.GetNewProductInCategory(0, 1, 4),
+                NewCategories = this._repoCategory.Get(fnOrderBy: f => f.OrderByDescending(s => s.CreatedDate), intPageSize: 4),
+                NewProducts = this._repoProduct.Get(fnOrderBy: f => f.OrderByDescending(p => p.CreatedDate), intPageSize: 4),
                 OrderNotShipped = this._repoOrder.GetOrderNotShip(1),
+                Suppliers = this.UnitOfWork.SupplierRepo.Get(fnOrderBy: f => f.OrderByDescending(s => s.CreatedDate), intPageSize: 4),
             };
 
             return View(vmIndexAdmin);
         }
-
-        //public IActionResult GetProductByCategory(int categoryId, int page)
-        //{
-        //    IList<Product> lstProductList = this._repoProduct.GetByCategoryId(categoryId, page, PAGESIZE);
-
-        //    ProductListViewModel vmProductList = new ProductListViewModel
-        //    {
-        //        CurrentCategory = categoryId,
-        //        PagingInfo = new PagingInfo
-        //        {
-        //            CurrentPage = page,
-        //            ItemsPerPage = PAGESIZE,
-        //            TotalItems = lstProductList.Count(),
-        //        },
-        //        Products = lstProductList,
-        //        Categories = this._repoCategory.GetAll()
-        //    };
-
-        //    return this.View("Index", vmProductList);
-        //}
     }
 }

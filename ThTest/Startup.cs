@@ -44,6 +44,10 @@ namespace ThTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+            services.Configure<RouteOptions>(options =>
+            {
+                options.ConstraintMap.Add("weekday", typeof(WeekdayRouteConstraint));
+            });
             services.Configure<ThConfiguration>(this.Configuration.GetSection("ThConfiguration"));
 
             //services.AddDbContext<ThDbContext>(option => option.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
@@ -145,12 +149,13 @@ namespace ThTest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<ThConfiguration> thConfiguration)
         {
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-
             ThConfiguration thConfig = thConfiguration.Value;
 
             if (env.IsDevelopment())
             {
+                loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug();
+
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }

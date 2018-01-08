@@ -601,9 +601,26 @@ namespace Th.Data.Helper.Migrations
                         .HasColumnName("Address")
                         .HasMaxLength(1024);
 
+                    b.Property<int>("CityId")
+                        .HasColumnName("CityId");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnName("CountryId");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnName("CreatedBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnName("CreatedDate");
+
                     b.Property<string>("Email")
                         .HasColumnName("Email")
                         .HasMaxLength(1024);
+
+                    b.Property<string>("Fax")
+                        .HasColumnName("Fax")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Logo")
                         .HasColumnName("Logo")
@@ -616,6 +633,17 @@ namespace Th.Data.Helper.Migrations
                     b.Property<string>("Phone")
                         .HasColumnName("Phone")
                         .HasMaxLength(50);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnName("UpdatedBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<string>("WebSiste")
+                        .HasColumnName("WebSiste")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 

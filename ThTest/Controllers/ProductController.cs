@@ -124,22 +124,28 @@ namespace ThTest.Controllers
         public IActionResult Edit(int id)
         {
             Product mdProduct = this._repoProduct.GetById(id);
-            EditProductViewModel vmEditProduct = mdProduct.Map<EditProductViewModel>();
-            vmEditProduct.Categories = this._repoCategory.GetAll();
-            vmEditProduct.Suppliers = this._repoSupplier.GetAll();
-            vmEditProduct.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
-            vmEditProduct.ProductStatuses = this.UnitOfWork.ProductStatusRepo.GetAll();
-            vmEditProduct.Mode = ThAction.Edit;
-            vmEditProduct.Translations = (from l in vmEditProduct.SupportLanguages
-                                          select new ProductTranslationViewModel
-                                          {
-                                              LanguageId = l.LanguageId,
-                                              LanguageName = l.Name,
-                                              Description = mdProduct.GetLanguageText(l.LanguageId, nameof(Product.Description)),
-                                              Name = mdProduct.GetLanguageText(l.LanguageId, nameof(Product.Name)),
-                                          }).ToList();
+            if (mdProduct != null)
+            {
+                EditProductViewModel vmEditProduct = mdProduct.Map<EditProductViewModel>();
+                vmEditProduct.Categories = this._repoCategory.GetAll();
+                vmEditProduct.Suppliers = this._repoSupplier.GetAll();
+                vmEditProduct.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
+                vmEditProduct.ProductStatuses = this.UnitOfWork.ProductStatusRepo.GetAll();
+                vmEditProduct.Mode = ThAction.Edit;
+                vmEditProduct.Translations = (from l in vmEditProduct.SupportLanguages
+                                              select new ProductTranslationViewModel
+                                              {
+                                                  LanguageId = l.LanguageId,
+                                                  LanguageName = l.Name,
+                                                  Description = mdProduct.GetLanguageText(l.LanguageId, nameof(Product.Description)),
+                                                  Name = mdProduct.GetLanguageText(l.LanguageId, nameof(Product.Name)),
+                                              }).ToList();
 
-            return this.View("EditProduct", vmEditProduct);
+                this.TempData[nameof(Product.Id)] = mdProduct.Id;
+                return this.View("EditProduct", vmEditProduct);
+            }
+
+            return this.NotFound();
         }
 
         [HttpPost]
@@ -147,67 +153,75 @@ namespace ThTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(EditProductViewModel editProductViewModel)
         {
-            if (this.ModelState.IsValid)
+            try
             {
-                Product p =  editProductViewModel.Map<Product>();
-
-                IFormFile file = editProductViewModel.FileImage;
-
-                if (file != null)
+                if (this.ModelState.IsValid)
                 {
-                    p.ImagePath = file.SaveImageFile(ImageFolder.Product, this._pvdPath);
-                    p.ImageBinary = file.GetBytes();
-                }
+                    Product p = editProductViewModel.Map<Product>();
+                    p.Id = this.TempData[nameof(Product.Id)] != null? (int)this.TempData[nameof(Product.Id)]: 0;
 
-                // Create translation for product name and description.
-                if (editProductViewModel.Translations != null && editProductViewModel.Translations.Count > 0)
-                {
-                    p.Translations = new List<ProductTranslation>();
-                    foreach(ProductTranslationViewModel vmPt in editProductViewModel.Translations)
+                    IFormFile file = editProductViewModel.FileImage;
+
+                    if (file != null)
                     {
-                        ProductTranslation ptName = new ProductTranslation
-                        {
-                            ColumnName = nameof(Product.Name),
-                            LanguageId = vmPt.LanguageId,
-                            Value = vmPt.Name,
-                            ProductId = p.Id
-                        };
-
-                        ProductTranslation ptDescription = new ProductTranslation
-                        {
-                            ColumnName = nameof(Product.Description),
-                            LanguageId = vmPt.LanguageId,
-                            Value = vmPt.Description,
-                            ProductId = p.Id,
-                        };
-
-                        p.Translations.Add(ptName);
-                        p.Translations.Add(ptDescription);
+                        p.ImagePath = file.SaveImageFile(ImageFolder.Product, this._pvdPath);
+                        p.ImageBinary = file.GetBytes();
                     }
+
+                    // Create translation for product name and description.
+                    if (editProductViewModel.Translations != null && editProductViewModel.Translations.Count > 0)
+                    {
+                        p.Translations = new List<ProductTranslation>();
+                        foreach (ProductTranslationViewModel vmPt in editProductViewModel.Translations)
+                        {
+                            ProductTranslation ptName = new ProductTranslation
+                            {
+                                ColumnName = nameof(Product.Name),
+                                LanguageId = vmPt.LanguageId,
+                                Value = vmPt.Name,
+                                ProductId = p.Id
+                            };
+
+                            ProductTranslation ptDescription = new ProductTranslation
+                            {
+                                ColumnName = nameof(Product.Description),
+                                LanguageId = vmPt.LanguageId,
+                                Value = vmPt.Description,
+                                ProductId = p.Id,
+                            };
+
+                            p.Translations.Add(ptName);
+                            p.Translations.Add(ptDescription);
+                        }
+                    }
+
+                    if (editProductViewModel.Mode == ThAction.Edit)
+                    {
+                        p.UpdatedBy = this.User.Identity.Name;
+                        p.UpdatedDate = DateTime.Now;
+                        this._repoProduct.Update(p);
+                    }
+                    else
+                    {
+                        p.CreatedBy = p.UpdatedBy = this.User.Identity.Name;
+                        p.CreatedDate = p.UpdatedDate = DateTime.Now;
+                        this._repoProduct.Insert(p);
+                    }
+
+                    await this.UnitOfWork.SaveAsync();
+                    this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Name);
+
+                    return this.RedirectToAction("IndexAdmin", "Home");
                 }
 
-                if (editProductViewModel.Mode == ThAction.Edit)
-                {
-                    p.UpdatedBy = this.User.Identity.Name;
-                    p.UpdatedDate = DateTime.Now;
-                    this._repoProduct.Update(p);
-                }
-                else
-                {
-                    p.CreatedBy = p.UpdatedBy = this.User.Identity.Name;
-                    p.CreatedDate = p.UpdatedDate = DateTime.Now;
-                    this._repoProduct.Insert(p);
-                }
+                editProductViewModel.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
 
-                await this.UnitOfWork.SaveAsync();
-                this.TempData["Message"] = string.Format(this._localizer["Product {0} has been saved."], p.Name);
-
-                return this.RedirectToAction("IndexAdmin", "Home");
+                return this.View("EditProduct", editProductViewModel);
             }
-
-            editProductViewModel.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
-
-            return this.View("EditProduct", editProductViewModel);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
@@ -235,7 +249,7 @@ namespace ThTest.Controllers
         {
             EditCategoryViewModel vmEditCategory = new EditCategoryViewModel
             {
-                Mode = ThAction.Edit,
+                Mode = ThAction.Add,
                 SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll(),
                 CurrentLanguage = Thread.CurrentThread.CurrentCulture.Name,
             };
@@ -250,7 +264,7 @@ namespace ThTest.Controllers
                                                Description = string.Empty,
                                            }).ToList();
 
-            return this.View("EditCategory", new EditCategoryViewModel() { Mode = ThAction.Add });
+            return this.View("EditCategory", vmEditCategory);
         }
 
         [HttpGet]
@@ -273,6 +287,9 @@ namespace ThTest.Controllers
                                                Name = mdCategory.GetLanguageText(l.LanguageId, nameof(Category.Name)),
                                                Description = mdCategory.GetLanguageText(l.LanguageId, nameof(Category.Description)),
                                            }).ToList();
+
+                // Save category id to tempdata for using in save category.
+                this.TempData[nameof(Category.Id)] = mdCategory.Id;
 
                 return this.View("EditCategory", vmCategory);
             }
@@ -308,6 +325,7 @@ namespace ThTest.Controllers
                 if (this.ModelState.IsValid)
                 {
                     Category c = vmEditCategory.Map<Category>();
+                    c.Id = this.TempData[nameof(Category.Id)] != null? (int)this.TempData[nameof(Category.Id)]: 0;
 
                     // Upload file.
                     IFormFile file = vmEditCategory.FileImage;
@@ -444,6 +462,18 @@ namespace ThTest.Controllers
             try
             {
                 return this.View("AllCategory", this._repoCategory.GetAll().ToList());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IActionResult ShowCategoryDetials(int id)
+        {
+            try
+            {
+                return this.View();
             }
             catch (Exception ex)
             {

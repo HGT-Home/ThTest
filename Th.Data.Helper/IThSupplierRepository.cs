@@ -8,6 +8,8 @@ namespace Th.Data.Helper
 {
     public interface IThSupplierRepository : IThRepository<Supplier>
     {
-        Task<Supplier> GetById(string id);
+        Supplier GetById(string id);
+
+        Task<Supplier> GetByIdAsync(string id);
     }
 }

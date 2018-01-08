@@ -19,12 +19,12 @@
                 <li class="nav-item mt-1 mt-sm-1 mt-md-0 ml-md-2">
                     <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.PathAndQuery()" method="post">
                         @Html.AntiForgeryToken()
-                        <div class="btn-group btn-group-sm" data-toggle="buttons">
-                            @*<label class="btn btn-outline-light disabled"><i class="fa fa-language"></i></label>*@
+                        <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                            <button class="btn btn-secondary disabled"><i class="fa fa-language"></i></button>
                             @foreach (var item in this.Model.SupportedCultures)
                             {
                                 <label class="btn btn-secondary @(this.Model.CurrentLanguage == item.Name? "active": string.Empty)">
-                                    <input @(this.Model.CurrentLanguage == item.Name ? "checked" : string.Empty) type="radio" id="@item.TwoLetterISOLanguageName" name="rdoLanguages" autocomplete="off" value="@item.Name" />
+                                    <input class="form-control form-control-sm" @(this.Model.CurrentLanguage == item.Name ? "checked" : string.Empty) type="radio" id="@item.TwoLetterISOLanguageName" name="rdoLanguages" autocomplete="off" value="@item.Name" />
                                     <span class="@(this.Model.CurrentLanguage == item.Name? "text-white": "text-dark")">@item.TwoLetterISOLanguageName.ToUpper()</span>
                                 </label>
                             }

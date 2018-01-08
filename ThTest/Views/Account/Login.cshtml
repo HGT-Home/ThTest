@@ -17,8 +17,8 @@
                 <div class="form-group">
                     <label asp-for="@this.Model.Username" class="col-form-label">@Localizer["Username"]</label>
                     <div class="input-group input-group-sm">
-                        <div class="input-group-addon">
-                            <i class="fa fa-user-circle-o"></i>
+                        <div class="input-group-prepend">
+                            <i class="fa fa-user-circle-o input-group-text"></i>
                         </div>
                         <input class="form-control" placeholder="@Localizer["Username"]" type="text" asp-for="@this.Model.Username" value="@Model.Username" />
                     </div>
@@ -27,20 +27,20 @@
                 <div class="form-group">
                     <label for="txtPassword" class="col-form-label">@Localizer["Password"]</label>
                     <div class="input-group input-group-sm">
-                        <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                        <div class="input-group-prepend">
+                            <i class="fa fa-key input-group-text"></i>
+                        </div>
                         <input class="form-control" placeholder="@Localizer["Password"]" type="password" id="txtPassword" asp-for="@this.Model.Password" value="@Model.Password" />
                     </div>
                     <div><span class="text-danger" asp-validation-for="@this.Model.Password"></span></div>
                 </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" asp-for="@this.Model.IsRememberMe" checked="@this.Model.IsRememberMe" />
-                        @Localizer["Remember me."]
-                    </label>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="chkRemember2" asp-for="@this.Model.IsRememberMe" />
+                    <label class="custom-control-label" for="chkRemember2">@this.Localizer["Remember me."]</label>
                 </div>
                 <hr />
                 <div class="form-group text-right">
-                    <div class="btn-group btn-group-sm">
+                    <div class="btn-group">
                         <button type="submit" class="btn btn-primary" title="@Localizer["Login"]"><i class="fa fa-sign-in"></i></button>
                         <button type="reset" class="btn btn-danger" title="@Localizer["Cancel"]"><i class="fa fa-times-circle-o"></i></button>
                     </div>
