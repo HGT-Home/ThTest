@@ -26,7 +26,7 @@ namespace ThTest.Models.ViewModels
 
         protected T GetValue<T>([CallerMemberName] string strPropertyName = null)
         {
-            if (this.Values.ContainsKey(strPropertyName))
+            if (this.Values.ContainsKey(strPropertyName) && this.Values[strPropertyName] != null)
             {
                 return (T)this.Values[strPropertyName];
             }

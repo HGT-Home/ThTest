@@ -80,13 +80,13 @@ namespace ThTest.Controllers
                 {
                     User adminUser = new User
                     {
-                        UserName = "Admin",
+                        UserName = "admin@gmail.com",
                         Email = "admin@gmail.com",
                         FullName = "Administrator",
                         DateOfBirth = DateTime.Now,
                     };
 
-                    IdentityResult userAdminResult = await this._userManager.CreateAsync(adminUser, "Administrator10");
+                    IdentityResult userAdminResult = await this._userManager.CreateAsync(adminUser, "Maradona10");
                     if (userAdminResult.Succeeded)
                     {
                         await this._userManager.AddToRoleAsync(adminUser, "Administrators");
@@ -129,11 +129,11 @@ namespace ThTest.Controllers
 
                                 return this.View(vmRegister);
                             }
-
-                            await this._userManager.AddToRoleAsync(user, "Users");
-
-                            return this.RedirectToAction("Login", "Account");
                         }
+
+                        await this._userManager.AddToRoleAsync(user, "Users");
+
+                        return this.RedirectToAction(nameof(Login));
                     }
                 }
                 else
@@ -141,6 +141,10 @@ namespace ThTest.Controllers
                     this.ModelState.AddModelError(nameof(RegisterViewModel.Email), this._localizer["Email has been existed."]);
                 }
             }
+
+            vmRegister.Cities = this.UnitOfWork.CityRepo.GetAll();
+            vmRegister.Countries = this.UnitOfWork.CountryRepo.GetAll();
+            vmRegister.SupportLanguages = this.UnitOfWork.LanguageRepo.GetAll();
 
             return this.View(vmRegister);
         }
@@ -186,7 +190,7 @@ namespace ThTest.Controllers
 
                         if (user != null)
                         {
-                            if (this._userManager.IsInRoleAsync(user, "Administrators").Result)
+                            if (await this._userManager.IsInRoleAsync(user, "Administrators"))
                             {
                                 return this.RedirectToAction("IndexAdmin", "Home");
                             }
@@ -199,7 +203,9 @@ namespace ThTest.Controllers
                 this.ModelState.AddModelError(nameof(LoginViewModel.Password), this._localizer["Email or password are invalid."]);
             }
 
-            vmLogin.LoginProviders = this._signInManager.GetExternalAuthenticationSchemesAsync().Result?.ToList();
+            vmLogin.LoginProviders = this._signInManager
+                .GetExternalAuthenticationSchemesAsync().Result?
+                .ToList();
 
             return this.View(vmLogin);
         }
