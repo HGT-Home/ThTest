@@ -54,7 +54,19 @@ namespace ThTest.Controllers
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(rdoLanguages)), 
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
 
-            return this.LocalRedirect(this.Url.IsLocalUrl(returnUrl)? returnUrl: "/");
+            return this.RedirectToLocal(returnUrl);
+        }
+
+        protected IActionResult RedirectToLocal(string url)
+        {
+            if (this.Url.IsLocalUrl(url))
+            {
+                return this.Redirect(url);
+            }
+            else
+            {
+                return this.RedirectToAction(nameof(HomeController.Index), "Home");
+            }
         }
     }
 }

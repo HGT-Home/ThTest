@@ -5,7 +5,7 @@
     <UserSecretsId>d21415bf-c19e-4464-b4bc-b547641a4c39</UserSecretsId>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\imgs\" />
@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler" Version="1.11.375" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0"></DotNetCliToolReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Th.Configuration\Th.Configuration.csproj" />

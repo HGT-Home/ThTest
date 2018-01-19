@@ -120,6 +120,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Hủy</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Log in use {0} account." xml:space="preserve">
+    <value>Đăng nhập sử dụng tài khoản của {0}.</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Đăng nhập</value>
   </data>

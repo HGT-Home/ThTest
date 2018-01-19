@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Routing;
 using ThTest.Models;
 using ThTest.Models.Helpers;
 using ThTest.Infrastructures;
+using ThTest.Infrastructures.FacebookApi;
 
 namespace ThTest
 {
@@ -56,7 +57,9 @@ namespace ThTest
                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Th.Data.Helper")));
 
             // Authentication setting.
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<ThDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<ThDbContext>()
+                .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
             {
                 // Password Setting.
@@ -87,6 +90,13 @@ namespace ThTest
                 options.SlidingExpiration = true;
             });
 
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = this.Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = this.Configuration["Authentication:Facebook:AppSecret"];
+                options.SaveTokens = true;
+            });
+
             // Use Dependency Injection to create the Repository and order services.
             //services.AddTransient<IThRepository<Product>, ThProductRepository>();
             //services.AddTransient<IThRepository<Category>, ThCategoryRepository>();
@@ -94,6 +104,10 @@ namespace ThTest
             //services.AddScoped(typeof(IThRepository<>), typeof(ThRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IPathProvider, PathProvider>();
+
+            // User for facebook Api.
+            services.AddScoped<IFacebookClient, FacebookClient>();
+            services.AddScoped<IFacebookService, FacebookService>();
             // Repositories.
             //services.AddTransient<IThCountryRepository, ThCountryRepository>();
             //services.AddTransient<IThCityRepository, ThCityRepository>();

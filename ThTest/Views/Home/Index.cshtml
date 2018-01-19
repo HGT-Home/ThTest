@@ -7,7 +7,7 @@
     ViewBag.Title = this.Localizer["Title"];
 }
 
-<div>
+<div class="bg-light">
     <div class="p-2 bg-secondary text-white d-flex justify-content-between">
         <h5 class="text-left">@this.Localizer["New Product"]</h5>
     </div>
@@ -56,9 +56,9 @@
     <div class="bg-light">
         @foreach (Category c in this.Model.Categories)
         {
-            <div class="bg-secondary mt-0 p-2">
+            <div class="mt-1 p-2 bg-secondary">
                 <div class="d-flex justify-content-between p-0 m-0 border border-white border-left-0 border-top-0 border-right-0">
-                    <h5 class="text-left text-white">@c.Name</h5>
+                    <h5 class="text-left">@c.Name</h5>
                     <a class="btn btn-link text-white" asp-controller="Product" asp-action="GetProductByCategoryId" asp-route-categoryId="@c.Id" asp-route-page="1"><small>@this.Localizer["See all"]</small></a>
                 </div>
 

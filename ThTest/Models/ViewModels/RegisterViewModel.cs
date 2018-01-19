@@ -10,16 +10,16 @@ namespace ThTest.Models.ViewModels
 {
     public class RegisterViewModel: ViewModelBase
     {
-        [Display(Name = "Username")]
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredUsername")]
-        [RegularExpression(@"^[a-zA-Z0-9]+", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "UserInvalid")]
-        [MaxLength(50, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthUsername")]
-        public string Username
-        {
-            get => this.GetValue<string>();
+        //[Display(Name = "Username")]
+        //[Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredUsername")]
+        //[RegularExpression(@"^[a-zA-Z0-9]+", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "UserInvalid")]
+        //[MaxLength(50, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthUsername")]
+        //public string Username
+        //{
+        //    get => this.GetValue<string>();
 
-            set => this.SetValue(value);
-        }
+        //    set => this.SetValue(value);
+        //}
 
         [DataType(DataType.Password)]
         [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredPassword")]
@@ -60,7 +60,7 @@ namespace ThTest.Models.ViewModels
         }
 
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth
+        public DateTime? DateOfBirth
         {
             get => this.GetValue<DateTime>();
 

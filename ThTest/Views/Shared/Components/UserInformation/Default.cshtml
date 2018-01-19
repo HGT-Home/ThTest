@@ -11,7 +11,7 @@
         @Html.AntiForgeryToken()
         <div class="btn-group btn-group-sm">
             <div class="btn btn-primary"><i class="fa fa-user-circle"></i></div>
-            <a class="btn btn-secondary" asp-controller="Account" asp-action="Profile">@this.User.Identity.Name</a>
+            <a class="btn btn-secondary" asp-controller="Account" asp-action="Profile">@this.Model.FullName</a>
             <button type="submit" class="btn btn-secondary" title="@this.Localizer["Sign out"]"><i class="fa fa-sign-out"></i></button>
         </div>
     </form>
@@ -29,13 +29,13 @@ else
                     @Html.AntiForgeryToken()
                     <div class="form-group">
                         <div class="input-group input-group-sm">
-                            <label class="sr-only">Username</label>
+                            <label class="sr-only">@this.Localizer["Email"]</label>
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <i class="fa fa-user-circle-o"></i>
                                 </div>
                             </div>
-                            <input id="txtUsername" type="text" class="form-control" asp-for="Username" aria-label="" />
+                            <input id="txtUsername" type="text" class="form-control" asp-for="@this.Model.Email"placeholder="@this.Localizer["Email"]" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -46,7 +46,7 @@ else
                                     <i class="fa fa-key"></i>
                                 </div>
                             </div>
-                            <input type="password" class="form-control" aria-label="" asp-for="Password" />
+                            <input type="password" class="form-control" aria-label="" asp-for="Password" placeholder="@this.Localizer["Password"]" />
                         </div>
                     </div>
                     <div class="custom-control custom-checkbox">

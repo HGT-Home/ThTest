@@ -319,5 +319,13 @@ namespace ThTest.Resources {
                 return ResourceManager.GetString("MaxLengthAddress", resourceCulture);
             }
         }
+
+        internal static string MaxLengthEmail
+        {
+            get
+            {
+                return ResourceManager.GetString("MaxLengthEmail", resourceCulture);
+            }
+        }
     }
 }

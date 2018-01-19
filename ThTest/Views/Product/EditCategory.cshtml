@@ -31,29 +31,29 @@
         </ul>
 
         <div class="tab-content bg-white p-3 border border-top-0" role="tablist">
-            @for(int i=0; i < this.Model.Translations.Count; i++)
+            @for (int i = 0; i < this.Model.Translations.Count; i++)
             {
-            <div class="tab-pane @(this.Model.Translations[i].LanguageId == this.Model.CurrentLanguage? "active": string.Empty)" id="@this.Model.Translations[i].LanguageId" role="tabpanel">
-                <input type="hidden" asp-for="@this.Model.Translations[i].LanguageId" />
-                <div class="form-group">
-                    <label asp-for="@this.Model.Translations[i].Name" class="col-form-label">@Localizer["Name"]</label>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-addon">
-                            <i class="fa fa-edit"></i>
+                <div class="tab-pane @(this.Model.Translations[i].LanguageId == this.Model.CurrentLanguage? "active": string.Empty)" id="@this.Model.Translations[i].LanguageId" role="tabpanel">
+                    <input type="hidden" asp-for="@this.Model.Translations[i].LanguageId" />
+                    <div class="form-group">
+                        <label asp-for="@this.Model.Translations[i].Name" class="col-form-label">@Localizer["Name"]</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <i class="fa fa-edit input-group-text"></i>
+                            </div>
+                            <input class="form-control" placeholder="@Localizer["Name"]" type="text" asp-for="@this.Model.Translations[i].Name" />
                         </div>
-                        <input class="form-control" placeholder="@Localizer["Name"]" type="text" asp-for="@this.Model.Translations[i].Name" />
+                        <div><span class="text-danger" asp-validation-for="@this.Model.Translations[i].Name"></span></div>
                     </div>
-                    <div><span class="text-danger" asp-validation-for="@this.Model.Translations[i].Name"></span></div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@this.Model.Translations[i].Description">@Localizer["Description"]</label>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-addon"><i class="fa fa-sticky-note"></i></div>
-                        <textarea asp-for="@this.Model.Translations[i].Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
+                    <div class="form-group">
+                        <label asp-for="@this.Model.Translations[i].Description">@Localizer["Description"]</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend"><i class="fa fa-sticky-note input-group-text"></i></div>
+                            <textarea asp-for="@this.Model.Translations[i].Description" class="form-control" rows="10" placeholder="@Localizer["Description"]"></textarea>
+                        </div>
+                        <div><span asp-validation-for="@this.Model.Translations[i].Description" class="text-danger"></span></div>
                     </div>
-                    <div><span asp-validation-for="@this.Model.Translations[i].Description" class="text-danger"></span></div>
                 </div>
-            </div>
             }
         </div>
         <div class="form-group mt-2">
@@ -65,7 +65,7 @@
                 <div class="col-12 col-sm-12 col-md-11">
                     <label asp-for="@this.Model.FileImage">@Localizer["Select image"]</label>
                     <div class="input-group input-group-sm">
-                        <div class="input-group-addon"><i class="fa fa-file-image-o"></i></div>
+                        <div class="input-group-prepend"><i class="fa fa-file-image-o input-group-text"></i></div>
                         <input asp-for="@this.Model.FileImage" class="form-control-file" type="file" accept="image/*" placeholder="@Localizer["Select image"]" />
                     </div>
                     <div><span asp-validation-for="@this.Model.FileImage" class="text-danger"></span></div>

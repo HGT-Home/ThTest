@@ -23,8 +23,8 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredSupplierEmail")]
-        [MaxLength(255, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthSupplerEmail")]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredEmail")]
+        [MaxLength(256, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthEmail")]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$|^\+?\d{0,2}\-?\d{4,5}\-?\d{5,6}", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "EmailInvalid")]
         public string Email
         {

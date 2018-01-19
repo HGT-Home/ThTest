@@ -12,6 +12,7 @@ using System.Security.Claims;
 using ThTest.Models;
 using System.Text;
 using Th.Data.Helper;
+using Microsoft.AspNetCore.Authentication;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,7 +27,6 @@ namespace ThTest.Controllers
         private readonly RoleManager<Role> _roleMananger;
 
         private readonly IStringLocalizer _localizer;
-
 
         public AccountController(
             LoginSessionInfo loginSessionInfo, 
@@ -97,16 +97,16 @@ namespace ThTest.Controllers
             // Create regitation user.
             if (this.ModelState.IsValid)
             {
-                User user = await this._userManager.FindByEmailAsync(vmRegister.Username);
+                User user = await this._userManager.FindByEmailAsync(vmRegister.Email);
 
                 if (user == null)
                 {
                     user = new User
                     {
-                        UserName = vmRegister.Username,
+                        UserName = vmRegister.Email,
                         Email = vmRegister.Email,
                         FullName = vmRegister.Fullname,
-                        DateOfBirth = vmRegister.DateOfBirth
+                        DateOfBirth = vmRegister.DateOfBirth ?? default(DateTime),
                     };
 
                     IdentityResult userResult = await this._userManager.CreateAsync(user, vmRegister.Password);
@@ -138,7 +138,7 @@ namespace ThTest.Controllers
                 }
                 else
                 {
-                    this.ModelState.AddModelError(nameof(RegisterViewModel.Username), this._localizer["Username has been existed."]);
+                    this.ModelState.AddModelError(nameof(RegisterViewModel.Email), this._localizer["Email has been existed."]);
                 }
             }
 
@@ -147,11 +147,14 @@ namespace ThTest.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public async Task<IActionResult> Login(string returnUrl)
         {
             return View(new LoginViewModel()
             {
                 ReturnUrl = returnUrl,
+                FacebookAppId = "170222766920220",
+                FacebookAppSecret = "dac137fc1003d0ec5d079c54b6b95de8",
+                LoginProviders = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList(),
             });
         }
 
@@ -162,24 +165,24 @@ namespace ThTest.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                User user = await this._userManager.FindByNameAsync(vmLogin.Username);
+                User user = await this._userManager.FindByEmailAsync(vmLogin.Email);
                 if (user != null)
                 {
                     await this._signInManager.SignOutAsync();
 
-                    var signInResult = await this._signInManager.PasswordSignInAsync(vmLogin.Username, vmLogin.Password, vmLogin.IsRememberMe, false);
+                    var signInResult = await this._signInManager.PasswordSignInAsync(vmLogin.Email, vmLogin.Password, vmLogin.IsRememberMe, false);
 
                     if (signInResult.Succeeded)
                     {
                         // Set login session.
                         this.LoginSession.UserId = user.Id;
                         this.LoginSession.Username = user.UserName;
+                        this.LoginSession.Email = user.Email;
                         this.LoginSession.LoginDate = DateTime.UtcNow;
                         this.LoginSession.CustomerId = user.CustomerId;
                         this.LoginSession.CustomerName = user.FullName;
-                        this.LoginSession.SaveSession();
-
                         this.LoginSession.RoleNames = await this._userManager.GetRolesAsync(user);
+                        this.LoginSession.SaveSession();
 
                         if (user != null)
                         {
@@ -189,12 +192,14 @@ namespace ThTest.Controllers
                             }
                         }
 
-                        return this.LocalRedirect(this.Url.IsLocalUrl(vmLogin?.ReturnUrl)? vmLogin?.ReturnUrl: "/Home/Index");
+                        return this.RedirectToLocal(vmLogin.ReturnUrl);
                     }
                 }
 
-                this.ModelState.AddModelError(nameof(LoginViewModel.Password), this._localizer["Username or password are invalid."]);
+                this.ModelState.AddModelError(nameof(LoginViewModel.Password), this._localizer["Email or password are invalid."]);
             }
+
+            vmLogin.LoginProviders = this._signInManager.GetExternalAuthenticationSchemesAsync().Result?.ToList();
 
             return this.View(vmLogin);
         }
@@ -205,12 +210,128 @@ namespace ThTest.Controllers
         {
             await this._signInManager.SignOutAsync();
 
-            return this.RedirectToAction("Login", "Account");
+            return this.RedirectToAction(nameof(Login));
         }
 
         public IActionResult Profile()
         {
             return this.View(new ProfileViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        // string provider, string returnUrl = null
+        public IActionResult ExternalLogin(string provider = null, string returnUrl = null)
+        {
+            try
+            {
+                string redirectUrl = this.Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+                AuthenticationProperties properties = this._signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+                return this.Challenge(properties, provider);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string remoteError = null)
+        {
+            try
+            {
+                if (remoteError != null)
+                {
+                    this.RedirectToAction(nameof(Login));
+                }
+
+                ExternalLoginInfo info = await this._signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return this.RedirectToAction(nameof(Login));
+                }
+
+                var result = await this._signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+                if (result.Succeeded)
+                {
+                    return this.RedirectToLocal(returnUrl);
+                }
+
+                if (result.IsLockedOut)
+                {
+                    return this.RedirectToAction(nameof(Login));
+                }
+
+                LoginViewModel vmLogin = new LoginViewModel
+                {
+                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    Password = "random-password",
+                    ReturnUrl = returnUrl,
+                };
+
+                return this.View("ExternalLogin", vmLogin);
+            }
+            catch (Exception ex)
+            {
+                throw ex; 
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(LoginViewModel vmLogin, string returnUrl = null)
+        {
+            try
+            {
+                if (this.ModelState.IsValid)
+                {
+                    ExternalLoginInfo info = await this._signInManager.GetExternalLoginInfoAsync();
+                    if(info == null)
+                    {
+                        throw new ApplicationException("Error while loading external login information");
+                    }
+
+                    User user = new Th.Models.User
+                    {
+                        UserName = vmLogin.Email,
+                        Email = vmLogin.Email,
+                        FullName = info.Principal.FindFirstValue(ClaimTypes.Name),
+                    };
+
+                    var result = await this._userManager.CreateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        result = await this._userManager.AddLoginAsync(user, info);
+                        await this._userManager.AddToRoleAsync(user, "Users");
+
+                        return this.RedirectToLocal(returnUrl);
+                    }
+
+                    foreach(var e in result.Errors)
+                    {
+                        this.ModelState.AddModelError(string.Empty, e.Description);
+                    }
+
+                    //result.Errors?.Select(e =>
+                    //{
+                    //    this.ModelState.AddModelError(string.Empty, e.Description);
+                    //    return e;
+                    //});
+
+                }
+
+                vmLogin.ReturnUrl = returnUrl;
+                vmLogin.LoginProviders = (await this._signInManager.GetExternalAuthenticationSchemesAsync())?.ToList();
+                return this.View(nameof(Login), vmLogin);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

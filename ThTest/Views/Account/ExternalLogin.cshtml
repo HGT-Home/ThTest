@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model LoginViewModel
+
+@{
+    this.ViewBag.Title = this.Localizer["Title"];
+}
+
+
+<div class="bg-light p-3">
+    <p class="text-info">
+        You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
+        Please enter an email address for this site below and click the Register button to finish
+        logging in.
+    </p>
+
+    <form asp-controller="Account" asp-action="ExternalLoginConfirmation" method="post" role="form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="@this.Model.Password" />
+        <div class="form-group">
+            <label asp-for="Email">@this.Localizer["Email"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-envelope input-group-text"></i></span>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <hr />
+        <div class="form-group text-right">
+            <button type="submit" class="btn btn-success">@this.Localizer["Register"]</button>
+        </div>
+    </form>
+</div>

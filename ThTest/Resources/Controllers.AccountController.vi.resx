@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Email has been existed." xml:space="preserve">
+    <value>Email đã tồn tại.</value>
+  </data>
+  <data name="Email or password are invalid." xml:space="preserve">
+    <value>Email hoặc mật khẩu không đúng.</value>
+  </data>
   <data name="Error while creating role." xml:space="preserve">
     <value>Xảy ra lỗi trong quá trình tạo role.</value>
-  </data>
-  <data name="Username has been existed." xml:space="preserve">
-    <value>Tên đăng nhập đã tồn tại.</value>
-  </data>
-  <data name="Username or password are invalid." xml:space="preserve">
-    <value>Tên đăng nhập hoặc mật khẩu không đúng.</value>
   </data>
 </root>

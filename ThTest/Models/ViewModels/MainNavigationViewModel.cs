@@ -17,14 +17,6 @@ namespace ThTest.Models.ViewModels
             set => this.SetValue(value);
         }
 
-
-        public string CurrentLanguage
-        {
-            get => this.GetValue<string>();
-
-            set => this.SetValue(value);
-        }
-
         public string TwoLetterCurrentLanguage
         {
             get => this.GetValue<string>();

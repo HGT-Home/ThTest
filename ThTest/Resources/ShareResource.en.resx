@@ -207,4 +207,7 @@
   <data name="MaxLengthAddress" xml:space="preserve">
     <value>Address is too long. It only {1}.</value>
   </data>
+  <data name="MaxLengthEmail" xml:space="preserve">
+    <value>Email is to long. It is only {1}.</value>
+  </data>
 </root>

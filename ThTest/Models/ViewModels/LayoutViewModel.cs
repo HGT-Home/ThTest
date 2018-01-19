@@ -7,11 +7,5 @@ namespace ThTest.Models.ViewModels
 {
     public class LayoutViewModel: ViewModelBase
     {
-        public string CurrentLanguage
-        {
-            get => this.GetValue<string>();
-
-            set => this.SetValue(value);
-        }
     }
 }

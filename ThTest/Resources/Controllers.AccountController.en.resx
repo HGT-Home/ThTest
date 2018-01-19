@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Email has been existed." xml:space="preserve">
+    <value>Email has been existed.</value>
+  </data>
+  <data name="Email or password are invalid." xml:space="preserve">
+    <value>Email or password are invalid.</value>
+  </data>
   <data name="Error while creating role." xml:space="preserve">
     <value>Error while creating role.</value>
-  </data>
-  <data name="Username has been existed." xml:space="preserve">
-    <value>Username has been existed.</value>
-  </data>
-  <data name="Username or password are invalid." xml:space="preserve">
-    <value>Username or password are invalid.</value>
   </data>
 </root>

@@ -11,7 +11,7 @@
 <div class="bg-light p-3">
     <form asp-controller="Account" asp-action="Register" method="post">
         @Html.AntiForgeryToken()
-        <div class="form-group">
+        @*<div class="form-group">
             <label asp-for="@this.Model.Username" class="col-form-label">@Localizer["Username"]</label>
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
@@ -20,6 +20,16 @@
                 <input class="form-control" placeholder="@Localizer["Username"]" type="text" asp-for="@this.Model.Username" value="@Model.Username" />
             </div>
             <div><span class="text-danger" asp-validation-for="@this.Model.Username"></span></div>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="@this.Model.Email" class="col-form-label">@Localizer["Email"]</label>
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <i class="fa fa-envelope input-group-text"></i>
+                </div>
+                <input class="form-control" placeholder="@Localizer["Email"]" type="email" asp-for="@this.Model.Email" value="@Model.Email" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Email"></span></div>
         </div>
         <div class="form-group">
             <label for="txtPassword" class="col-form-label">@Localizer["Password"]</label>
@@ -37,16 +47,7 @@
             </div>
             <div><span class="text-danger" asp-validation-for="@this.Model.ConfirmPassword"></span></div>
         </div>
-        <div class="form-group">
-            <label asp-for="@this.Model.Email" class="col-form-label">@Localizer["Email"]</label>
-            <div class="input-group input-group-sm">
-                <div class="input-group-prepend">
-                    <i class="fa fa-envelope input-group-text"></i>
-                </div>
-                <input class="form-control" placeholder="@Localizer["Email"]" type="email" asp-for="@this.Model.Email" value="@Model.Email" />
-            </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.Email"></span></div>
-        </div>
+
         <div class="form-group">
             <label asp-for="@this.Model.Fullname" class="col-form-label">@this.Localizer["Fullname"]</label>
             <div class="input-group input-group-sm">

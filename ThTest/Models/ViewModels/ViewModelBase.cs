@@ -49,13 +49,23 @@ namespace ThTest.Models.ViewModels
             }
         }
 
-        public IList<Language> SupportLanguages
+        public virtual IList<Language> SupportLanguages
         {
-            get;
-            set;
+            get => this.GetValue<IList<Language>>();
+            set => this.SetValue(value);
         }
 
-        public string CurrentLanguage { get; set; }
+        public virtual string CurrentLanguage
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        public virtual string ReturnUrl
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
 
         public ViewModelBase()
         {

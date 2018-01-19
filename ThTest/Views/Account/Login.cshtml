@@ -7,49 +7,68 @@
     ViewBag.Title = Localizer["Title"];
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@TempData["ReturnUrl"]" method="post" role="form">
-                @this.Html.AntiForgeryToken()
-                <input type="hidden" asp-for="ReturnUrl" />
-                @*<div class="text-danger" asp-validation-summary="All"></div>*@
-                <div class="form-group">
-                    <label asp-for="@this.Model.Username" class="col-form-label">@Localizer["Username"]</label>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                            <i class="fa fa-user-circle-o input-group-text"></i>
+<div class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 offset-md-4">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@TempData["ReturnUrl"]" method="post" role="form">
+                    @this.Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    @*<div class="text-danger" asp-validation-summary="All"></div>*@
+                    <div class="form-group">
+                        <label asp-for="@this.Model.Email" class="col-form-label">@Localizer["Email"]</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <i class="fa fa-user-circle-o input-group-text"></i>
+                            </div>
+                            <input class="form-control" placeholder="@Localizer["Email"]" type="text" asp-for="@this.Model.Email" value="@Model.Email" />
                         </div>
-                        <input class="form-control" placeholder="@Localizer["Username"]" type="text" asp-for="@this.Model.Username" value="@Model.Username" />
+                        <div><span class="text-danger" asp-validation-for="@this.Model.Email"></span></div>
                     </div>
-                    <div><span class="text-danger" asp-validation-for="@this.Model.Username"></span></div>
-                </div>
-                <div class="form-group">
-                    <label for="txtPassword" class="col-form-label">@Localizer["Password"]</label>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                            <i class="fa fa-key input-group-text"></i>
+                    <div class="form-group">
+                        <label for="txtPassword" class="col-form-label">@Localizer["Password"]</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <i class="fa fa-key input-group-text"></i>
+                            </div>
+                            <input class="form-control" placeholder="@Localizer["Password"]" type="password" id="txtPassword" asp-for="@this.Model.Password" value="@Model.Password" />
                         </div>
-                        <input class="form-control" placeholder="@Localizer["Password"]" type="password" id="txtPassword" asp-for="@this.Model.Password" value="@Model.Password" />
+                        <div><span class="text-danger" asp-validation-for="@this.Model.Password"></span></div>
                     </div>
-                    <div><span class="text-danger" asp-validation-for="@this.Model.Password"></span></div>
-                </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="chkRemember2" asp-for="@this.Model.IsRememberMe" />
-                    <label class="custom-control-label" for="chkRemember2">@this.Localizer["Remember me."]</label>
-                </div>
-                <hr />
-                <div class="form-group text-right">
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary" title="@Localizer["Login"]"><i class="fa fa-sign-in"></i></button>
-                        <button type="reset" class="btn btn-danger" title="@Localizer["Cancel"]"><i class="fa fa-times-circle-o"></i></button>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="chkRemember2" asp-for="@this.Model.IsRememberMe" />
+                        <label class="custom-control-label" for="chkRemember2">@this.Localizer["Remember me."]</label>
                     </div>
-                </div>
-                <hr />
-                <div class="form-group">
-                    <a asp-action="Register" asp-controller="Account">@Localizer["Register"]</a>
-                </div>
-            </form>
+                    <hr />
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between align-content-center">
+                            <a asp-action="Register" asp-controller="Account">@Localizer["Register"]</a>
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary" title="@Localizer["Login"]"><i class="fa fa-sign-in"></i></button>
+                                <button type="reset" class="btn btn-danger" title="@Localizer["Cancel"]"><i class="fa fa-times-circle-o"></i></button>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 offset-md-4 py-3">
+                <form name="frmFacebook" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@this.Model.ReturnUrl" method="post" role="form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <h5>@this.Localizer["Login With"]</h5>
+                        <hr />
+                        @foreach (var provider in this.Model.LoginProviders)
+                        {
+                            <p>
+                                <button name="provider" type="submit" class="btn btn-sm btn-primary" value="@provider.Name" title="@(string.Format(this.Localizer["Log in use {0} account."].Value, provider.Name))">@provider.Name</button>
+                            </p>
+                        }
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
