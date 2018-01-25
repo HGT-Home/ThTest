@@ -19,7 +19,7 @@
 else
 {
     <div class="btn-group btn-group-sm">
-        <div class="btn btn-primary" title="@this.Localizer["Register"]"><i class="fa fa-user-circle"></i></div>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary" title="@this.Localizer["Register"]"><i class="fa fa-user-circle"></i></a>
         <a id="lnkRegister" class="btn btn-sm btn-secondary" asp-controller="Account" asp-action="Register">@this.Localizer["Register"]</a>
         <button id="btnSignIn" class="btn btn-sm btn-secondary dropdown-toggle" href="#" data-toggle="popover" data-trigger="click focus" data-placement="left" role="button" title="@this.Localizer["Sign in"]"></button>
         <div id="ddSignIn" class="d-none popover">

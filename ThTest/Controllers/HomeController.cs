@@ -22,42 +22,26 @@ namespace ThTest.Controllers
         private IThCategoryRepository _repoCategory;
         private IThOrderRepository _repoOrder;
 
-        private IFacebookService _facebookService;
-
         private const int PAGESIZE = 2;
 
         public HomeController(
             LoginSessionInfo loginSessionInfo, 
-            IUnitOfWork unitOfWork,
-            IFacebookService facebookService)
+            IUnitOfWork unitOfWork)
             : base(loginSessionInfo, unitOfWork)
         {
             this._repoCategory = this.UnitOfWork.CategoryRepo;
             this._repoProduct = this.UnitOfWork.ProductRepo;
             this._repoOrder = this.UnitOfWork.OrderRepo;
-
-            this._facebookService = facebookService;
         }
 
         [AllowAnonymous]
         // GET: /<controller>/
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             HomeIndexViewModel vmHomeIndex = new HomeIndexViewModel
             {
                 Categories = this._repoCategory.GetAllCategoryFirstPageProduct()
             };
-
-            string appSecret = "dac137fc1003d0ec5d079c54b6b95de8";
-            string appId = "170222766920220";
-            string accessToken = await this._facebookService.GetAccessToken(appId, appSecret);
-            var result = await this._facebookService.GetUserAsync(accessToken);
-
-            Debug.WriteLine("Facebook user information");
-            Debug.WriteLine("-------------------------------------------------------------------------");
-            Debug.WriteLine($"Name = {result.Name}");
-
-            Debug.WriteLine("-------------------------------------------------------------------------");
 
             return this.View(vmHomeIndex);
         }

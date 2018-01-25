@@ -20,7 +20,7 @@
                     <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.PathAndQuery()" method="post">
                         @Html.AntiForgeryToken()
                         <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                            <button class="btn btn-secondary disabled"><i class="fa fa-language"></i></button>
+                            <button class="btn btn-primary"><i class="fa fa-language"></i></button>
                             @foreach (var item in this.Model.SupportedCultures)
                             {
                                 <label class="btn btn-secondary @(this.Model.CurrentLanguage == item.Name? "active": string.Empty)">

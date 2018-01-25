@@ -312,6 +312,11 @@ namespace ThTest.Controllers
                     if (result.Succeeded)
                     {
                         result = await this._userManager.AddLoginAsync(user, info);
+                        if (result.Succeeded)
+                        {
+                            await this._signInManager.SignInAsync(user, isPersistent: false);
+                        }
+
                         await this._userManager.AddToRoleAsync(user, "Users");
 
                         return this.RedirectToLocal(returnUrl);
@@ -321,13 +326,6 @@ namespace ThTest.Controllers
                     {
                         this.ModelState.AddModelError(string.Empty, e.Description);
                     }
-
-                    //result.Errors?.Select(e =>
-                    //{
-                    //    this.ModelState.AddModelError(string.Empty, e.Description);
-                    //    return e;
-                    //});
-
                 }
 
                 vmLogin.ReturnUrl = returnUrl;
