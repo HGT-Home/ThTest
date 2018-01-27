@@ -210,4 +210,13 @@
   <data name="MaxLengthEmail" xml:space="preserve">
     <value>Email is to long. It is only {1}.</value>
   </data>
+  <data name="MaxLengthFilstName" xml:space="preserve">
+    <value>First name is too long. It is only {1}.</value>
+  </data>
+  <data name="MaxLengthFullName" xml:space="preserve">
+    <value>Full name is too long. It is only {1}.</value>
+  </data>
+  <data name="MaxLengthLastName" xml:space="preserve">
+    <value>Last name is too long. It is only {1}.</value>
+  </data>
 </root>

@@ -327,5 +327,29 @@ namespace ThTest.Resources {
                 return ResourceManager.GetString("MaxLengthEmail", resourceCulture);
             }
         }
+
+        public static string MaxLengthFirstName
+        {
+            get
+            {
+                return ResourceManager.GetString("MaxLengthFistName");
+            }
+        }
+
+        public static string MaxLengthLastName
+        {
+            get
+            {
+                return ResourceManager.GetString("MaxLengthLastName");
+            }
+        }
+
+        public static string MaxLengthFullname
+        {
+            get
+            {
+                return ResourceManager.GetString("MaxLengthFullName");
+            }
+        }
     }
 }

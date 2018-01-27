@@ -3,66 +3,114 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Th.Models;
 using ThTest.Resources;
 
 namespace ThTest.Models.ViewModels
 {
     public class ProfileViewModel: ViewModelBase
     {
-        [Display(Name = "Username")]
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredUsername")]
-        [RegularExpression(@"^[a-zA-Z0-9]+", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "UserInvalid")]
-        [MaxLength(30, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "MaxLengthUsername")]
-        public string Username
-        {
-            get => this.GetValue<string>();
-
-            set => this.SetValue(value);
-        }
-
         [DataType(DataType.Password)]
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredPassword")]
-        [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "PasswordInvalid")]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.RequiredPassword))]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.PasswordInvalid))]
         public string Password
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         [DataType(DataType.Password)]
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredConfirmPassword")]
-        [Compare("Password", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "ConfirmPasswordNotMatch")]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.RequiredPassword))]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.PasswordInvalid))]
+        public string NewPassword
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        [DataType(DataType.Password)]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.RequiredConfirmPassword))]
+        [Compare(nameof(NewPassword), ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.ConfirmPasswordNotMatch))]
         public string ConfirmPassword
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
-        [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredEmail")]
-        [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "EmailInvalid")]
-        public string Email
+        [DataType(DataType.Password)]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.RequiredPassword))]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.PasswordInvalid))]
+        public string CurrentPassword
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
-        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "RequiredFullname")]
+        [MaxLength(256, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.MaxLengthFullname))]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.RequiredFullname))]
         public string Fullname
         {
             get => this.GetValue<string>();
-
             set => this.SetValue(value);
         }
 
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth
+        public DateTime? DateOfBirth
         {
-            get => this.GetValue<DateTime>();
+            get => this.GetValue<DateTime?>();
+            set => this.SetValue(value);
+        }
 
+        public string Address
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        [MaxLength(256, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.MaxLengthLastName))]
+        public string LastName
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        [MaxLength(256, ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.MaxLengthFirstName))]
+        public string FirstName
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = nameof(ShareResource.RequiredEmail))]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$|^\+?\d{0,2}\-?\d{4,5}\-?\d{5,6}", ErrorMessageResourceType = typeof(ShareResource), ErrorMessageResourceName = "EmailInvalid")]
+        public string Email
+        {
+            get => this.GetValue<string>();
+            set => this.SetValue(value);
+        }
+
+        public int CountryId
+        {
+            get => this.GetValue<int>();
+            set => this.SetValue(value);
+        }
+
+        public int CityId
+        {
+            get => this.GetValue<int>();
+            set => this.SetValue(value);
+        }
+
+        public IList<Country> Countries
+        {
+            get => this.GetValue<IList<Country>>();
+            set => this.SetValue(value);
+        }
+
+        public IList<City> Cities
+        {
+            get => this.GetValue<IList<City>>();
             set => this.SetValue(value);
         }
 

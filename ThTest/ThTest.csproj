@@ -62,6 +62,12 @@
     <EmbeddedResource Update="Resources\Views.Account.Login.vi.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Account.Profile.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Account.Profile.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Account.Register.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>

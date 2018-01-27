@@ -13,6 +13,7 @@ using ThTest.Models;
 using System.Text;
 using Th.Data.Helper;
 using Microsoft.AspNetCore.Authentication;
+using ThTest.Infrastructures;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -204,7 +205,8 @@ namespace ThTest.Controllers
             }
 
             vmLogin.LoginProviders = this._signInManager
-                .GetExternalAuthenticationSchemesAsync().Result?
+                .GetExternalAuthenticationSchemesAsync()
+                .Result?
                 .ToList();
 
             return this.View(vmLogin);
@@ -219,9 +221,21 @@ namespace ThTest.Controllers
             return this.RedirectToAction(nameof(Login));
         }
 
-        public IActionResult Profile()
+        [HttpGet]
+        public async Task<IActionResult> Profile()
         {
-            return this.View(new ProfileViewModel());
+            string email = this.User.Identity.Name;
+            User user = await this._userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                ProfileViewModel vmProfile = user.Map<ProfileViewModel>();
+                vmProfile.Countries = this.UnitOfWork.CountryRepo.GetAll();
+                vmProfile.Cities = this.UnitOfWork.CityRepo.GetAll();
+
+                return this.View(vmProfile);
+            }
+
+            return this.NotFound();
         }
 
         [HttpPost]
@@ -331,6 +345,62 @@ namespace ThTest.Controllers
                 vmLogin.ReturnUrl = returnUrl;
                 vmLogin.LoginProviders = (await this._signInManager.GetExternalAuthenticationSchemesAsync())?.ToList();
                 return this.View(nameof(Login), vmLogin);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveProfile(ProfileViewModel vmProfile)
+        {
+            try
+            {
+                User user = await this._userManager.FindByEmailAsync(vmProfile.Email);
+                if (user != null)
+                {
+                    user.FullName = vmProfile.Fullname;
+                    user.FirstName = vmProfile.FirstName;
+                    user.LastName = vmProfile.LastName;
+                    
+                    IdentityResult result = await this._userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return this.RedirectToLocal(vmProfile.ReturnUrl);
+                    }
+                }
+
+                return this.NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ProfileViewModel vmProfile)
+        {
+            try
+            {
+                User user = await this._userManager.FindByEmailAsync(this.User.Identity.Name);
+                
+                if (user != null)
+                {
+                    IdentityResult result = await this._userManager.ChangePasswordAsync(user, vmProfile.CurrentPassword, vmProfile.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        return this.RedirectToAction(nameof(Profile));
+                    }
+                }
+
+                return this.NotFound();
+                
             }
             catch (Exception ex)
             {

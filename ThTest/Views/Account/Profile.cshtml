@@ -1,5 +1,87 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model ProfileViewModel
 @{
+    this.ViewBag.Title = this.Localizer["User Profile"];
 }
+
+<div class="bg-light p-3">
+    <form asp-controller="Account" asp-action="SaveProfile" method="post" asp-antiforgery="true">
+        @this.Html.AntiForgeryToken()
+        <div class="form-group">
+            <label asp-for="@this.Model.Email">@this.Localizer["Email"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-envelope input-group-text"></i></span>
+                <input class="form-control" type="text" asp-for="@this.Model.Email" placeholder="@this.Localizer["Email"]" />
+            </div>
+            <div><span class="bg-danger" asp-validation-for="@this.Model.Email"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.Fullname">@this.Localizer["Fullname"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-user input-group-text"></i></span>
+                <input class="form-control" type="text" asp-for="@this.Model.Fullname" placeholder="@this.Localizer["Fullname"]" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Fullname"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.Address">@this.Localizer["Address"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-map input-group-text"></i></span>
+                <input class="form-control" type="text" asp-for="@this.Model.Address" placeholder="@this.Localizer["Address"]" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.Address"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.DateOfBirth">@this.Localizer["Date of birth"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-calendar input-group-text"></i></span>
+                <input class="form-control" type="date" asp-for="@this.Model.DateOfBirth" placeholder="@this.Localizer["Date of birth"]" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.DateOfBirth"></span></div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary" title="@this.Localizer["Save"]"><i class="fa fa-save"></i></button>
+            </div>
+        </div>
+    </form>
+    <form asp-controller="Account" asp-action="ChangePassword">
+        @this.Html.AntiForgeryToken()
+        <div class="form-group">
+            <label asp-for="@this.Model.CurrentPassword">@this.Localizer["Current password"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-key input-group-text"></i></span>
+                <input class="form-control" type="password" asp-for="@this.Model.CurrentPassword" placeholder="@this.Localizer["Current password"]" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.CurrentPassword"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.NewPassword">@this.Localizer["New password"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-key input-group-text"></i></span>
+                <input class="form-control" type="password" asp-for="@this.Model.NewPassword" placeholder="@this.Localizer["New password"]" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.NewPassword"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.ConfirmPassword">@this.Localizer["Confirm password"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-key input-group-text"></i></span>
+                <input class="form-control" type="password" asp-for="@this.Model.ConfirmPassword" placeholder="@this.Localizer["Confirm password"]" />
+            </div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.ConfirmPassword"></span></div>
+        </div>
+        <hr />
+        <div class="text-right">
+            <button class="btn btn-primary" type="submit" role="button" title="@this.Localizer["Change password"]">@this.Localizer["Change password"]</button>
+        </div>
+    </form>
+    @*<form asp-controller="Account" asp-action="">
+        <div class="form-group">
+            <span class="input-group-prepend"><i class=""></i></span>
+        </div>
+    </form>*@
+</div>

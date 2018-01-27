@@ -117,112 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmPasswordNotMatch" xml:space="preserve">
-    <value>Xác nhận mật khẩu không khớp với mật khẩu nhập.</value>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
   </data>
-  <data name="MaxLengthProductDescription" xml:space="preserve">
-    <value>Chi tiết quá dài. Tối đa là {1} ký tự.</value>
+  <data name="Change password" xml:space="preserve">
+    <value>Change password</value>
   </data>
-  <data name="MaxLengthProductName" xml:space="preserve">
-    <value>Tên sản phẩm quá dài. Tối đa là {1} ký tự.</value>
+  <data name="Confirm password" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
-  <data name="PasswordInvalid" xml:space="preserve">
-    <value>Mật khẩu không hợp lệ. Mật khẩu có chiều dài ít nhất là 8 ký tự, chứa ít nhật 1 chử sô, 1 chử in hoa và 1 ký tự thường.</value>
+  <data name="Current password" xml:space="preserve">
+    <value>Current password</value>
   </data>
-  <data name="RangeUnitPrice" xml:space="preserve">
-    <value>Giá bán không hợp lệ. Nhập giá trị trong khoảng {1} tới {2}.</value>
+  <data name="Date of birth" xml:space="preserve">
+    <value>Date of birth</value>
   </data>
-  <data name="RequiredCategory" xml:space="preserve">
-    <value>Nhập nhóm sản phẩm.</value>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="RequiredConfirmPassword" xml:space="preserve">
-    <value>Nhập xác nhận mật khẩu.</value>
+  <data name="Fullname" xml:space="preserve">
+    <value>Fullname</value>
   </data>
-  <data name="RequiredEmail" xml:space="preserve">
-    <value>Nhập địa chỉ email.</value>
+  <data name="New password" xml:space="preserve">
+    <value>New password</value>
   </data>
-  <data name="RequiredFullname" xml:space="preserve">
-    <value>Nhập họ tên.</value>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
-  <data name="RequiredImage" xml:space="preserve">
-    <value>Chọn hình ảnh.</value>
-  </data>
-  <data name="RequiredPassword" xml:space="preserve">
-    <value>Nhập mật khẩu.</value>
-  </data>
-  <data name="RequiredProductName" xml:space="preserve">
-    <value>Nhập tên sản phẩm.</value>
-  </data>
-  <data name="RequiredSupplier" xml:space="preserve">
-    <value>Nhập nhà cung cấp.</value>
-  </data>
-  <data name="RequiredUnitPrice" xml:space="preserve">
-    <value>Nhập giá bán.</value>
-  </data>
-  <data name="RequiredUsername" xml:space="preserve">
-    <value>Nhập tên đăng nhập.</value>
-  </data>
-  <data name="RequireName" xml:space="preserve">
-    <value>Nhập tên tiếng Anh.</value>
-  </data>
-  <data name="RequireNameVn" xml:space="preserve">
-    <value>Nhập tên tiếng Việt.</value>
-  </data>
-  <data name="EmailInvalid" xml:space="preserve">
-    <value>Địa chỉ email không hợp lệ.</value>
-  </data>
-  <data name="MaxLengthUsername" xml:space="preserve">
-    <value>Tên đăng nhập quá dài. Tối đa là {1} ký tự.</value>
-  </data>
-  <data name="UserInvalid" xml:space="preserve">
-    <value>Tên đăng nhập không hợp lệ. Tên đăng nhập chỉ bao gồm chử và số.</value>
-  </data>
-  <data name="MaxLengthSupplerEmail" xml:space="preserve">
-    <value>Email quá dài. Tối đa {1} ký tự.</value>
-  </data>
-  <data name="MaxLengthSupplierName" xml:space="preserve">
-    <value>Tên nhà cung cấp quá dài. Tối đa là {1} ký tự.</value>
-  </data>
-  <data name="RequiredSupplierEmail" xml:space="preserve">
-    <value>Nhập email nhà cung cấp.</value>
-  </data>
-  <data name="RequiredSupplierName" xml:space="preserve">
-    <value>Nhập tên nhà cung cấp</value>
-  </data>
-  <data name="OrderViewModelRequiredCity" xml:space="preserve">
-    <value>Nhập thành phố.</value>
-  </data>
-  <data name="OrderViewModelRequiredName" xml:space="preserve">
-    <value>Nhập họ tên.</value>
-  </data>
-  <data name="EditCategoryViewModelMaxLengthDescription" xml:space="preserve">
-    <value>Chi tiết quá dài. Tối đa là {1} ký tự.</value>
-  </data>
-  <data name="Category" xml:space="preserve">
-    <value>Nhóm sản phẩm</value>
-  </data>
-  <data name="Product" xml:space="preserve">
-    <value>Sản phẩm</value>
-  </data>
-  <data name="RangeQuantity" xml:space="preserve">
-    <value>Số lượng không hợp lệ. Nhập giá trị trong khoảng {1} tới {2}.</value>
-  </data>
-  <data name="MaxLengthPhone" xml:space="preserve">
-    <value>Số điện thoại quá dài. Tối đa là {1} ký tự.</value>
-  </data>
-  <data name="MaxLengthAddress" xml:space="preserve">
-    <value>Địa chỉ quá dài. Tối đa là {1} ký tự.</value>
-  </data>
-  <data name="MaxLengthEmail" xml:space="preserve">
-    <value>Email quá dài. Tối đa {1} ký tự.</value>
-  </data>
-  <data name="MaxLengthFilstName" xml:space="preserve">
-    <value>Tên quá dài. Tối đa {1} ký tự.</value>
-  </data>
-  <data name="MaxLengthFullName" xml:space="preserve">
-    <value>Họ tên quá dài. Tối đa chỉ {1} ký tự.</value>
-  </data>
-  <data name="MaxLengthLastName" xml:space="preserve">
-    <value>Họ quá dài. Tối đa chỉ {1} ký tự.</value>
+  <data name="User Profile" xml:space="preserve">
+    <value>User Profile</value>
   </data>
 </root>
