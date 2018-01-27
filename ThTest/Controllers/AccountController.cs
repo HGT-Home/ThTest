@@ -402,6 +402,10 @@ namespace ThTest.Controllers
                         {
                             return this.RedirectToAction(nameof(Profile));
                         }
+                        else
+                        {
+                            this.ModelState.AddModelError(nameof(ProfileViewModel.ConfirmPassword), this._localizer["Error while change password."]);
+                        }
                     }
                 }
 

@@ -135,6 +135,9 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Error while change password." xml:space="preserve">
+    <value>Lỗi trong quá trình thay đổi mật khẩu.</value>
+  </data>
   <data name="Fullname" xml:space="preserve">
     <value>Họ tên</value>
   </data>
