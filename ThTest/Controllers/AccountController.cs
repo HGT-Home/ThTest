@@ -358,18 +358,21 @@ namespace ThTest.Controllers
         {
             try
             {
-                User user = await this._userManager.FindByEmailAsync(vmProfile.Email);
-                if (user != null)
+                if (this.ModelState.IsValid)
                 {
-                    user.FullName = vmProfile.Fullname;
-                    user.FirstName = vmProfile.FirstName;
-                    user.LastName = vmProfile.LastName;
-                    
-                    IdentityResult result = await this._userManager.UpdateAsync(user);
-
-                    if (result.Succeeded)
+                    User user = await this._userManager.FindByEmailAsync(vmProfile.Email);
+                    if (user != null)
                     {
-                        return this.RedirectToLocal(vmProfile.ReturnUrl);
+                        user.FullName = vmProfile.Fullname;
+                        user.FirstName = vmProfile.FirstName;
+                        user.LastName = vmProfile.LastName;
+
+                        IdentityResult result = await this._userManager.UpdateAsync(user);
+
+                        if (result.Succeeded)
+                        {
+                            return this.RedirectToLocal(vmProfile.ReturnUrl);
+                        }
                     }
                 }
 
@@ -387,20 +390,22 @@ namespace ThTest.Controllers
         {
             try
             {
-                User user = await this._userManager.FindByEmailAsync(this.User.Identity.Name);
-                
-                if (user != null)
+                if (this.ModelState.IsValid)
                 {
-                    IdentityResult result = await this._userManager.ChangePasswordAsync(user, vmProfile.CurrentPassword, vmProfile.NewPassword);
+                    User user = await this._userManager.FindByEmailAsync(this.User.Identity.Name);
 
-                    if (result.Succeeded)
+                    if (user != null)
                     {
-                        return this.RedirectToAction(nameof(Profile));
+                        IdentityResult result = await this._userManager.ChangePasswordAsync(user, vmProfile.CurrentPassword, vmProfile.NewPassword);
+
+                        if (result.Succeeded)
+                        {
+                            return this.RedirectToAction(nameof(Profile));
+                        }
                     }
                 }
 
                 return this.NotFound();
-                
             }
             catch (Exception ex)
             {
