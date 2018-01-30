@@ -11,9 +11,10 @@ using Th.Data.Helper;
 namespace Th.Data.Helper.Migrations
 {
     [DbContext(typeof(ThDbContext))]
-    partial class ThDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180130124131_AddEmployeeDepartment")]
+    partial class AddEmployeeDepartment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,26 +273,6 @@ namespace Th.Data.Helper.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Th.Models.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("Description")
-                        .HasMaxLength(4000);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments");
-                });
-
             modelBuilder.Entity("Th.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -306,9 +287,6 @@ namespace Th.Data.Helper.Migrations
                         .HasColumnName("CardIdNumber")
                         .HasMaxLength(16);
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnName("DepartmentId");
-
                     b.Property<byte[]>("ImageBinary")
                         .HasColumnName("ImageBinary");
 
@@ -322,9 +300,7 @@ namespace Th.Data.Helper.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("Th.Models.Language", b =>
@@ -864,14 +840,6 @@ namespace Th.Data.Helper.Migrations
                     b.HasOne("Th.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Th.Models.Employee", b =>
-                {
-                    b.HasOne("Th.Models.Department", "Department")
-                        .WithMany("Employees")
-                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

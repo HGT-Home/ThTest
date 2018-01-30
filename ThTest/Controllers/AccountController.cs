@@ -22,11 +22,8 @@ namespace ThTest.Controllers
     public class AccountController: ThBaseController
     {
         private readonly UserManager<User> _userManager;
-
         private readonly SignInManager<User> _signInManager;
-
         private readonly RoleManager<Role> _roleMananger;
-
         private readonly IStringLocalizer _localizer;
 
         public AccountController(
@@ -228,9 +225,30 @@ namespace ThTest.Controllers
             User user = await this._userManager.FindByEmailAsync(email);
             if (user != null)
             {
-                ProfileViewModel vmProfile = user.Map<ProfileViewModel>();
-                vmProfile.Countries = this.UnitOfWork.CountryRepo.GetAll();
-                vmProfile.Cities = this.UnitOfWork.CityRepo.GetAll();
+                ProfileViewModel vmProfile = new ProfileViewModel
+                {
+                    UserInformation = user.Map<ProfileUserInformationViewModel>()
+                };
+
+                if (await this._userManager.IsInRoleAsync(user, "Users"))
+                {
+                    Customer customer = this.UnitOfWork.CustomerRepo.Get(c => c.Id == user.CustomerId.Value).SingleOrDefault();
+
+                    if (customer != null)
+                    {
+                        vmProfile.UserInformation.Address = customer.Address;
+                        vmProfile.UserInformation.CityId = customer.CityId;
+
+                        vmProfile.UserInformation.CountryId = this.UnitOfWork.CountryRepo.Get(customer.CityId).Id;
+                    }
+                }
+                else if(await this._userManager.IsInRoleAsync(user, "Administrators"))
+                {
+
+                }
+
+                vmProfile.UserInformation.Countries = this.UnitOfWork.CountryRepo.GetAll();
+                vmProfile.UserInformation.Cities = this.UnitOfWork.CityRepo.GetAll();
 
                 return this.View(vmProfile);
             }
@@ -315,7 +333,7 @@ namespace ThTest.Controllers
                         throw new ApplicationException("Error while loading external login information");
                     }
 
-                    User user = new Th.Models.User
+                    User user = new User
                     {
                         UserName = vmLogin.Email,
                         Email = vmLogin.Email,
@@ -358,14 +376,27 @@ namespace ThTest.Controllers
         {
             try
             {
+                this.ModelState.Clear();
+
+                this.TryValidateModel(vmProfile.UserInformation);
                 if (this.ModelState.IsValid)
                 {
-                    User user = await this._userManager.FindByEmailAsync(vmProfile.Email);
+                    User user = await this._userManager.FindByEmailAsync(vmProfile.UserInformation.Email);
                     if (user != null)
                     {
-                        user.FullName = vmProfile.Fullname;
-                        user.FirstName = vmProfile.FirstName;
-                        user.LastName = vmProfile.LastName;
+                        user.FullName = vmProfile.UserInformation.Fullname;
+                        user.FirstName = vmProfile.UserInformation.FirstName;
+                        user.LastName = vmProfile.UserInformation.LastName;
+                        user.DateOfBirth = vmProfile.UserInformation.DateOfBirth ?? DateTime.Now;
+                        user.Customer = this.UnitOfWork.CustomerRepo.Get(c => c.Id == user.CustomerId.Value).SingleOrDefault();
+                        if (user.Customer == null)
+                        {
+                            user.Customer = new Customer
+                            {
+                                Address = vmProfile.UserInformation.Address,
+                                CityId = vmProfile.UserInformation.CityId,
+                            };
+                        }
 
                         IdentityResult result = await this._userManager.UpdateAsync(user);
 
@@ -396,7 +427,7 @@ namespace ThTest.Controllers
 
                     if (user != null)
                     {
-                        IdentityResult result = await this._userManager.ChangePasswordAsync(user, vmProfile.CurrentPassword, vmProfile.NewPassword);
+                        IdentityResult result = await this._userManager.ChangePasswordAsync(user, vmProfile.PasswordInformation.CurrentPassword, vmProfile.PasswordInformation.NewPassword);
 
                         if (result.Succeeded)
                         {
@@ -404,7 +435,7 @@ namespace ThTest.Controllers
                         }
                         else
                         {
-                            this.ModelState.AddModelError(nameof(ProfileViewModel.ConfirmPassword), this._localizer["Error while change password."]);
+                            this.ModelState.AddModelError(nameof(ProfilePasswordInformation.ConfirmPassword), this._localizer["Error while change password."]);
                         }
                     }
                 }

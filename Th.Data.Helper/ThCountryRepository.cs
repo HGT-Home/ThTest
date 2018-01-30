@@ -66,5 +66,19 @@ namespace Th.Data.Helper
                 throw ex;
             }
         }
+
+        public Country Get(int cityId)
+        {
+            try
+            {
+                City city = this._dbContext.Cities.Include(c => c.Country).Where(c => c.Id == cityId).SingleOrDefault();
+
+                return city.Country;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

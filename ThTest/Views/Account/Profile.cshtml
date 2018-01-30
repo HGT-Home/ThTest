@@ -10,36 +10,54 @@
     <form asp-controller="Account" asp-action="SaveProfile" method="post" asp-antiforgery="true">
         @this.Html.AntiForgeryToken()
         <div class="form-group">
-            <label asp-for="@this.Model.Email">@this.Localizer["Email"]</label>
+            <label asp-for="@this.Model.UserInformation.Email">@this.Localizer["Email"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-envelope input-group-text"></i></span>
-                <input class="form-control" type="text" asp-for="@this.Model.Email" placeholder="@this.Localizer["Email"]" />
+                <input class="form-control" type="text" asp-for="@this.Model.UserInformation.Email" placeholder="@this.Localizer["Email"]" />
             </div>
-            <div><span class="bg-danger" asp-validation-for="@this.Model.Email"></span></div>
+            <div><span class="bg-danger" asp-validation-for="@this.Model.UserInformation.Email"></span></div>
         </div>
         <div class="form-group">
-            <label asp-for="@this.Model.Fullname">@this.Localizer["Fullname"]</label>
+            <label asp-for="@this.Model.UserInformation.Fullname">@this.Localizer["Fullname"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-user input-group-text"></i></span>
-                <input class="form-control" type="text" asp-for="@this.Model.Fullname" placeholder="@this.Localizer["Fullname"]" />
+                <input class="form-control" type="text" asp-for="@this.Model.UserInformation.Fullname" placeholder="@this.Localizer["Fullname"]" />
             </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.Fullname"></span></div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.UserInformation.Fullname"></span></div>
         </div>
         <div class="form-group">
-            <label asp-for="@this.Model.Address">@this.Localizer["Address"]</label>
+            <label asp-for="@this.Model.UserInformation.Address">@this.Localizer["Address"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-map input-group-text"></i></span>
-                <input class="form-control" type="text" asp-for="@this.Model.Address" placeholder="@this.Localizer["Address"]" />
+                <input class="form-control" type="text" asp-for="@this.Model.UserInformation.Address" placeholder="@this.Localizer["Address"]" />
             </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.Address"></span></div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.UserInformation.Address"></span></div>
         </div>
         <div class="form-group">
-            <label asp-for="@this.Model.DateOfBirth">@this.Localizer["Date of birth"]</label>
+            <label asp-for="@this.Model.UserInformation.DateOfBirth">@this.Localizer["Date of birth"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-calendar input-group-text"></i></span>
-                <input class="form-control" type="date" asp-for="@this.Model.DateOfBirth" placeholder="@this.Localizer["Date of birth"]" />
+                <input class="form-control" type="date" asp-for="@this.Model.UserInformation.DateOfBirth" placeholder="@this.Localizer["Date of birth"]" />
             </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.DateOfBirth"></span></div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.UserInformation.DateOfBirth"></span></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.UserInformation.CountryId">@this.Localizer["Country"]</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-prepend"><i class="fa fa-map input-group-text"></i></span>
+                <select class="form-control" asp-for="@this.Model.UserInformation.CountryId" asp-items="@(new SelectList(this.Model.UserInformation.Countries, nameof(Country.Id), nameof(Country.Name)))">
+                    <option value="0">@this.Localizer["Please select a country."]</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@this.Model.UserInformation.CityId">@this.Localizer["City"]</label>
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend"><i class="fa fa-map input-group-text"></i></div>
+                <select asp-for="@this.Model.UserInformation.CityId" asp-items="@(new SelectList(this.Model.UserInformation.Cities, nameof(City.Id), nameof(City.Name)))" class="form-control">
+                    <option value="0">@this.Localizer["Please select a city."]</option>
+                </select>
+            </div>
         </div>
         <hr />
         <div class="form-group">
@@ -51,28 +69,28 @@
     <form asp-controller="Account" asp-action="ChangePassword">
         @this.Html.AntiForgeryToken()
         <div class="form-group">
-            <label asp-for="@this.Model.CurrentPassword">@this.Localizer["Current password"]</label>
+            <label asp-for="@this.Model.PasswordInformation.CurrentPassword">@this.Localizer["Current password"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-key input-group-text"></i></span>
-                <input class="form-control" type="password" asp-for="@this.Model.CurrentPassword" placeholder="@this.Localizer["Current password"]" />
+                <input class="form-control" type="password" asp-for="@this.Model.PasswordInformation.CurrentPassword" placeholder="@this.Localizer["Current password"]" />
             </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.CurrentPassword"></span></div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.PasswordInformation.CurrentPassword"></span></div>
         </div>
         <div class="form-group">
-            <label asp-for="@this.Model.NewPassword">@this.Localizer["New password"]</label>
+            <label asp-for="@this.Model.PasswordInformation.NewPassword">@this.Localizer["New password"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-key input-group-text"></i></span>
-                <input class="form-control" type="password" asp-for="@this.Model.NewPassword" placeholder="@this.Localizer["New password"]" />
+                <input class="form-control" type="password" asp-for="@this.Model.PasswordInformation.NewPassword" placeholder="@this.Localizer["New password"]" />
             </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.NewPassword"></span></div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.PasswordInformation.NewPassword"></span></div>
         </div>
         <div class="form-group">
-            <label asp-for="@this.Model.ConfirmPassword">@this.Localizer["Confirm password"]</label>
+            <label asp-for="@this.Model.PasswordInformation.ConfirmPassword">@this.Localizer["Confirm password"]</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-prepend"><i class="fa fa-key input-group-text"></i></span>
-                <input class="form-control" type="password" asp-for="@this.Model.ConfirmPassword" placeholder="@this.Localizer["Confirm password"]" />
+                <input class="form-control" type="password" asp-for="@this.Model.PasswordInformation.ConfirmPassword" placeholder="@this.Localizer["Confirm password"]" />
             </div>
-            <div><span class="text-danger" asp-validation-for="@this.Model.ConfirmPassword"></span></div>
+            <div><span class="text-danger" asp-validation-for="@this.Model.PasswordInformation.ConfirmPassword"></span></div>
         </div>
         <hr />
         <div class="text-right">

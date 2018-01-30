@@ -1,20 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
-    Layout = null;
+    this.ViewBag.Title = this.Localizer["Title"];
 }
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=false" />
-    <title>Error</title>
-</head>
-<body>
-    <h2>Error.</h2>
+<div class="bg-light p-3">
+    <h2>@this.Localizer["Error."]</h2>
     <hr />
-    <h3>An error has occured while processing your request.</h3>
-</body>
-</html>
+    <h3>@this.Localizer["An error has occured while processing your request."]</h3>
+</div>

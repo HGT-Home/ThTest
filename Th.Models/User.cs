@@ -37,6 +37,8 @@ namespace Th.Models
         [Column(nameof(EmployeeId))]
         public int? EmployeeId { get; set; }
 
+        public Employee Employee { get; set; }
+
         [MaxLength(128)]
         [Column(nameof(Name))]
         public string Name { get; set; }

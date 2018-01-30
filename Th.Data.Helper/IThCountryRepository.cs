@@ -7,6 +7,6 @@ namespace Th.Data.Helper
 {
     public interface IThCountryRepository : IThRepository<Country>
     {
-
+        Country Get(int cityId);
     }
 }

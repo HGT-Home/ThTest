@@ -85,10 +85,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="@this.Model.CountryId">@this.Localizer["City"]</label>
+            <label asp-for="@this.Model.CityId">@this.Localizer["City"]</label>
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend"><i class="fa fa-map input-group-text"></i></div>
-                <select asp-for="@this.Model.CountryId" asp-items="@(new SelectList(this.Model.Cities, nameof(City.Id), nameof(City.Name)))" class="form-control">
+                <select asp-for="@this.Model.CityId" asp-items="@(new SelectList(this.Model.Cities, nameof(City.Id), nameof(City.Name)))" class="form-control">
                     <option value="0">@this.Localizer["Please select a city."]</option>
                 </select>
             </div>
