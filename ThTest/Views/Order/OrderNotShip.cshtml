@@ -23,8 +23,8 @@
                {
                    int odCount = (o.OrderDetails?.Count() + 2) ?? 0;
                    <tr>
-                       <td rowspan="@odCount">@o.User?.FullName</td>
-                       <td rowspan="@odCount">@o.OrderDate</td>
+                       <td rowspan="@(odCount)">@o.User?.FullName</td>
+                       <td rowspan="@(odCount)">@o.OrderDate</td>
                        <th class="bg-dark text-white">@this.Localizer["Name"]</th>
                        <th class="text-right bg-dark text-white">@this.Localizer["Quantity"]</th>
                        <th class="text-right bg-dark text-white">@this.Localizer["Price"]</th>

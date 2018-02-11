@@ -25,10 +25,12 @@ namespace ThTest.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleMananger;
         private readonly IStringLocalizer _localizer;
+        private readonly Cart _cart;
 
         public AccountController(
             LoginSessionInfo loginSessionInfo, 
             IUnitOfWork unitOfWork,
+            Cart cart,
             UserManager<User> userManager, 
             SignInManager<User> signInManager, 
             RoleManager<Role> roleManager, 
@@ -39,6 +41,7 @@ namespace ThTest.Controllers
             this._signInManager = signInManager;
             this._roleMananger = roleManager;
             this._localizer = localizer;
+            this._cart = cart;
         }
 
         // GET: /<controller>/
@@ -213,6 +216,7 @@ namespace ThTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            this._cart.Clear();
             await this._signInManager.SignOutAsync();
 
             return this.RedirectToAction(nameof(Login));
@@ -259,7 +263,6 @@ namespace ThTest.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        // string provider, string returnUrl = null
         public IActionResult ExternalLogin(string provider = null, string returnUrl = null)
         {
             try
@@ -377,8 +380,8 @@ namespace ThTest.Controllers
             try
             {
                 this.ModelState.Clear();
-
                 this.TryValidateModel(vmProfile.UserInformation);
+
                 if (this.ModelState.IsValid)
                 {
                     User user = await this._userManager.FindByEmailAsync(vmProfile.UserInformation.Email);
@@ -421,6 +424,9 @@ namespace ThTest.Controllers
         {
             try
             {
+                this.ModelState.Clear();
+                this.TryValidateModel(vmProfile.PasswordInformation);
+
                 if (this.ModelState.IsValid)
                 {
                     User user = await this._userManager.FindByEmailAsync(this.User.Identity.Name);

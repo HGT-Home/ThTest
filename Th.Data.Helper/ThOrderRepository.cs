@@ -22,6 +22,7 @@ namespace Th.Data.Helper
                 return this._dbContext.Orders
                     .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
+                    .ThenInclude(p => p.Translations)
                     .Include(o => o.User)
                     .ThenInclude(u => u.Customer)
                     .Where(o => o.IsShipped == false)
