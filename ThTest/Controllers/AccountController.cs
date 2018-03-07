@@ -313,7 +313,7 @@ namespace ThTest.Controllers
                     ReturnUrl = returnUrl,
                 };
 
-                return this.View("ExternalLogin", vmLogin);
+                return this.View(nameof(AccountController.ExternalLogin), vmLogin);
             }
             catch (Exception ex)
             {

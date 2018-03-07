@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler" Version="1.11.375" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0"></DotNetCliToolReference>
   </ItemGroup>
   <ItemGroup>

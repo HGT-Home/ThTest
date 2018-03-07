@@ -132,4 +132,7 @@
   <data name="Social" xml:space="preserve">
     <value>Mạng xã hội</value>
   </data>
+  <data name="Title" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
 </root>

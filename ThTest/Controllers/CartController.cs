@@ -16,14 +16,18 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ThTest.Controllers
 {
-    public class CartController : ThBaseController
+    public class CartController: ThBaseController
     {
         private IStringLocalizer<CartController> _localizer;
         //private IThProductRepository _repoProduct;
 
         private Cart _cart;
 
-        public CartController(LoginSessionInfo loginSessionInfo, IUnitOfWork unitOfWork, Cart cartService, IStringLocalizer<CartController> localizer)
+        public CartController(
+            LoginSessionInfo loginSessionInfo, 
+            IUnitOfWork unitOfWork, 
+            Cart cartService, 
+            IStringLocalizer<CartController> localizer)
             : base(loginSessionInfo, unitOfWork)
         {
             this._localizer = localizer;
